@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Gorodki Referee</string>
+
+    <string name="options_settings">Settings</string>
+    <string name="scan">Scan new qr-code</string>
+    <string name="competition_list">Competitions</string>
+    <string name="performance_list">Performances</string>
+    <string name="role_selection">Role selection</string>
+    <string name="secretary_fragment">Gorodki secretary</string>
+    <string name="qr_code">qr_code</string>
+
+    <string name="cancelled">Cancelled</string>
+
+    <string name="save">Save</string>
+    <string name="standards">" "</string>
+    <string name="strength">" "</string>
+    <string name="timeliness">" "</string>
+    <string name="distance">" "</string>
+    <string name="control">" "</string>
+    <string name="fill">Fill in the rest of the fields</string>
+    <string name="intensity">" "</string>
+    <string name="variety">" "</string>
+    <string name="rationality">" "</string>
+    <string name="logic">" "</string>
+    <string name="coordination">" "</string>
+    <string name="original">" "</string>
+    <string name="angle">" "</string>
+    <string name="effect">" "</string>
+    <string name="organicity">" "</string>
+    <string name="plastic">" "</string>
+    <string name="solo">Solo</string>
+    <string name="duel">Duel</string>
+    <string name="group">Group</string>
+    <string name="ensemble">Ensemble</string>
+    <string name="protocol">Protocol</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

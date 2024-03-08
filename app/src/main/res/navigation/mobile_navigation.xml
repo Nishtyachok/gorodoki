@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/fragment_role_selection">
+
+
+    <fragment
+            android:id="@+id/competitionFragment2"
+            android:name="ru.nishty.aai_referee.ui.referee.competition_list.CompetitionFragment"
+            android:label="@string/competition_list"
+            tools:layout="@layout/fragment_competition_list"/>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="ru.nishty.aai_referee.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+            android:id="@+id/fragment_role_selection"
+            android:name="ru.nishty.aai_referee.ui.role_selection.RoleSelectionFragment"
+            android:label="@string/role_selection"
+            tools:layout="@layout/fragment_role_selection">
+
+        <action
+                android:id="@+id/action_fragment_role_selection_to_competitionFragment"
+                app:destination="@id/competitionFragment" />
+        <action android:id="@+id/action_fragment_role_selection_to_fragment_secretary"
+                app:destination="@id/fragment_secretary"/>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragmentPerformance"
+        android:name="ru.nishty.aai_referee.ui.referee.performance_list.PerformanceFragment"
+        android:label="@string/performance_list"
+        tools:layout="@layout/fragment_performance_list">
+
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentPerformance_to_competitionFragment"
+            app:destination="@id/competitionFragment" />
+        <action
+            android:id="@+id/action_fragmentPerformance_to_protocolFillingFragment"
+            app:destination="@id/protocolFillingFragment" />
+        <argument
+            android:name="discipline"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_fragmentPerformance_to_protocolQrFragment"
+            app:destination="@id/protocolQrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/competitionFragment"
+        android:name="ru.nishty.aai_referee.ui.referee.competition_list.CompetitionFragment"
+        android:label="@string/competition_list"
+        tools:layout="@layout/fragment_competition_list">
+        <action
+            android:id="@+id/action_competitionFragment_to_fragmentPerformance"
+            app:destination="@id/fragmentPerformance" />
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/fragment_secretary"
+            android:name="ru.nishty.aai_referee.ui.secretary.SecretaryFragment"
+            android:label="@string/secretary_fragment"
+            tools:layout="@layout/fragment_activity_main_secretary">
+        <action android:id="@+id/action_fragment_secretary_to_competitionFragment2"
+                app:destination="@id/competitionFragment2"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/protocolFillingFragment"
+        android:name="ru.nishty.aai_referee.ui.referee.protocol_filling.ProtocolFillingFragment"
+        android:label="@string/protocol"
+        tools:layout="@layout/fragment_protocol_filling">
+        <argument
+            android:name="protocol"
+            app:argType="ru.nishty.aai_referee.entity.referee.Protocol" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="discipline"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_protocolFillingFragment_to_protocolQrFragment"
+            app:destination="@id/protocolQrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/protocolQrFragment"
+        android:name="ru.nishty.aai_referee.ui.referee.protocol_qr.ProtocolQrFragment"
+        android:label="fragment_protocol_qr"
+        tools:layout="@layout/fragment_protocol_qr" >
+        <action
+            android:id="@+id/action_protocolQrFragment_to_fragmentPerformance"
+            app:destination="@id/fragmentPerformance"
+            app:popUpTo="@id/fragmentPerformance"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="protocol"
+            app:argType="ru.nishty.aai_referee.entity.referee.Protocol" />
+        <argument
+            android:name="discipline"
+            app:argType="integer" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+
+
+</navigation>

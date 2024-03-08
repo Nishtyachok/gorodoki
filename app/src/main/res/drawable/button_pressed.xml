@@ -1,0 +1,6 @@
+<!-- res/drawable/button_pressed.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <corners android:radius="0dp" />
+    <solid android:color="#91E672" /> <!-- Цвет при нажатии -->
+</shape>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Судья Городки</string>
+    <string name="options_settings">Настройки</string>
+    <string name="scan">Сканировать новый qr-код</string>
+    <string name="competition_list">Список соревнований</string>
+    <string name="performance_list">Список игр</string>
+    <string name="secretary_fragment">Секретарь городки</string>
+    <string name="qr_code">qr код</string>
+    <string name="cancelled">Отменено</string>
+
+    <string name="save">Сохранить</string>
+
+    <string name="fill">Заполните оставшиеся поля</string>
+
+</resources>
