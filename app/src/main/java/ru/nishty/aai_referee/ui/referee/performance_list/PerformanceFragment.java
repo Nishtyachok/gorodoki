@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelper;
+import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 import ru.nishty.aai_referee.ui.referee.performance_list.placeholder.PerformanceContent;
 
@@ -65,12 +65,12 @@ public class PerformanceFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_performance_list, container, false);
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
+        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
+        SQLiteDatabase db = dataBaseHelperReferee.getReadableDatabase();
 
-        PerformanceContent.fill(dataBaseHelper.getPerformances(db,ID));
+        PerformanceContent.fill(dataBaseHelperReferee.getPerformances(db,ID));
         db.close();
-        dataBaseHelper.close();
+        dataBaseHelperReferee.close();
 
 
         // Set the adapter
@@ -91,9 +91,9 @@ public class PerformanceFragment extends Fragment {
                             (performance) -> {
 
                                 try {
-                                    DataBaseHelper dataBaseHelper1 = new DataBaseHelper(getContext());
-                                    SQLiteDatabase db1 = dataBaseHelper1.getReadableDatabase();
-                                    Protocol protocol = dataBaseHelper1.getProtocol(db1,ID,performance.getId());
+                                    DataBaseHelperReferee dataBaseHelperReferee1 = new DataBaseHelperReferee(getContext());
+                                    SQLiteDatabase db1 = dataBaseHelperReferee1.getReadableDatabase();
+                                    Protocol protocol = dataBaseHelperReferee1.getProtocol(db1,ID,performance.getId());
                                     //TODO: set proper name
                                     protocol.setName("test");
 

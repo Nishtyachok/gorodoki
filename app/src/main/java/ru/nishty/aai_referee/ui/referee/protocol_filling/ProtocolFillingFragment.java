@@ -14,7 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelper;
+import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 
 import java.util.ArrayList;
@@ -168,10 +168,10 @@ public class ProtocolFillingFragment extends Fragment {
             protocol.setShots2(secondPart.toString());
             // TODO: set proper name
             protocol.setName("test");
-            DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-            SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+            DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
+            SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
 
-            dataBaseHelper.setProtocol(db, protocol);
+            dataBaseHelperReferee.setProtocol(db, protocol);
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(ARG_PROTOCOL, protocol);

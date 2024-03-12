@@ -2,17 +2,16 @@ package ru.nishty.aai_referee.entity.secretary;
 
 import java.util.UUID;
 
-public class Performance {
+public class PerformanceSecretary {
     private UUID comp_id;
     private int id;
     private int internal_id;
-    private String name;
-    private String grade;
-    private String region;
+    private int regionId;
     private String place;
     private String date;
     private String playground;
-    private String category;
+    private int categoryId;
+    private int judgeId;
     private String time;
 
     public int getId() {return id;}
@@ -37,28 +36,12 @@ public class Performance {
         this.internal_id = internal_id;
     }
 
-    public String getName() {
-        return name;
+    public int getRegionId() {
+        return regionId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
     }
 
     public String getPlace() {
@@ -77,6 +60,14 @@ public class Performance {
         this.date = date;
     }
 
+    public int getJudgeId() {
+        return judgeId;
+    }
+
+    public void setJudgeId(int judgeId) {
+        this.judgeId = judgeId;
+    }
+
     public String getPlayground() {
         return playground;
     }
@@ -85,19 +76,19 @@ public class Performance {
         this.playground = playground;
     }
 
-    public String getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getTime() {
         return time;
     }
-
     public void setTime(String time) {
         this.time = time;
     }
+
 }

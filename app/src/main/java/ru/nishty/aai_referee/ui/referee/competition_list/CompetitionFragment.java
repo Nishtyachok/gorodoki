@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelper;
+import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.entity.referee.Competition;
 import ru.nishty.aai_referee.listeners.ScanListener;
 import ru.nishty.aai_referee.ui.referee.competition_list.placeholder.CompetitionContent;
@@ -127,9 +127,9 @@ public class CompetitionFragment extends Fragment {
     }
 
     public void fill(){
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(getContext());
-        SQLiteDatabase db = dataBaseHelper.getReadableDatabase();
-        CompetitionContent.fill(dataBaseHelper.getCompetitions(db));
+        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
+        SQLiteDatabase db = dataBaseHelperReferee.getReadableDatabase();
+        CompetitionContent.fill(dataBaseHelperReferee.getCompetitions(db));
     }
 
 }

@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 import ru.nishty.aai_referee.R;
 
-public final class DataBaseContract {
+public final class DataBaseContractReferee {
 
     public static class Competition implements BaseColumns{
         public static final String TABLE_NAME = "competition";
@@ -45,7 +45,7 @@ public final class DataBaseContract {
         public static final String COLUMN_GAME1 = "game1";
         public static final String COLUMN_GAME2 = "game2";
         public static final String COLUMN_GAMES_SUM = "games_sum";
-        public static final String COLUMN_LIMIT = "limite";
+        public static final String COLUMN_LIMIT = "_limit";
         public static final String COLUMN_SHOTS1 = "shots1";
         public static final String COLUMN_SHOTS2 = "shots2";
 

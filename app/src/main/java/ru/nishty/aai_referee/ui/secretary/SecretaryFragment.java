@@ -14,8 +14,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.entity.secretary.Competition;
-import ru.nishty.aai_referee.entity.secretary.Performance;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 
 import java.util.UUID;
 
@@ -35,27 +35,26 @@ public class SecretaryFragment extends Fragment {
     }
 
     private void generateQRCode() {
-        Competition competition = new Competition();
-        competition.setUuid(UUID.randomUUID());
-        competition.setDiscipline(1);
-        competition.setName("13.04 - 17.04 2023");
-        competition.setYear("Championship TO");
-        competition.setPlace("Tomsk region, Seversk");
+        CompetitionSecretary competitionSecretary = new CompetitionSecretary();
+        competitionSecretary.setUuid(UUID.randomUUID());
+        competitionSecretary.setName("13.04 - 17.04 2023");
+        competitionSecretary.setYear("Championship TO");
+        competitionSecretary.setPlace("Tomsk region, Seversk");
 
-        Performance performance = new Performance();
-        performance.setName("Sahapov Artem");
-        performance.setGrade("kMS");
-        performance.setRegion("Tomsk region");
-        performance.setPlace("Novosobornaya 10");
-        performance.setDate("13.04.2023");
-        performance.setPlayground("playground 2");
-        performance.setCategory("(eldest boys)");
-        performance.setTime("13:15");
-        competition.addPerformance(performance);
+        PerformanceSecretary performanceSecretary = new PerformanceSecretary();
+        //performance.setName("Sahapov Artem");
+        //performance.setGrade("kMS");
+        performanceSecretary.setRegionId(1);
+        performanceSecretary.setPlace("Novosobornaya 10");
+        performanceSecretary.setDate("13.04.2023");
+        performanceSecretary.setPlayground("playground 2");
+        performanceSecretary.setCategoryId(1);
+        performanceSecretary.setTime("13:15");
+        competitionSecretary.addPerformance(performanceSecretary);
 
         String str;
         Gson gson = new Gson();
-        str = gson.toJson(competition);
+        str = gson.toJson(competitionSecretary);
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, 1000, 1000);

@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import ru.nishty.aai_referee.db.referee.DataBaseHelper;
+import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.entity.referee.Competition;
 import ru.nishty.aai_referee.listeners.ScanListener;
 import ru.nishty.aai_referee.ui.referee.competition_list.placeholder.CompetitionContent;
@@ -35,6 +35,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
+        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
+
+        SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
+        dataBaseHelperReferee.onUpgrade(db,1,1);
+        db.close();
+        dataBaseHelperReferee.close();
+        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
+
+        SQLiteDatabase db1 = dataBaseHelperSecretary.getWritableDatabase();
+        dataBaseHelperSecretary.onUpgrade(db1,1,1);
+        db1.close();
+        dataBaseHelperSecretary.close();
+        */
         setContentView(R.layout.activity_main);
 
         AppBarConfiguration appBarConfiguration;
@@ -66,13 +80,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Перейдите к фрагменту fragment_role_selection, но сделайте это после завершения загрузки фрагментов
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                // Проверяем, что достигли нужного фрагмента
                 if (destination.getId() == R.id.fragment_role_selection) {
-                    // Ваш код для дополнительных действий при достижении fragmentRoleSelection
                 }
             }
         });
@@ -81,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
@@ -132,13 +142,13 @@ public class MainActivity extends AppCompatActivity {
                 Competition competition;
                 competition = gson.fromJson(intentResult.getContents(),Competition.class);
 
-                DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
+                DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
 
-                SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
+                SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
 
-                dataBaseHelper.addCompetition(db, competition);
+                dataBaseHelperReferee.addCompetition(db, competition);
                 db.close();
-                dataBaseHelper.close();
+                dataBaseHelperReferee.close();
 
                 CompetitionContent.onScan();
 
