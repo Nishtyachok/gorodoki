@@ -28,6 +28,15 @@
     <string name="effect">" "</string>
     <string name="organicity">" "</string>
     <string name="plastic">" "</string>
+    <string name="gradeU1">1st junior</string>
+    <string name="gradeU2">2st junior</string>
+    <string name="gradeU3">3st junior</string>
+    <string name="grade1">1st</string>
+    <string name="grade2">2st</string>
+    <string name="grade3">3st</string>
+    <string name="gradeKMS">KMS</string>
+    <string name="gradeMS">MS</string>
+    <string name="gradeZMS">HMS</string>
     <string name="solo">Solo</string>
     <string name="duel">Duel</string>
     <string name="group">Group</string>

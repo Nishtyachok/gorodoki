@@ -8,7 +8,15 @@
     <string name="secretary_fragment">Секретарь городки</string>
     <string name="qr_code">qr код</string>
     <string name="cancelled">Отменено</string>
-
+    <string name="gradeU1">1юн</string>
+    <string name="gradeU2">2юн</string>
+    <string name="gradeU3">3юн</string>
+    <string name="grade1">1</string>
+    <string name="grade2">2</string>
+    <string name="grade3">3</string>
+    <string name="gradeKMS">КМС</string>
+    <string name="gradeMS">МС</string>
+    <string name="gradeZMS">ЗМС</string>
     <string name="save">Сохранить</string>
 
     <string name="fill">Заполните оставшиеся поля</string>

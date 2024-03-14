@@ -15,7 +15,6 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
-import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 
 import java.util.UUID;
 
@@ -40,7 +39,7 @@ public class SecretaryFragment extends Fragment {
         competitionSecretary.setName("13.04 - 17.04 2023");
         competitionSecretary.setYear("Championship TO");
         competitionSecretary.setPlace("Tomsk region, Seversk");
-
+/*
         PerformanceSecretary performanceSecretary = new PerformanceSecretary();
         //performance.setName("Sahapov Artem");
         //performance.setGrade("kMS");
@@ -48,10 +47,10 @@ public class SecretaryFragment extends Fragment {
         performanceSecretary.setPlace("Novosobornaya 10");
         performanceSecretary.setDate("13.04.2023");
         performanceSecretary.setPlayground("playground 2");
-        performanceSecretary.setCategoryId(1);
+        //performanceSecretary.setCategoryId(1);
         performanceSecretary.setTime("13:15");
         competitionSecretary.addPerformance(performanceSecretary);
-
+*/
         String str;
         Gson gson = new Gson();
         str = gson.toJson(competitionSecretary);

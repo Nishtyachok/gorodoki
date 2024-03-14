@@ -7,7 +7,6 @@ public class PerformancePlayer {
     private int id;
     private String name;
     private int playerId;
-    private int categoryId;
     private int performanceId;
 
     public UUID getComp_id() {
@@ -40,14 +39,6 @@ public class PerformancePlayer {
 
     public void setPlayerId(int playerId) {
         this.playerId = playerId;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
     }
 
     public int getPerformanceId() {

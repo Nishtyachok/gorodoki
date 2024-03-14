@@ -10,7 +10,6 @@ public class PerformanceSecretary {
     private String place;
     private String date;
     private String playground;
-    private int categoryId;
     private int judgeId;
     private String time;
 
@@ -75,15 +74,6 @@ public class PerformanceSecretary {
     public void setPlayground(String playground) {
         this.playground = playground;
     }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getTime() {
         return time;
     }

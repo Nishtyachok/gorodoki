@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         dataBaseHelperReferee.onUpgrade(db,1,1);
         db.close();
         dataBaseHelperReferee.close();
-        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
 
+        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
         SQLiteDatabase db1 = dataBaseHelperSecretary.getWritableDatabase();
         dataBaseHelperSecretary.onUpgrade(db1,1,1);
         db1.close();
@@ -144,11 +144,21 @@ public class MainActivity extends AppCompatActivity {
 
                 DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
 
-                SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
+                SQLiteDatabase dbr = dataBaseHelperReferee.getWritableDatabase();
 
-                dataBaseHelperReferee.addCompetition(db, competition);
-                db.close();
+                dataBaseHelperReferee.addCompetition(dbr, competition);
+                dbr.close();
                 dataBaseHelperReferee.close();
+
+                /*
+                CompetitionSecretary competition1;
+                competition1 = gson.fromJson(intentResult.getContents(),CompetitionSecretary.class);
+                DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
+                SQLiteDatabase dbs = dataBaseHelperSecretary.getWritableDatabase();
+                dataBaseHelperSecretary.addCompetition(dbs, competition1);
+                dbs.close();
+                dataBaseHelperSecretary.close();
+                */
 
                 CompetitionContent.onScan();
 

@@ -1,6 +1,7 @@
 package ru.nishty.aai_referee.db.secretary;
 
 import android.provider.BaseColumns;
+import ru.nishty.aai_referee.R;
 
 public final class DataBaseContractSecretary {
 
@@ -36,6 +37,32 @@ public final class DataBaseContractSecretary {
         public static final String COLUMN_COMPETITION = "competition";
 
     }
+    public static class GradeHelper {
+        public static int getGrade(int Grade){
+            switch (Grade){
+                case 1:
+                    return R.string.gradeU1;
+                case 2:
+                    return R.string.gradeU2;
+                case 3:
+                    return R.string.gradeU3;
+                case 4:
+                    return R.string.grade1;
+                case 5:
+                    return R.string.grade2;
+                case 6:
+                    return R.string.grade3;
+                case 7:
+                    return R.string.gradeKMS;
+                case 8:
+                    return R.string.gradeMS;
+                case 9:
+                    return R.string.gradeZMS;
+                default:
+                    return -1;
+            }
+        }
+    }
     public static class Player implements BaseColumns {
         public static final String TABLE_NAME = "player";
         public static final String COLUMN_NAME = "name";
@@ -61,7 +88,6 @@ public final class DataBaseContractSecretary {
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_JUDGE_ID = "judge_id";
         public static final String COLUMN_PLAYGROUND = "playground";
-        public static final String COLUMN_CATEGORY_ID = "category";
         public static final String COLUMN_INTERNAL_ID = "i_id";
     }
 
@@ -126,15 +152,13 @@ public final class DataBaseContractSecretary {
                     Performance.COLUMN_DATE + " TEXT, " +
                     Performance.COLUMN_PLACE + " TEXT, " +
                     Performance.COLUMN_PLAYGROUND + " TEXT, " +
-                    Performance.COLUMN_CATEGORY_ID + " INTEGER, " +
+
                     Performance.COLUMN_INTERNAL_ID + " INTEGER, " +
                     Performance.COLUMN_JUDGE_ID + " INTEGER, " +
                     "FOREIGN KEY (" + Performance.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
                     "FOREIGN KEY (" + Performance.COLUMN_REGION_ID + ") REFERENCES " +
                     Region.TABLE_NAME + "(" + Region._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
-                    "FOREIGN KEY (" + Performance.COLUMN_CATEGORY_ID + ") REFERENCES " +
-                    Category.TABLE_NAME + "(" + Category._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
                     "FOREIGN KEY (" + Performance.COLUMN_JUDGE_ID + ") REFERENCES " +
                     Judge.TABLE_NAME + "(" + Judge._ID + ") ON DELETE CASCADE ON UPDATE CASCADE);";
     public static final String SQL_CREATE_ENTRIES_CATEGORY =
