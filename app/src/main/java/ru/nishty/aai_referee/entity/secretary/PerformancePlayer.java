@@ -5,9 +5,16 @@ import java.util.UUID;
 public class PerformancePlayer {
     private UUID comp_id;
     private int id;
-    private String name;
     private int playerId;
     private int performanceId;
+    public PerformancePlayer() {
+    }
+    public PerformancePlayer(UUID comp_id, int id,int playerId,int performanceId) {
+        this.comp_id = comp_id;
+        this.id = id;
+        this.playerId = playerId;
+        this.performanceId = performanceId;
+    }
 
     public UUID getComp_id() {
         return comp_id;
@@ -23,14 +30,6 @@ public class PerformancePlayer {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getPlayerId() {

@@ -82,7 +82,6 @@ public final class DataBaseContractSecretary {
     public static class Performance implements BaseColumns {
         public static final String TABLE_NAME = "performance";
         public static final String COLUMN_COMPETITION = "competition";
-        public static final String COLUMN_REGION_ID = "regionId";
         public static final String COLUMN_TIME = "time";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_PLACE = "place";
@@ -135,7 +134,7 @@ public final class DataBaseContractSecretary {
                     Player.COLUMN_NAME + " TEXT, " +
                     Player.COLUMN_REGION_ID + " INTEGER, " +
                     Player.COLUMN_CATEGORY_ID + " INTEGER, " +
-                    Player.COLUMN_GRADE + " TEXT, " +
+                    Player.COLUMN_GRADE + " INTEGER, " +
                     Player.COLUMN_COMPETITION + " BLOB, " +
                     "FOREIGN KEY (" + Player.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE "+
@@ -147,7 +146,6 @@ public final class DataBaseContractSecretary {
             "CREATE TABLE " + Performance.TABLE_NAME + " (" +
                     Performance._ID + " INTEGER PRIMARY KEY, " +
                     Performance.COLUMN_COMPETITION + " BLOB, " +
-                    Performance.COLUMN_REGION_ID + " INTEGER, " +
                     Performance.COLUMN_TIME + " TEXT, " +
                     Performance.COLUMN_DATE + " TEXT, " +
                     Performance.COLUMN_PLACE + " TEXT, " +
@@ -157,8 +155,6 @@ public final class DataBaseContractSecretary {
                     Performance.COLUMN_JUDGE_ID + " INTEGER, " +
                     "FOREIGN KEY (" + Performance.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
-                    "FOREIGN KEY (" + Performance.COLUMN_REGION_ID + ") REFERENCES " +
-                    Region.TABLE_NAME + "(" + Region._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
                     "FOREIGN KEY (" + Performance.COLUMN_JUDGE_ID + ") REFERENCES " +
                     Judge.TABLE_NAME + "(" + Judge._ID + ") ON DELETE CASCADE ON UPDATE CASCADE);";
     public static final String SQL_CREATE_ENTRIES_CATEGORY =

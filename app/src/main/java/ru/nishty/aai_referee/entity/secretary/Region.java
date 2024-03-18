@@ -7,6 +7,14 @@ public class Region {
     private int id;
     private String name;
 
+    public Region() {
+    }
+    public Region(UUID comp_id, int id, String name) {
+        this.comp_id = comp_id;
+        this.id = id;
+        this.name = name;
+    }
+
     public UUID getComp_id() {
         return comp_id;
     }

@@ -8,7 +8,18 @@ public class Player {
     private String name;
     private int regionId;
     private int categoryId;
-    private String grade;
+    private int grade;
+
+    public Player() {
+    }
+    public Player(UUID comp_id, int id, String name, int regionId, int categoryId, int grade) {
+        this.comp_id = comp_id;
+        this.id = id;
+        this.name = name;
+        this.regionId = regionId;
+        this.categoryId = categoryId;
+        this.grade = grade;
+    }
 
     public UUID getComp_id() {
         return comp_id;
@@ -50,11 +61,22 @@ public class Player {
         this.categoryId = categoryId;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
+    }
+    @Override
+    public String toString() {
+        return "Player{" +
+                "comp_id=" + comp_id +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", regionId=" + regionId +
+                ", categoryId=" + categoryId +
+                ", grade=" + grade +
+                '}';
     }
 }

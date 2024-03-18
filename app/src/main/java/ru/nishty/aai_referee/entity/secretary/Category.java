@@ -10,6 +10,17 @@ public class Category {
     private int figures;
     private int limit;
 
+    public Category() {
+    }
+    public Category(UUID comp_id, int id, String name, int tours, int figures, int limit) {
+        this.comp_id = comp_id;
+        this.id = id;
+        this.name = name;
+        this.tours = tours;
+        this.figures = figures;
+        this.limit = limit;
+    }
+
     public UUID getComp_id() {
         return comp_id;
     }

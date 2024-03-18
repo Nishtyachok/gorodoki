@@ -22,8 +22,13 @@ import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+
 import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
+
 import ru.nishty.aai_referee.listeners.ScanListener;
 import ru.nishty.aai_referee.ui.referee.competition_list.placeholder.CompetitionContent;
 
@@ -150,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 dbr.close();
                 dataBaseHelperReferee.close();
 
-                /*
+
                 CompetitionSecretary competition1;
                 competition1 = gson.fromJson(intentResult.getContents(),CompetitionSecretary.class);
                 DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 dataBaseHelperSecretary.addCompetition(dbs, competition1);
                 dbs.close();
                 dataBaseHelperSecretary.close();
-                */
+
 
                 CompetitionContent.onScan();
 

@@ -9,6 +9,16 @@ public class Judge {
     private String region;
     private String category;
 
+    public Judge() {
+    }
+    public Judge(UUID comp_id, int id, String name, String region, String category) {
+        this.comp_id = comp_id;
+        this.id = id;
+        this.name = name;
+        this.region = region;
+        this.category = category;
+    }
+
     public UUID getComp_id() {
         return comp_id;
     }
