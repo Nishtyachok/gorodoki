@@ -59,7 +59,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     }
 
 
-    public void addCompetition(SQLiteDatabase db, CompetitionSecretary competitionSecretary) {
+    public long addCompetition(SQLiteDatabase db, CompetitionSecretary competitionSecretary) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Competition._ID, String.valueOf(competitionSecretary.getUuid()));
         values.put(DataBaseContractSecretary.Competition.COLUMN_NAME, competitionSecretary.getName());
@@ -111,7 +111,8 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         } else {
             Log.d(DATABASE_NAME, "Соревнование успешно добавлено с ID: " + newRowId);
         }
-}
+        return newRowId;
+    }
 
 
     public long addCategory(SQLiteDatabase db, Category category, UUID competitionUuid) {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="16dp">
+
+	<!-- Competition Name EditText -->
+	<EditText
+			android:id="@+id/etCompetitionName"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:hint="Название соревнования"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginTop="8dp"/>
+
+	<!-- Competition Date EditText -->
+	<EditText
+			android:id="@+id/etCompetitionDate"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:hint="Дата проведения"
+			app:layout_constraintTop_toBottomOf="@id/etCompetitionName"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginTop="8dp"/>
+
+	<!-- Competition Location EditText -->
+	<EditText
+			android:id="@+id/etCompetitionLocation"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:hint="Место проведения"
+			app:layout_constraintTop_toBottomOf="@id/etCompetitionDate"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginTop="8dp"/>
+
+	<!-- Head Judge Name EditText -->
+	<EditText
+			android:id="@+id/etHeadJudge"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:hint="Главный судья"
+			app:layout_constraintTop_toBottomOf="@id/etCompetitionLocation"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/etHeadSecretary"
+			android:layout_marginTop="8dp"/>
+
+	<!-- Head Secretary Name EditText -->
+	<EditText
+			android:id="@+id/etHeadSecretary"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:hint="Главный секретарь"
+			app:layout_constraintTop_toBottomOf="@id/etCompetitionLocation"
+			app:layout_constraintStart_toEndOf="@id/etHeadJudge"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginTop="8dp"/>
+
+	<!-- Players Button -->
+	<Button
+			android:id="@+id/btnPlayers"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Игроки"
+			app:layout_constraintTop_toBottomOf="@id/etHeadJudge"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/btnJudges"
+			app:layout_constraintHorizontal_chainStyle="packed"
+			android:layout_marginTop="16dp"/>
+
+	<!-- Judges Button -->
+	<Button
+			android:id="@+id/btnJudges"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Судьи"
+			app:layout_constraintTop_toBottomOf="@id/etHeadSecretary"
+			app:layout_constraintStart_toEndOf="@id/btnPlayers"
+			app:layout_constraintEnd_toEndOf="parent"
+			android:layout_marginTop="16dp"/>
+
+	<!-- Create Competition Button -->
+	<Button
+			android:id="@+id/btnCreateCompetition"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Создать соревнование"
+			app:layout_constraintTop_toBottomOf="@id/btnPlayers"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintHorizontal_bias="1.0"
+			app:layout_constraintVertical_bias="0.060000002"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

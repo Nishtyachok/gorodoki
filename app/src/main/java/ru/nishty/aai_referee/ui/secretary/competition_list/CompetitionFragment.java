@@ -1,5 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.competition_list;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
-import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 import ru.nishty.aai_referee.listeners.ScanListener;
 import ru.nishty.aai_referee.ui.secretary.competition_list.placeholder.CompetitionContent;
 
-/**
- * A fragment representing a list of Items.
- */
+
 public class CompetitionFragment extends Fragment {
 
 
@@ -34,10 +33,6 @@ public class CompetitionFragment extends Fragment {
 
     private MyCompetitionRecyclerViewAdapter adapter;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public CompetitionFragment() {
     }
 
@@ -55,19 +50,19 @@ public class CompetitionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_competition_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_competition_list_secretary, container, false);
 
         recyclerView = view.findViewById(R.id.list);
 
@@ -76,12 +71,12 @@ public class CompetitionFragment extends Fragment {
 
         adapter = new MyCompetitionRecyclerViewAdapter(CompetitionContent.ITEMS, new MyCompetitionRecyclerViewAdapter.OnStateClickListener() {
             @Override
-            public void onStateClick(Competition competition, int position) {
+            public void onStateClick(CompetitionSecretary competition, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("id",String.valueOf(competition.getUuid()));
-                bundle.putInt("discipline",competition.getDiscipline());
+                //bundle.putInt("discipline",competition.getDiscipline());
                 NavHostFragment.findNavController(CompetitionFragment.this)
-                        .navigate(R.id.action_competitionFragment_to_fragmentPerformance,bundle);
+                        .navigate(R.id.action_competitionFragment2_to_fragmentPerformance22,bundle);
             }
 
         });
@@ -124,9 +119,9 @@ public class CompetitionFragment extends Fragment {
     }
 
     public void fill(){
-        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
-        SQLiteDatabase db = dataBaseHelperReferee.getReadableDatabase();
-        CompetitionContent.fill(dataBaseHelperReferee.getCompetitions(db));
+        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        SQLiteDatabase db = dataBaseHelperSecretary.getReadableDatabase();
+        CompetitionContent.fill(dataBaseHelperSecretary.getCompetitions(db));
     }
 
 }

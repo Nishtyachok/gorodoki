@@ -1,0 +1,22 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<!-- Основной круглый фон с прозрачным цветом -->
+	<item>
+		<shape android:shape="oval">
+			<solid android:color="@android:color/transparent" /> <!-- Прозрачный фон -->
+		</shape>
+	</item>
+	<!-- Голубая окантовка вокруг круглой кнопки -->
+	<item>
+		<shape android:shape="oval">
+			<stroke
+					android:width="4dp"
+					android:color="#8589ED" /> <!-- Ширина и цвет обводки -->
+		</shape>
+	</item>
+	<!-- Голубой плюсик в центре круга -->
+	<item android:gravity="center">
+		<bitmap
+				android:src="@drawable/ic_plus"
+				android:gravity="center" />
+	</item>
+</layer-list>

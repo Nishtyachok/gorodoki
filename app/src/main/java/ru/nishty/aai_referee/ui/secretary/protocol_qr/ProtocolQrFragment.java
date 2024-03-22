@@ -17,7 +17,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.entity.referee.Protocol;
+import ru.nishty.aai_referee.entity.secretary.Protocol;
+
+import java.io.Serializable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +45,7 @@ public class ProtocolQrFragment extends Fragment {
     public static ProtocolQrFragment newInstance(Protocol protocol, int discipline) {
         ProtocolQrFragment fragment = new ProtocolQrFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PROTOCOL, protocol);
+        args.putSerializable(ARG_PROTOCOL, (Serializable) protocol);
         args.putInt(ARG_DISCIPLINE,discipline);
         args.putString(ARG_NAME,name);
         fragment.setArguments(args);

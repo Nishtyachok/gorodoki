@@ -6,23 +6,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.nishty.aai_referee.databinding.PerformanceItemBinding;
-import ru.nishty.aai_referee.entity.referee.Performance;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 
 import java.util.List;
 
 
 public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPerformanceRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Performance>  mValues;
+    private final List<PerformanceSecretary>  mValues;
 
     private final OnStateClickListener onStateClickListener;
 
     public interface OnStateClickListener{
-        void onStateClick(Performance performance);
+        void onStateClick(PerformanceSecretary performance);
 
     }
 
-    public MyPerformanceRecyclerViewAdapter(List<Performance> items, OnStateClickListener onStateClickListener) {
+    public MyPerformanceRecyclerViewAdapter(List<PerformanceSecretary> items, OnStateClickListener onStateClickListener) {
         mValues = items;
         this.onStateClickListener = onStateClickListener;
     }
@@ -38,13 +38,13 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int p = position;
         holder.mIdView.setText(String.valueOf(position));
-        holder.mContentView.setText( mValues.get(position).getName());
-        //holder.mContentView.setText( mValues.get(position).getGrade());
-        //holder.mContentView.setText( mValues.get(position).getRegion());
+        holder.mContentView.setText(mValues.get(position).getPlayers().toString());
+        holder.mContentView.setText( mValues.get(position).getDate());
+        holder.mContentView.setText( mValues.get(position).getTime());
         holder.mPlaceView.setText( mValues.get(position).getPlace());
         holder.mDateView.setText( mValues.get(position).getDate());
         holder.mPlaygroundView.setText( mValues.get(position).getPlayground());
-        holder.mCategoryView.setText( mValues.get(position).getCategory());
+        holder.mCategoryView.setText( mValues.get(position).getJudgeId());
         holder.mTimeView.setText( mValues.get(position).getTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
         });
     }
 
-    public void update(List<Performance> performances){
+    public void update(List<PerformanceSecretary> performances){
         mValues.clear();
         mValues.addAll(performances);
         notifyDataSetChanged();

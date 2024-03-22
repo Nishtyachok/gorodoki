@@ -6,23 +6,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.nishty.aai_referee.databinding.CompetitionItemBinding;
-import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
 import java.util.List;
 
 
 public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCompetitionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Competition> mValues;
+    private final List<CompetitionSecretary> mValues;
 
     private final OnStateClickListener onStateClickListener;
 
     public interface OnStateClickListener{
-        void onStateClick(Competition competition, int position);
+        void onStateClick(CompetitionSecretary competition, int position);
 
     }
 
-    public MyCompetitionRecyclerViewAdapter(List<Competition> items, OnStateClickListener onStateClickListener) {
+    public MyCompetitionRecyclerViewAdapter(List<CompetitionSecretary> items, OnStateClickListener onStateClickListener) {
         mValues = items;
         this.onStateClickListener = onStateClickListener;
     }
@@ -66,7 +66,7 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
 
         public final TextView mItem3;
         public final TextView mContentView;
-        public Competition mItem;
+        public CompetitionSecretary mItem;
 
         public ViewHolder(CompetitionItemBinding binding) {
             super(binding.getRoot());

@@ -1,6 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.competition_list.placeholder;
 
-import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 import ru.nishty.aai_referee.listeners.ScanListener;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class CompetitionContent {
     /**
      * An array of sample (placeholder) items.
      */
-    public static final List<Competition> ITEMS = new ArrayList<>();
+    public static final List<CompetitionSecretary> ITEMS = new ArrayList<>();
 
     /**
      * A map of sample (placeholder) items, by ID.
@@ -27,7 +27,7 @@ public class CompetitionContent {
 
     public static ScanListener clickListener;
 
-    public static void fill(List<Competition> competitions){
+    public static void fill(List<CompetitionSecretary> competitions){
         ITEMS.clear();
         ITEMS.addAll(competitions);
     }
@@ -51,7 +51,7 @@ public class CompetitionContent {
             clickListener.onScan();
     }
 
-    private static void addItem(Competition item) {
+    private static void addItem(CompetitionSecretary item) {
         ITEMS.add(item);
 
     }

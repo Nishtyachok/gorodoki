@@ -1,20 +1,7 @@
 package ru.nishty.aai_referee.ui.secretary.performance_list;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
-import ru.nishty.aai_referee.entity.referee.Protocol;
-import ru.nishty.aai_referee.ui.secretary.performance_list.placeholder.PerformanceContent;
 
 import java.util.UUID;
 
@@ -55,6 +42,7 @@ public class PerformanceFragment extends Fragment {
 
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,12 +53,12 @@ public class PerformanceFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_performance_list, container, false);
 
-        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
-        SQLiteDatabase db = dataBaseHelperReferee.getReadableDatabase();
+        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        SQLiteDatabase db = dataBaseHelperSecretary.getReadableDatabase();
 
-        PerformanceContent.fill(dataBaseHelperReferee.getPerformances(db,ID));
+       // PerformanceContent.fill(dataBaseHelperSecretary.getPerformances(db, CompetitionSecretary.getUuid()));
         db.close();
-        dataBaseHelperReferee.close();
+        dataBaseHelperSecretary.close();
 
 
         // Set the adapter
@@ -91,11 +79,11 @@ public class PerformanceFragment extends Fragment {
                             (performance) -> {
 
                                 try {
-                                    DataBaseHelperReferee dataBaseHelperReferee1 = new DataBaseHelperReferee(getContext());
-                                    SQLiteDatabase db1 = dataBaseHelperReferee1.getReadableDatabase();
-                                    Protocol protocol = dataBaseHelperReferee1.getProtocol(db1,ID,performance.getId());
+                                    DataBaseHelperSecretary dataBaseHelperSecretary1 = new DataBaseHelperSecretary(getContext());
+                                    SQLiteDatabase db1 = dataBaseHelperSecretary1.getReadableDatabase();
+                                    Protocol protocol = dataBaseHelperSecretary1.getProtocol(db1,ID,performance.getId());
                                     //TODO: set proper name
-                                    protocol.setName("test");
+                                    protocol.set("test");
 
                                     Bundle arg = new Bundle();
                                     arg.putSerializable("protocol",protocol);
@@ -138,4 +126,6 @@ public class PerformanceFragment extends Fragment {
         }
         return view;
     }
+
+     */
 }

@@ -1,6 +1,5 @@
 package ru.nishty.aai_referee.ui.secretary;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +14,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-import ru.nishty.aai_referee.entity.secretary.*;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class SecretaryFragment extends Fragment {
@@ -38,7 +34,9 @@ public class SecretaryFragment extends Fragment {
     }
 
     private void generateDB() {
-        CompetitionSecretary competitionSecretary = new CompetitionSecretary();
+        //DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        //SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
+        /*CompetitionSecretary competitionSecretary = new CompetitionSecretary();
         competitionSecretary.setUuid(UUID.randomUUID());
         competitionSecretary.setName("Championship TO");
         competitionSecretary.setYear("13.04 - 17.04 2023");
@@ -69,19 +67,26 @@ public class SecretaryFragment extends Fragment {
         judge.setCategory("0");
         long jud =dataBaseHelperSecretary.addJudge(dbr, judge, competitionSecretary.getUuid());
 
-        List<Player> players = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            Player player = new Player(); // Создание нового экземпляра игрока на каждой итерации
+        //List<Player> players = new ArrayList<>();
+        //for (int i = 0; i < 2; i++) {
+            //    Player player = new Player();
+            //    player.setComp_id(competitionSecretary.getUuid());
+            //    player.setCategoryId((int) cat);
+            //    player.setRegionId((int) reg);
+            //    player.setGrade(2);
+            //    player.setName("SerGay"+i);
+            //    long playerId = dataBaseHelperSecretary.addPlayer(dbr, player);
+            //    player.setId((int)playerId);
+            //    players.add(player);
+            //}
+        Player player = new Player();
+        player.setComp_id(competitionSecretary.getUuid());
+        player.setCategoryId((int) cat);
+        player.setRegionId((int) reg);
+        player.setGrade(2);
+        player.setName("SerGay");
+        dataBaseHelperSecretary.addPlayer(dbr, player);
 
-            player.setComp_id(competitionSecretary.getUuid());
-            player.setCategoryId((int) cat);
-            player.setRegionId((int) reg);
-            player.setGrade(2);
-            player.setName("SerGay"+i);
-            long playerId = dataBaseHelperSecretary.addPlayer(dbr, player); // Добавление игрока и получение его идентификатора
-            player.setId((int)playerId);
-            players.add(player);
-        }
 
         dataBaseHelperSecretary.addCompetition(dbr, competitionSecretary);
 
@@ -90,17 +95,17 @@ public class SecretaryFragment extends Fragment {
         performanceSecretary.setPlace("Tut");
         performanceSecretary.setDate("13.04 - 17.04 2023");
         performanceSecretary.setPlayground("tut 1");
-        performanceSecretary.setPlayers(players);
+        performanceSecretary.setPlayers((List<Player>) player);
         performanceSecretary.setJudgeId((int)jud);
         performanceSecretary.setTime("15:00");
-        dataBaseHelperSecretary.addPerformance(dbr, performanceSecretary, players);
+        dataBaseHelperSecretary.addPerformance(dbr, performanceSecretary, (List<Player>) player);
 
 
 
 
 
         dbr.close();
-        dataBaseHelperSecretary.close();
+        dataBaseHelperSecretary.close();*/
 
     }
 

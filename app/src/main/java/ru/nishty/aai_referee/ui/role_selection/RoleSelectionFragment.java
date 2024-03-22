@@ -34,7 +34,7 @@ public class RoleSelectionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                navController.navigate(R.id.action_fragment_role_selection_to_fragment_secretary);
+                navController.navigate(R.id.action_fragment_role_selection_to_competitionFragment2);
             }
         });
 

@@ -1,6 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.performance_list.placeholder;
 
-import ru.nishty.aai_referee.entity.referee.Performance;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +21,16 @@ public class PerformanceContent {
     /**
      * A map of sample (placeholder) items, by ID.
      */
-    public static final List<Performance> ITEM_MAP = new ArrayList<>();
+    public static final List<PerformanceSecretary> ITEM_MAP = new ArrayList<>();
 
 
 
-    public static void addItem(Performance performance) {
+    public static void addItem(PerformanceSecretary performance) {
 
         ITEM_MAP.add(performance);
     }
 
-    public static void fill(List<Performance> content){
+    public static void fill(List<PerformanceSecretary> content){
         ITEM_MAP.clear();
         ITEM_MAP.addAll(content);
     }
