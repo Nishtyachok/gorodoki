@@ -81,10 +81,11 @@ public class JudgeFragment extends Fragment {
 
                     if (judgeId != -1) {
                         judgesList.add(judge);
-                        judgesAdapter.notifyItemInserted(judgesList.size() - 1);
+                        judgesAdapter.notifyDataSetChanged();
                     }
                 })
                 .setNegativeButton("Отмена", null)
                 .show();
     }
+
 }

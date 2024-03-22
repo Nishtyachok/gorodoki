@@ -1,5 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.competition_list;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +45,16 @@ public class CompetitionAddFragment extends Fragment {
         etHeadSecretary = view.findViewById(R.id.etHeadSecretary);
 
         dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
+
+
+        // Создание соревнования при создании фрагмента
+        competitionSecretary = new CompetitionSecretary();
+        competitionSecretary.setUuid(UUID.randomUUID());
 
         Button addCompetitionButton = view.findViewById(R.id.btnCreateCompetition);
         addCompetitionButton.setOnClickListener(v -> {
-            saveCompetitionToDatabase();
+            saveCompetitionToDatabase(dbr);
         });
 
         view.findViewById(R.id.btnJudges).setOnClickListener(v -> {
@@ -59,17 +66,19 @@ public class CompetitionAddFragment extends Fragment {
         });
     }
 
-    private void saveCompetitionToDatabase() {
-        competitionSecretary = new CompetitionSecretary();
-        competitionSecretary.setUuid(UUID.randomUUID());
+
+    private void saveCompetitionToDatabase(SQLiteDatabase dbr) {
         competitionSecretary.setName(etCompetitionName.getText().toString().trim());
         competitionSecretary.setYear(etCompetitionDate.getText().toString().trim());
         competitionSecretary.setPlace(etCompetitionLocation.getText().toString().trim());
         competitionSecretary.setHeadJudge(etHeadJudge.getText().toString().trim());
         competitionSecretary.setHeadSecretary(etHeadSecretary.getText().toString().trim());
 
+        // Сохранение соревнования в базе данных
+        dataBaseHelperSecretary.addCompetition(dbr, competitionSecretary);
 
-        clearInputFields();
+        // Очистка полей ввода после сохранения
+
     }
 
     private void navigateToJudgesFragment() {
@@ -77,6 +86,7 @@ public class CompetitionAddFragment extends Fragment {
         bundle.putString("competitionUuid", competitionSecretary.getUuid().toString());
         Navigation.findNavController(requireView()).navigate(R.id.action_competitionAddFragment_to_judgesFragment, bundle);
     }
+
     private void navigateToPlayersFragment() {
         Bundle bundle = new Bundle();
         bundle.putString("competitionUuid", competitionSecretary.getUuid().toString());

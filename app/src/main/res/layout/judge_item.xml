@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:padding="8dp">
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="8dp">
 
 	<TextView
 			android:id="@+id/tvJudgeName"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:hint="имя"
 			android:layout_weight="1"
 			android:textSize="16sp" />
 
@@ -16,12 +18,14 @@
 			android:id="@+id/tvJudgeRegion"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:hint="регион"
 			android:layout_weight="1"
 			android:textSize="16sp" />
 
 	<TextView
 			android:id="@+id/tvJudgeCategory"
 			android:layout_width="0dp"
+			android:hint="категория"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:textSize="16sp" />

@@ -1,6 +1,5 @@
 package ru.nishty.aai_referee.ui.secretary.competition_list;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ public class CompetitionFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class CompetitionFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_competition_list_secretary, container, false);
 
-        recyclerView = view.findViewById(R.id.list);
+        recyclerView = view.findViewById(R.id.competition_recycler_view);
 
 
         fill();
@@ -101,12 +100,13 @@ public class CompetitionFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-        scanBtn = view.findViewById(R.id.fab);
+        scanBtn = view.findViewById(R.id.add_competition_button);
 
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CompetitionContent.onClick();
+                NavHostFragment.findNavController(CompetitionFragment.this).navigate(R.id.action_competitionFragment2_to_competitionAddFragment);
+
             }
         });
 
