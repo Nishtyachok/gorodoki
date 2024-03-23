@@ -24,6 +24,7 @@ public class CompetitionAddFragment extends Fragment {
     private EditText etCompetitionLocation;
     private EditText etHeadJudge;
     private EditText etHeadSecretary;
+    private UUID uuid = UUID.randomUUID();
 
     private CompetitionSecretary competitionSecretary;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
@@ -50,7 +51,7 @@ public class CompetitionAddFragment extends Fragment {
 
         // Создание соревнования при создании фрагмента
         competitionSecretary = new CompetitionSecretary();
-        competitionSecretary.setUuid(UUID.randomUUID());
+        competitionSecretary.setUuid(uuid);
 
         Button addCompetitionButton = view.findViewById(R.id.btnCreateCompetition);
         addCompetitionButton.setOnClickListener(v -> {

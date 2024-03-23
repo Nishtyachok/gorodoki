@@ -18,13 +18,14 @@ import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
 import ru.nishty.aai_referee.entity.secretary.Judge;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class JudgeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private JudgesAdapter judgesAdapter;
-    private ArrayList<Judge> judgesList;
+    private List<Judge> judgesList;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
     private String competitionUuid;
 
@@ -33,18 +34,20 @@ public class JudgeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_judges, container, false);
 
-        judgesList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.rvJudges);
-        setupRecyclerView();
-
         dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
+
 
         // Получаем UUID соревнования из аргументов фрагмента
         Bundle arguments = getArguments();
         if (arguments != null) {
             competitionUuid = arguments.getString("competitionUuid");
         }
-
+        judgesList = dataBaseHelperSecretary.getJudges(dbr, UUID.fromString(competitionUuid));
+        if(judgesList==null)
+            judgesList = new ArrayList<>();
+        setupRecyclerView();
         FloatingActionButton fabAddJudge = view.findViewById(R.id.fabAddJudge);
         fabAddJudge.setOnClickListener(v -> showAddJudgeDialog());
 

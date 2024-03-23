@@ -1,21 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:padding="16dp">
+              android:background="@drawable/edging"
+              android:padding="8dp">
 
 	<TextView
-			android:id="@+id/textViewName"
-			android:layout_width="wrap_content"
+			android:id="@+id/tvCategoryName"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textSize="18sp"
-			android:textStyle="bold" />
+			android:hint="Старшие юноши"
+			android:textColor="#000"
+			android:textSize="16sp" />
 
 	<TextView
-			android:id="@+id/textViewDetails"
-			android:layout_width="wrap_content"
+			android:id="@+id/tvAgeLimit"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:textSize="14sp" />
+			android:hint="Возрастное ограничение: 2006 - 2010г"
+			android:textColor="#000"
+			android:layout_marginTop="8dp"
+			android:textSize="16sp" />
 
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+		<TextView
+				android:id="@+id/tvTours"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:hint="3 тура"
+				android:textColor="#000"
+				android:layout_marginTop="8dp"
+				android:textSize="16sp" />
+
+		<TextView
+				android:id="@+id/tvFigures"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:hint="90 фигур"
+				android:textColor="#000"
+				android:layout_marginTop="8dp"
+				android:textSize="16sp" />
+
+		<TextView
+				android:id="@+id/tvLimit"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:hint="30 лимит"
+				android:textColor="#000"
+				android:layout_marginTop="8dp"
+				android:textSize="16sp" />
+
+	</LinearLayout>
 </LinearLayout>

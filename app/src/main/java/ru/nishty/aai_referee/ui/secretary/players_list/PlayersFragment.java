@@ -7,14 +7,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.databinding.FragmentPlayersBinding;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
 public class PlayersFragment extends Fragment {
 
     private FragmentPlayersBinding binding;
     private String competitionUuid;
+    private CompetitionSecretary competitionSecretary;
+    private DataBaseHelperSecretary dataBaseHelperSecretary;
 
     public static PlayersFragment newInstance(String uuid) {
         PlayersFragment fragment = new PlayersFragment();
@@ -49,9 +54,8 @@ public class PlayersFragment extends Fragment {
 
     private void navigateToCategoriesFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString("competitionUuid", competitionUuid);
-        NavHostFragment.findNavController(this)
-                .navigate(R.id.action_playersFragment_to_categoriesFragment, bundle);
+        bundle.putString("competitionUuid", competitionUuid.toString());
+        Navigation.findNavController(requireView()).navigate(R.id.action_playersFragment_to_categoriesFragment, bundle);
     }
 
     private void navigateToRegionsFragment() {

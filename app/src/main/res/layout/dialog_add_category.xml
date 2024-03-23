@@ -11,10 +11,25 @@
 			android:layout_height="wrap_content"
 			android:hint="Название категории" />
 
-	<Button
-			android:id="@+id/btnAddCategory"
+	<EditText
+			android:id="@+id/etCategoryAgeLimit"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Добавить" />
+			android:hint="Возрастное ограничение" />
 
+	<EditText
+			android:id="@+id/etTours"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Кол-во туров" />
+	<EditText
+			android:id="@+id/etFigures"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Кол-во фигур в партии" />
+	<EditText
+			android:id="@+id/etLimit"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Лимит на партию" />
 </LinearLayout>

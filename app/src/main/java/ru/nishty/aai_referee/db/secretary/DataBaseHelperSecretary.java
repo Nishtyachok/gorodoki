@@ -82,6 +82,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             ContentValues categoryValues = new ContentValues();
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_COMPETITION, String.valueOf(competitionSecretary.getUuid()));
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
+            categoryValues.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT,category.getAgelimit());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
@@ -130,6 +131,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             values.put(DataBaseContractSecretary.Category.COLUMN_COMPETITION, competitionUuid.toString());
             values.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
             values.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
+            values.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT, category.getAgelimit());
             values.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
             values.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
             newRowId = db.insert(DataBaseContractSecretary.Category.TABLE_NAME, null, values);
@@ -154,6 +156,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 DataBaseContractSecretary.Category._ID,
                 DataBaseContractSecretary.Category.COLUMN_NAME,
                 DataBaseContractSecretary.Category.COLUMN_LIMIT,
+                DataBaseContractSecretary.Category.COLUMN_AGELIMIT,
                 DataBaseContractSecretary.Category.COLUMN_FIGURES,
                 DataBaseContractSecretary.Category.COLUMN_TOURS
         };
@@ -176,11 +179,13 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             category.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category._ID)));
             category.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_NAME)));
             category.setLimit(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_LIMIT)));
+            category.setAgelimit(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_AGELIMIT)));
             category.setFigures(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_FIGURES)));
             category.setTours(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_TOURS)));
             categories.add(category);
         }
         cursor.close();
+        Log.d(DATABASE_NAME, "Категории: " + categories);
         return categories;
     }
 
@@ -189,6 +194,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         values.put(DataBaseContractSecretary.Category.COLUMN_COMPETITION, String.valueOf(category.getComp_id()));
         values.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
         values.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
+        values.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT, category.getAgelimit());
         values.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
         values.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
 

@@ -1,12 +1,11 @@
 package ru.nishty.aai_referee.ui.secretary.judge_list;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.databinding.JudgeItemBinding;
 import ru.nishty.aai_referee.entity.secretary.Judge;
 
 import java.util.List;
@@ -22,8 +21,7 @@ public class JudgesAdapter extends RecyclerView.Adapter<JudgesAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.judge_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(JudgeItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
     }
 
     @Override
@@ -42,11 +40,11 @@ public class JudgesAdapter extends RecyclerView.Adapter<JudgesAdapter.ViewHolder
         private final TextView tvRegion;
         private final TextView tvCategory;
 
-        public ViewHolder(View view) {
-            super(view);
-            tvName = view.findViewById(R.id.tvJudgeName);
-            tvRegion = view.findViewById(R.id.tvJudgeRegion);
-            tvCategory = view.findViewById(R.id.tvJudgeCategory);
+        public ViewHolder(JudgeItemBinding binding) {
+            super(binding.getRoot());
+            tvName = binding.tvJudgeName;
+            tvRegion = binding.tvJudgeRegion;
+            tvCategory = binding.tvJudgeCategory;
 
         }
 

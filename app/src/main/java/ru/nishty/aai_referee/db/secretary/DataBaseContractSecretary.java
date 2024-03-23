@@ -17,6 +17,7 @@ public final class DataBaseContractSecretary {
     public static class Category implements BaseColumns {
         public static final String TABLE_NAME = "category";
         public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_AGELIMIT = "agelimit";
         public static final String COLUMN_TOURS = "tours";
         public static final String COLUMN_FIGURES = "figures";
         public static final String COLUMN_LIMIT = "_limit";
@@ -161,6 +162,7 @@ public final class DataBaseContractSecretary {
             "CREATE TABLE " + Category.TABLE_NAME + " (" +
                     Category._ID + " INTEGER PRIMARY KEY, " +
                     Category.COLUMN_NAME + " TEXT, " +
+                    Category.COLUMN_AGELIMIT + " TEXT, " +
                     Category.COLUMN_TOURS + " INTEGER, " +
                     Category.COLUMN_FIGURES + " INTEGER, " +
                     Category.COLUMN_LIMIT + " INTEGER, " +

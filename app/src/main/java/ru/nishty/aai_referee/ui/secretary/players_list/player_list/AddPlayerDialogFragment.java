@@ -10,7 +10,7 @@ import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.entity.secretary.Category;
 import ru.nishty.aai_referee.entity.secretary.Player;
 import ru.nishty.aai_referee.entity.secretary.Region;
-import ru.nishty.aai_referee.ui.secretary.players_list.category_list.CategoryAdapter;
+import ru.nishty.aai_referee.ui.secretary.players_list.category_list.CategoriesAdapter;
 import ru.nishty.aai_referee.ui.secretary.players_list.region_list.RegionAdapter;
 
 import java.util.List;
@@ -42,8 +42,8 @@ public class AddPlayerDialogFragment extends DialogFragment {
         btnAddPlayer = view.findViewById(R.id.btnAddPlayer);
 
         // Устанавливаем адаптеры для спиннеров с категориями и регионами
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categories);
-        spinnerCategory.setAdapter((SpinnerAdapter) categoryAdapter);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(categories);
+        spinnerCategory.setAdapter((SpinnerAdapter) categoriesAdapter);
 
         RegionAdapter regionAdapter = new RegionAdapter( regions);
         spinnerRegion.setAdapter((SpinnerAdapter) regionAdapter);

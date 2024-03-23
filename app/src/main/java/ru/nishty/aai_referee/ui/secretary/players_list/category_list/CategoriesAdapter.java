@@ -1,0 +1,66 @@
+package ru.nishty.aai_referee.ui.secretary.players_list.category_list;
+
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import ru.nishty.aai_referee.databinding.CategoryItemBinding;
+import ru.nishty.aai_referee.entity.secretary.Category;
+
+import java.util.List;
+
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
+
+    private final List<Category> categoriesList;
+
+    public CategoriesAdapter(List<Category> categoriesList) {
+        this.categoriesList = categoriesList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(CategoryItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Category category = categoriesList.get(position);
+        holder.bind(category);
+    }
+
+    @Override
+    public int getItemCount() {
+        return categoriesList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvName;
+        private final TextView tvAgeLimit;
+        private final TextView tvFigures;
+        private final TextView tvTours;
+        private final TextView tvLimit;
+
+
+        public ViewHolder(CategoryItemBinding binding) {
+            super(binding.getRoot());
+            tvName = binding.tvCategoryName;
+            tvAgeLimit = binding.tvAgeLimit;
+            tvTours = binding.tvTours;
+            tvFigures = binding.tvFigures;
+            tvLimit = binding.tvLimit;
+
+
+        }
+
+        public void bind(Category category) {
+            tvName.setText(category.getName());
+            tvAgeLimit.setText(category.getAgelimit());
+            tvTours.setText(String.valueOf(category.getTours()));
+            tvFigures.setText(String.valueOf(category.getFigures()));
+            tvLimit.setText(String.valueOf(category.getLimit()));
+
+        }
+    }
+}

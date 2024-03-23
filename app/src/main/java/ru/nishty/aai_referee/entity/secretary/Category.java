@@ -6,16 +6,18 @@ public class Category {
     private UUID comp_id;
     private int id;
     private String name;
+    private String agelimit;
     private int tours;
     private int figures;
     private int limit;
 
     public Category() {
     }
-    public Category(UUID comp_id, int id, String name, int tours, int figures, int limit) {
+    public Category(UUID comp_id, int id, String name,String agelimit, int tours, int figures, int limit) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
+        this.agelimit = agelimit;
         this.tours = tours;
         this.figures = figures;
         this.limit = limit;
@@ -43,6 +45,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAgelimit() {
+        return agelimit;
+    }
+
+    public void setAgelimit(String agelimit) {
+        this.agelimit = agelimit;
     }
 
     public int getTours() {
