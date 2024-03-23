@@ -67,7 +67,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         values.put(DataBaseContractSecretary.Competition.COLUMN_PLACE, competitionSecretary.getPlace());
         values.put(DataBaseContractSecretary.Competition.COLUMN_HEADJUDGE, competitionSecretary.getHeadJudge());
         values.put(DataBaseContractSecretary.Competition.COLUMN_HEADSECRETARY, competitionSecretary.getHeadSecretary());
-        db.insert(DataBaseContractSecretary.Competition.TABLE_NAME, null, values);
 
         for (Judge judge : competitionSecretary.getJudges()) {
             ContentValues judgeValues = new ContentValues();
@@ -106,7 +105,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             db.insert(DataBaseContractSecretary.Player.TABLE_NAME, null, playerValues);
         }
         long newRowId = db.insert(DataBaseContractSecretary.Competition.TABLE_NAME, null, values);
-
         if (newRowId == -1) {
             Log.e(DATABASE_NAME, "Ошибка при добавлении соревнования");
         } else {
@@ -237,7 +235,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(DataBaseContractSecretary.Region.COLUMN_COMPETITION, competitionUuid.toString());
             values.put(DataBaseContractSecretary.Region.COLUMN_NAME, region.getName());
-            db.insert(DataBaseContractSecretary.Region.TABLE_NAME, null, values);
             newRowId = db.insert(DataBaseContractSecretary.Region.TABLE_NAME, null, values);
 
             if (newRowId == -1) {

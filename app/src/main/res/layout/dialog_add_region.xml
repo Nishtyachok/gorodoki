@@ -11,10 +11,5 @@
 			android:layout_height="wrap_content"
 			android:hint="Название региона" />
 
-	<Button
-			android:id="@+id/btnAddRegion"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="Добавить" />
 
 </LinearLayout>

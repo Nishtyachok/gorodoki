@@ -11,7 +11,7 @@ import ru.nishty.aai_referee.entity.secretary.Category;
 import ru.nishty.aai_referee.entity.secretary.Player;
 import ru.nishty.aai_referee.entity.secretary.Region;
 import ru.nishty.aai_referee.ui.secretary.players_list.category_list.CategoriesAdapter;
-import ru.nishty.aai_referee.ui.secretary.players_list.region_list.RegionAdapter;
+import ru.nishty.aai_referee.ui.secretary.players_list.region_list.RegionsAdapter;
 
 import java.util.List;
 
@@ -45,8 +45,8 @@ public class AddPlayerDialogFragment extends DialogFragment {
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(categories);
         spinnerCategory.setAdapter((SpinnerAdapter) categoriesAdapter);
 
-        RegionAdapter regionAdapter = new RegionAdapter( regions);
-        spinnerRegion.setAdapter((SpinnerAdapter) regionAdapter);
+        RegionsAdapter regionsAdapter = new RegionsAdapter( regions);
+        spinnerRegion.setAdapter((SpinnerAdapter) regionsAdapter);
 
         btnAddPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
