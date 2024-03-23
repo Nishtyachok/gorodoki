@@ -12,19 +12,22 @@
 			android:hint="Имя игрока" />
 
 	<Spinner
+			android:id="@+id/spinnerGrade"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:prompt="@string/hint_grade"/>
+
+	<Spinner
 			android:id="@+id/spinnerCategory"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+			android:layout_height="wrap_content"
+			android:prompt="@string/hint_category"/>
 
 	<Spinner
 			android:id="@+id/spinnerRegion"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
-
-	<Button
-			android:id="@+id/btnAddPlayer"
-			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Добавить" />
+			android:prompt="@string/hint_region"/>
+
 
 </LinearLayout>

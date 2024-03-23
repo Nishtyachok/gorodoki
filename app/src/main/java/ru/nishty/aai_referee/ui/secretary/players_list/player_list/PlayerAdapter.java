@@ -1,62 +1,63 @@
 package ru.nishty.aai_referee.ui.secretary.players_list.player_list;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.databinding.PlayerItemBinding;
 import ru.nishty.aai_referee.entity.secretary.Player;
 
 import java.util.List;
 
-// PlayerAdapter.java
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
 
-    private List<Player> playerList;
+    private final List<Player> playersList;
 
-    public PlayerAdapter(List<Player> playerList) {
-        this.playerList = playerList;
+    public PlayerAdapter(List<Player> playersList) {
+        this.playersList = playersList;
     }
 
     @NonNull
     @Override
-    public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false);
-        return new PlayerViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(PlayerItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
-        Player player = playerList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Player player = playersList.get(position);
         holder.bind(player);
     }
 
     @Override
     public int getItemCount() {
-        return playerList.size();
+        return playersList.size();
     }
 
-    static class PlayerViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvName;
+        private final TextView tvGrade;
+        private final TextView tvPlayerCategory;
+        private final TextView tvPlayerRegion;
 
-        private TextView textViewName;
-        private TextView textViewCategory;
-        private TextView textViewRegion;
 
-        public PlayerViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-            textViewCategory = itemView.findViewById(R.id.textViewCategory);
-            textViewRegion = itemView.findViewById(R.id.textViewRegion);
+        public ViewHolder(PlayerItemBinding binding) {
+            super(binding.getRoot());
+            tvName = binding.tvPlayerName;
+            tvGrade = binding.tvGrade;
+            tvPlayerCategory = binding.tvPlayerCategory;
+            tvPlayerRegion = binding.tvPlayerRegion;
+
+
         }
 
         public void bind(Player player) {
-            textViewName.setText(player.getName());
-            textViewCategory.setText("Category: " + player.getCategoryId());
-            textViewRegion.setText("Region: " + player.getRegionId());
+            tvName.setText(player.getName());
+            tvGrade.setText(player.getGrade());
+            tvPlayerCategory.setText(player.getCategoryId());;
+            tvPlayerRegion.setText(player.getRegionId());
+
         }
     }
 }
-
-

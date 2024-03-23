@@ -10,7 +10,9 @@
     <string name="qr_code">qr_code</string>
 
     <string name="cancelled">Cancelled</string>
-
+    <string name="hint_grade">Select a grade</string>
+    <string name="hint_category">Select a category</string>
+    <string name="hint_region">Select a region</string>
     <string name="save">Save</string>
     <string name="standards">" "</string>
     <string name="strength">" "</string>

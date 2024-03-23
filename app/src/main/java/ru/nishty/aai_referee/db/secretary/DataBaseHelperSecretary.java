@@ -379,19 +379,19 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             Log.e(DATABASE_NAME, "Ошибка при обновлении судьи с ID: " + judge.getId());
         }
     }
-    public long addPlayer(SQLiteDatabase db, Player player) {
+    public long addPlayer(SQLiteDatabase db, Player player, UUID competitionUuid) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Player.TABLE_NAME,
                 new String[]{DataBaseContractSecretary.Player._ID},
                 DataBaseContractSecretary.Player.COLUMN_NAME + " = ? AND " +
                         DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ?",
-                new String[]{player.getName(), player.getComp_id().toString()},
+                new String[]{player.getName(), competitionUuid.toString()},
                 null, null, null
         );
         long newRowId=-1;
         if (cursor.getCount() <= 0) {
             ContentValues values = new ContentValues();
-            values.put(DataBaseContractSecretary.Player.COLUMN_COMPETITION, player.getComp_id().toString());
+            values.put(DataBaseContractSecretary.Player.COLUMN_COMPETITION, competitionUuid.toString());
             values.put(DataBaseContractSecretary.Player.COLUMN_NAME, player.getName());
             values.put(DataBaseContractSecretary.Player.COLUMN_REGION_ID, player.getRegionId());
             values.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID, player.getCategoryId());

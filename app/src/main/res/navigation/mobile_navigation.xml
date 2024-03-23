@@ -208,9 +208,9 @@
 
     <fragment
             android:id="@+id/playerListFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.players_list.player_list.PlayerListFragment"
+            android:name="ru.nishty.aai_referee.ui.secretary.players_list.player_list.PlayerFragment"
             android:label="Список игроков"
-            tools:layout="@layout/fragment_player_list" />
+            tools:layout="@layout/fragment_player" />
 
 
 </navigation>
