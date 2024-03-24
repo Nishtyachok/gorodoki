@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="16dp">
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:padding="16dp">
 
 	<EditText
-			android:id="@+id/etPlayerName"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:hint="Имя игрока" />
+		android:id="@+id/etPlayerName"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:hint="@string/hintNamePlayer"
+		android:background="@drawable/edit_text_background"
+		android:padding="12dp"
+		android:layout_marginBottom="8dp" />
 
 	<Spinner
-			android:id="@+id/spinnerGrade"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:prompt="@string/hint_grade"/>
+		android:id="@+id/spinnerGrade"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="12dp"
+		android:prompt="@string/hint_grade"
+		android:layout_marginBottom="8dp" />
 
 	<Spinner
-			android:id="@+id/spinnerCategory"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:prompt="@string/hint_category"/>
+		android:id="@+id/spinnerCategory"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="12dp"
+		android:prompt="@string/hint_category"
+		android:layout_marginBottom="8dp" />
 
 	<Spinner
-			android:id="@+id/spinnerRegion"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:prompt="@string/hint_region"/>
-
+		android:id="@+id/spinnerRegion"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="12dp"
+		android:prompt="@string/hint_region"
+		android:layout_marginBottom="8dp" />
 
 </LinearLayout>

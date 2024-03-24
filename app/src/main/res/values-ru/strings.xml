@@ -21,6 +21,7 @@
     <string name="hint_grade">Выберите разряд</string>
     <string name="hint_category">Выберите категорию</string>
     <string name="hint_region">Выберите регион</string>
+    <string name="hintNamePlayer">Имя игрока</string>
 
     <string name="fill">Заполните оставшиеся поля</string>
 

@@ -9,21 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-import ru.nishty.aai_referee.entity.secretary.Category;
-import ru.nishty.aai_referee.entity.secretary.Player;
-import ru.nishty.aai_referee.entity.secretary.Region;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.Category;
+import ru.nishty.aai_referee.entity.secretary.Player;
+import ru.nishty.aai_referee.entity.secretary.Region;
 
 public class PlayerFragment extends Fragment {
 
@@ -31,6 +35,8 @@ public class PlayerFragment extends Fragment {
     private PlayerAdapter playerAdapter;
     private List<Player> playersList;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
+    private DataBaseContractSecretary dataBaseContractSecretary;
+
     private String competitionUuid;
 
     @Nullable
@@ -72,21 +78,35 @@ public class PlayerFragment extends Fragment {
         Spinner spinnerCategory = dialogView.findViewById(R.id.spinnerCategory);
         Spinner spinnerRegion = dialogView.findViewById(R.id.spinnerRegion);
 
-        // Получаем список регионов
-        List<Region> regions = dataBaseHelperSecretary.getRegions(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
+        List<String> gradeNames = new ArrayList<>();
+        for (int i = 1; i <= 9; i++) {
+            int gradeResourceId = DataBaseContractSecretary.GradeHelper.getGrade(i);
+            if (gradeResourceId != -1) {
+                gradeNames.add(getContext().getString(gradeResourceId));
+            }
+        }
 
+        List<Region> regions = dataBaseHelperSecretary.getRegions(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
         List<String> regionNames = new ArrayList<>();
+        List<Integer> regionIds = new ArrayList<>();
+
         for (Region region : regions) {
             regionNames.add(region.getName());
+            regionIds.add(region.getId());
         }
 
         List<Category> categories = dataBaseHelperSecretary.getCategories(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
         List<String> categoryNames = new ArrayList<>();
+        List<Integer> categoryIds = new ArrayList<>();
+
         for (Category category : categories) {
             categoryNames.add(category.getName());
+            categoryIds.add(category.getId());
         }
 
-        // Создаем адаптер для Spinner'а с регионами
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, gradeNames);
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, regionNames);
         regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -95,16 +115,25 @@ public class PlayerFragment extends Fragment {
 
 
         // Устанавливаем адаптер для Spinner'а
+        spinnerGrade.setAdapter(gradeAdapter);
+        spinnerGrade.setPrompt(getString(R.string.hint_grade));
         spinnerRegion.setAdapter(regionAdapter);
+        spinnerGrade.setPrompt(getString(R.string.hint_region));
         spinnerCategory.setAdapter(categoryAdapter);
+        spinnerGrade.setPrompt(getString(R.string.hint_category));
+
 
         new AlertDialog.Builder(getActivity())
                 .setView(dialogView)
                 .setPositiveButton("Добавить", (dialog, which) -> {
                     String name = etPlayerName.getText().toString();
-                    int selectedGrade = Integer.parseInt(spinnerGrade.getSelectedItem().toString());
-                    int selectedCategory = Integer.parseInt(spinnerCategory.getSelectedItem().toString());
-                    int selectedRegion = Integer.parseInt(spinnerRegion.getSelectedItem().toString());
+                    int selectedGrade = spinnerGrade.getSelectedItemPosition()+1;
+
+                    int selectedPositionCategory = spinnerCategory.getSelectedItemPosition();
+                    int selectedCategory = categoryIds.get(selectedPositionCategory);
+
+                    int selectedPositionRegion = spinnerRegion.getSelectedItemPosition();
+                    int selectedRegion = regionIds.get(selectedPositionRegion);
 
                     Player player = new Player();
                     player.setComp_id(UUID.fromString(competitionUuid));

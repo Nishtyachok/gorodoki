@@ -5,5 +5,7 @@
     <color name ="green">#2E8B57</color>
     <color name ="red">#ff0000</color>
     <color name="colorBlue">#4147D5</color>
+    <color name="colorGrey">#7F7F7F</color>
+
 
 </resources>

@@ -412,29 +412,35 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
 
     public List<Player> getPlayers(SQLiteDatabase db, UUID competitionUuid) {
         List<Player> players = new ArrayList<>();
+        String[] projection = {
+                DataBaseContractSecretary.Player.COLUMN_COMPETITION,
+                DataBaseContractSecretary.Player._ID,
+                DataBaseContractSecretary.Player.COLUMN_NAME,
+                DataBaseContractSecretary.Player.COLUMN_REGION_ID,
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID,
+                DataBaseContractSecretary.Player.COLUMN_GRADE
+        };
+        String selection = DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ?";
+        String[] selectionArgs = { competitionUuid.toString() };
 
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Player.TABLE_NAME,
-                new String[]{
-                        DataBaseContractSecretary.Player._ID,
-                        DataBaseContractSecretary.Player.COLUMN_NAME,
-                        DataBaseContractSecretary.Player.COLUMN_REGION_ID,
-                        DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID,
-                        DataBaseContractSecretary.Player.COLUMN_GRADE
-                },
-                DataBaseContractSecretary.Player.COLUMN_COMPETITION  + " = ?",
-                new String[]{ competitionUuid.toString() },
-                null, null, null, null
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
         );
 
         while (cursor.moveToNext()) {
             Player player = new Player();
+            player.setComp_id(UUID.fromString(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_COMPETITION))));
             player.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player._ID)));
             player.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_NAME)));
             player.setRegionId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_REGION_ID)));
             player.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)));
             player.setGrade(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)));
-
             players.add(player);
         }
         cursor.close();
