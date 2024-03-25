@@ -2,13 +2,17 @@ package ru.nishty.aai_referee.ui.secretary.players_list.player_list;
 
 import android.app.AlertDialog;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,6 +83,7 @@ public class PlayerFragment extends Fragment {
         Spinner spinnerRegion = dialogView.findViewById(R.id.spinnerRegion);
 
         List<String> gradeNames = new ArrayList<>();
+        gradeNames.add("Выберите разряд игрока");
         for (int i = 1; i <= 9; i++) {
             int gradeResourceId = DataBaseContractSecretary.GradeHelper.getGrade(i);
             if (gradeResourceId != -1) {
@@ -89,7 +94,7 @@ public class PlayerFragment extends Fragment {
         List<Region> regions = dataBaseHelperSecretary.getRegions(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
         List<String> regionNames = new ArrayList<>();
         List<Integer> regionIds = new ArrayList<>();
-
+        regionNames.add("Выберите регион игрока");
         for (Region region : regions) {
             regionNames.add(region.getName());
             regionIds.add(region.getId());
@@ -98,41 +103,87 @@ public class PlayerFragment extends Fragment {
         List<Category> categories = dataBaseHelperSecretary.getCategories(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
         List<String> categoryNames = new ArrayList<>();
         List<Integer> categoryIds = new ArrayList<>();
+        categoryNames.add("Выберите категорию");
 
         for (Category category : categories) {
             categoryNames.add(category.getName());
             categoryIds.add(category.getId());
         }
 
-        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, gradeNames);
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, gradeNames) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) { // Первый элемент списка
+                    // Устанавливаем серый цвет для текста
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    // Устанавливаем обычный цвет для текста (черный, например)
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, regionNames);
-        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> regionAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, regionNames) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) { // Первый элемент списка
+                    // Устанавливаем серый цвет для текста
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    // Устанавливаем обычный цвет для текста (черный, например)
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, categoryNames);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoryNames) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) { // Первый элемент списка
+                    // Устанавливаем серый цвет для текста
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    // Устанавливаем обычный цвет для текста (черный, например)
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
 
         // Устанавливаем адаптер для Spinner'а
         spinnerGrade.setAdapter(gradeAdapter);
-        spinnerGrade.setPrompt(getString(R.string.hint_grade));
         spinnerRegion.setAdapter(regionAdapter);
-        spinnerGrade.setPrompt(getString(R.string.hint_region));
         spinnerCategory.setAdapter(categoryAdapter);
-        spinnerGrade.setPrompt(getString(R.string.hint_category));
 
 
-        new AlertDialog.Builder(getActivity())
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(dialogView)
-                .setPositiveButton("Добавить", (dialog, which) -> {
+                .setPositiveButton("Добавить", null) // Устанавливаем обработчик в null
+                .setNegativeButton("Отмена", null)
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button addButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            addButton.setOnClickListener(view -> {
+                int selectedGrade = spinnerGrade.getSelectedItemPosition();
+                int selectedPositionCategory = spinnerCategory.getSelectedItemPosition() - 1;
+                int selectedPositionRegion = spinnerRegion.getSelectedItemPosition() - 1;
+                if (selectedGrade == 0) {
+                    Toast.makeText(getActivity(), "Пожалуйста, выберите разряд", Toast.LENGTH_SHORT).show();
+                } else if (selectedPositionCategory < 0) {
+                    Toast.makeText(getActivity(), "Пожалуйста, выберите категорию", Toast.LENGTH_SHORT).show();
+                } else if (selectedPositionRegion < 0) {
+                    Toast.makeText(getActivity(), "Пожалуйста, выберите регион", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Если все поля выбраны, выполняем действия добавления игрока
                     String name = etPlayerName.getText().toString();
-                    int selectedGrade = spinnerGrade.getSelectedItemPosition()+1;
-
-                    int selectedPositionCategory = spinnerCategory.getSelectedItemPosition();
                     int selectedCategory = categoryIds.get(selectedPositionCategory);
-
-                    int selectedPositionRegion = spinnerRegion.getSelectedItemPosition();
                     int selectedRegion = regionIds.get(selectedPositionRegion);
 
                     Player player = new Player();
@@ -142,17 +193,19 @@ public class PlayerFragment extends Fragment {
                     player.setCategoryId(selectedCategory);
                     player.setRegionId(selectedRegion);
 
-
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
                     long playerId = dataBaseHelperSecretary.addPlayer(db, player, UUID.fromString(competitionUuid));
 
                     if (playerId != -1) {
                         playersList.add(player);
                         playerAdapter.notifyDataSetChanged();
+                        dialog.dismiss(); // Закрываем диалог только если все успешно
                     }
-                })
-                .setNegativeButton("Отмена", null)
-                .show();
+                }
+            });
+        });
+
+        dialog.show();
     }
 
 }
