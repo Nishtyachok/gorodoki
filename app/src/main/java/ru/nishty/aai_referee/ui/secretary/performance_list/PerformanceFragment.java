@@ -1,131 +1,87 @@
 package ru.nishty.aai_referee.ui.secretary.performance_list;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 import java.util.UUID;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
+import ru.nishty.aai_referee.entity.secretary.Protocol;
 
 /**
  * A fragment representing a list of Items.
  */
 public class PerformanceFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_ID = "id";
-    private static final String ARG_DISCIPLINE = "discipline";
     private static UUID ID;
-    private static int discipline;
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public PerformanceFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static PerformanceFragment newInstance(int columnCount) {
+    public static PerformanceFragment newInstance(UUID id) {
         PerformanceFragment fragment = new PerformanceFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, ID.toString());
+        args.putString(ARG_ID, id.toString());
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
-
-    /*
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (getArguments() != null) {
             ID = UUID.fromString(getArguments().getString(ARG_ID));
-            discipline = getArguments().getInt(ARG_DISCIPLINE);
         }
-
-        View view = inflater.inflate(R.layout.fragment_performance_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_performance_list_secretary, container, false);
+        FloatingActionButton addButton = view.findViewById(R.id.add_performance_button);
+        addButton.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString(ARG_ID, ID.toString());
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_fragmentPerformance2_to_performanceAddFragment, args);
+        });
 
         DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
         SQLiteDatabase db = dataBaseHelperSecretary.getReadableDatabase();
-
-       // PerformanceContent.fill(dataBaseHelperSecretary.getPerformances(db, CompetitionSecretary.getUuid()));
+        List<PerformanceSecretary> performances = dataBaseHelperSecretary.getPerformances(db, ID);
         db.close();
         dataBaseHelperSecretary.close();
 
+        RecyclerView recyclerView = view.findViewById(R.id.performance_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new MyPerformanceRecyclerViewAdapter(performances, performance -> {
+            DataBaseHelperSecretary dataBaseHelperSecretary1 = new DataBaseHelperSecretary(getContext());
+            SQLiteDatabase db1 = dataBaseHelperSecretary1.getReadableDatabase();
+            Protocol protocol = dataBaseHelperSecretary1.getProtocol(db1, ID, performance.getId());
+            db1.close();
+            dataBaseHelperSecretary1.close();
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            Bundle args = new Bundle();
+            //args.putSerializable("protocol", protocol);
+            args.putString("date", performance.getDate());
+            args.putString("place", performance.getPlace());
+            args.putString("time", performance.getTime());
+            args.putString("players", performance.getPlayers().toString());
+            args.putString("playground", performance.getPlayground());
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_fragmentPerformance2_to_protocolQrFragment2, args);
+        }));
 
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            ;
-
-            recyclerView.setAdapter(new MyPerformanceRecyclerViewAdapter
-                    (
-                            PerformanceContent.ITEM_MAP,
-                            (performance) -> {
-
-                                try {
-                                    DataBaseHelperSecretary dataBaseHelperSecretary1 = new DataBaseHelperSecretary(getContext());
-                                    SQLiteDatabase db1 = dataBaseHelperSecretary1.getReadableDatabase();
-                                    Protocol protocol = dataBaseHelperSecretary1.getProtocol(db1,ID,performance.getId());
-                                    //TODO: set proper name
-                                    protocol.set("test");
-
-                                    Bundle arg = new Bundle();
-                                    arg.putSerializable("protocol",protocol);
-                                    arg.putInt(ARG_DISCIPLINE,discipline);
-                                    arg.putString("name",performance.getName());
-                                    arg.putString("date",performance.getDate());
-                                    arg.putString("region",performance.getRegion());
-                                    arg.putString("time",performance.getTime());
-                                    arg.putString("category",performance.getCategory());
-                                    arg.putString("grade",performance.getGrade());
-                                    arg.putString("playground",performance.getPlayground());
-                                    NavHostFragment.findNavController(PerformanceFragment.this)
-                                            .navigate(R.id.action_fragmentPerformance_to_protocolQrFragment,
-                                                    arg);
-                                }
-                                catch (Exception e){
-                                    Protocol p = new Protocol();
-                                    p.setComp_id(ID);
-                                    p.setPerf_id(performance.getId());
-
-                                    Bundle arg = new Bundle();
-                                    arg.putSerializable("protocol",p);
-                                    arg.putInt(ARG_DISCIPLINE,discipline);
-                                    arg.putString("name",performance.getName());
-                                    arg.putString("date",performance.getDate());
-                                    arg.putString("region",performance.getRegion());
-                                    arg.putString("time",performance.getTime());
-                                    arg.putString("category",performance.getCategory());
-                                    arg.putString("grade",performance.getGrade());
-                                    arg.putString("playground",performance.getPlayground());
-
-
-                                    NavHostFragment.findNavController(
-                                        PerformanceFragment.this)
-                                        .navigate(R.id.action_fragmentPerformance_to_protocolFillingFragment
-                                                ,arg);
-                                }
-                            }
-                            ));
-        }
         return view;
     }
-
-     */
 }

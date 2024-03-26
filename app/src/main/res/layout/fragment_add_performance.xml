@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvCreateGameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Создание игры"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Поле для Игрока 1 -->
+<LinearLayout
+    android:id="@+id/allPlayers"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_below="@id/tvCreateGameTitle"
+    android:layout_marginTop="8dp">
+    <Spinner
+        android:id="@+id/spinnerPlayer1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
+
+    <!-- Поле для Игрока 2 -->
+    <Spinner
+        android:id="@+id/spinnerPlayer2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <!-- Поля для даты и времени -->
+    <LinearLayout
+        android:id="@+id/llDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/allPlayers"
+        android:layout_marginTop="8dp">
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint=" Дата проведения"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/etTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint=" Время"
+            android:inputType="time" />
+    </LinearLayout>
+
+    <!-- Поле для места игры -->
+    <EditText
+        android:id="@+id/etLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" Место игры"
+        android:layout_below="@id/llDateTime"
+        android:layout_marginTop="8dp" />
+
+    <!-- Поле для номера площадки -->
+    <LinearLayout
+        android:id="@+id/courtJudge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/etLocation"
+        android:layout_marginTop="8dp">
+    <EditText
+        android:id="@+id/etCourtNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint=" Номер площадки"
+        android:inputType="number"
+        android:layout_marginTop="8dp" />
+    <Spinner
+        android:id="@+id/spinnerJudge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnCreateGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Создать игру"
+        android:layout_below="@id/courtJudge"
+        android:layout_marginTop="16dp" />
+</RelativeLayout>

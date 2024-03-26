@@ -5,10 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
 import ru.nishty.aai_referee.databinding.PerformanceItemBinding;
 import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
-
-import java.util.List;
 
 
 public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPerformanceRecyclerViewAdapter.ViewHolder> {
@@ -40,9 +39,7 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
         holder.mIdView.setText(String.valueOf(position));
         holder.mContentView.setText(mValues.get(position).getPlayers().toString());
         holder.mContentView.setText( mValues.get(position).getDate());
-        holder.mContentView.setText( mValues.get(position).getTime());
         holder.mPlaceView.setText( mValues.get(position).getPlace());
-        holder.mDateView.setText( mValues.get(position).getDate());
         holder.mPlaygroundView.setText( mValues.get(position).getPlayground());
         holder.mCategoryView.setText( mValues.get(position).getJudgeId());
         holder.mTimeView.setText( mValues.get(position).getTime());

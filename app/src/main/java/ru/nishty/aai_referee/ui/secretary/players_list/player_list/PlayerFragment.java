@@ -178,6 +178,8 @@ public class PlayerFragment extends Fragment {
                     Toast.makeText(getActivity(), "Пожалуйста, выберите разряд", Toast.LENGTH_SHORT).show();
                 } else if (selectedPositionCategory < 0) {
                     Toast.makeText(getActivity(), "Пожалуйста, выберите категорию", Toast.LENGTH_SHORT).show();
+                } else if (etPlayerName.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Пожалуйста, введите имя игрока", Toast.LENGTH_SHORT).show();
                 } else if (selectedPositionRegion < 0) {
                     Toast.makeText(getActivity(), "Пожалуйста, выберите регион", Toast.LENGTH_SHORT).show();
                 } else {

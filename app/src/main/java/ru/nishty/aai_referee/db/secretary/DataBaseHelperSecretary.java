@@ -7,12 +7,20 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
-import ru.nishty.aai_referee.entity.secretary.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import ru.nishty.aai_referee.entity.secretary.Category;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
+import ru.nishty.aai_referee.entity.secretary.Judge;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
+import ru.nishty.aai_referee.entity.secretary.Player;
+import ru.nishty.aai_referee.entity.secretary.Protocol;
+import ru.nishty.aai_referee.entity.secretary.Region;
 
 public class DataBaseHelperSecretary extends SQLiteOpenHelper {
 
@@ -716,7 +724,46 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
 
         return protocol;
     }
+    public Player getPlayerById(SQLiteDatabase db,UUID comp_id,int player_id){
+        Player player= new Player();
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Protocol.TABLE_NAME,
+                null,
+                DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ? AND "
+                        + DataBaseContractSecretary.Player._ID + " = ?",
+                new String[]{
+                        comp_id.toString(),
+                        String.valueOf(player_id)
+                },
+                null,
+                null,
+                null,
+                null
+        );
 
+        cursor.moveToNext();
+
+        player.setId(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player._ID)
+        ));
+        player.setComp_id(UUID.fromString(cursor.getString(cursor.getColumnIndexOrThrow(
+                                        DataBaseContractSecretary.Player.COLUMN_COMPETITION)))
+        );
+        player.setCategoryId(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)
+        ));
+        player.setGrade(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)
+        ));
+        player.setName(cursor.getString(cursor.getColumnIndexOrThrow(
+                        DataBaseContractSecretary.Player.COLUMN_NAME)
+        ));
+        player.setRegionId(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)
+        ));
+
+        return player;
+    }
     public void setProtocol(SQLiteDatabase db, Protocol protocol) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Protocol.COLUMN_COMPETITION, String.valueOf(protocol.getComp_id()));
