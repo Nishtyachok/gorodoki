@@ -171,8 +171,8 @@ public class PerformanceAddFragment extends Fragment {
                         int selectedPlayer2 = player2Ids.get(selectedPositionPlayer2);
                         int selectedJudge = judgeIds.get(selectedPositionJudge);
 
-                        Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr,competitionId,selectedPlayer1);
-                        Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr,competitionId,selectedPlayer2);
+                        Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr,UUID.fromString(String.valueOf(competitionId)),selectedPlayer1);
+                        Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr,UUID.fromString(String.valueOf(competitionId)),selectedPlayer2);
 
                         List<Player> players = new ArrayList<>();
                         if (playerOne != null && playerTwo != null) {
@@ -184,6 +184,7 @@ public class PerformanceAddFragment extends Fragment {
                             return;
                         }
                         PerformanceSecretary performanceSecretary = new PerformanceSecretary();
+                        performanceSecretary.setComp_id(competitionId);
                         performanceSecretary.setPlayers(players);
                         performanceSecretary.setDate(date);
                         performanceSecretary.setTime(time);
@@ -196,7 +197,7 @@ public class PerformanceAddFragment extends Fragment {
                     }
 
                     NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_performanceAddFragment_to_fragmentPerformance2);
+                        .navigateUp();
         });
 
         return view;

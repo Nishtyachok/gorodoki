@@ -62,7 +62,7 @@ public class PerformanceFragment extends Fragment {
         db.close();
         dataBaseHelperSecretary.close();
 
-        RecyclerView recyclerView = view.findViewById(R.id.performance_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.performance_recycler_view1);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(new MyPerformanceRecyclerViewAdapter(performances, performance -> {
             DataBaseHelperSecretary dataBaseHelperSecretary1 = new DataBaseHelperSecretary(getContext());

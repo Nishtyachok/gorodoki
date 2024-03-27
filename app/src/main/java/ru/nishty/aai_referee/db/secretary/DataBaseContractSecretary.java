@@ -172,7 +172,7 @@ public final class DataBaseContractSecretary {
                     PerformancePlayer._ID + " INTEGER PRIMARY KEY, " +
                     PerformancePlayer.COLUMN_PLAYER_ID + " INTEGER, " +
                     PerformancePlayer.COLUMN_PERFORMANCE_ID + " INTEGER, "+
-                    PerformancePlayer.COLUMN_COMPETITION + " INTEGER, " +
+                    PerformancePlayer.COLUMN_COMPETITION + " BLOB, " +
                     "FOREIGN KEY (" + PerformancePlayer.COLUMN_PERFORMANCE_ID + ") REFERENCES " +
                     Performance.TABLE_NAME + "(" + Performance._ID + ")ON DELETE CASCADE ON UPDATE CASCADE "+
                     "FOREIGN KEY (" + PerformancePlayer.COLUMN_PERFORMANCE_ID + ") REFERENCES " +

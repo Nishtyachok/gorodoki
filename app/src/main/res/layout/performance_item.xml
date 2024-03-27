@@ -63,10 +63,11 @@
 
     <TextView
         android:id="@+id/place"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="23dp"
         android:layout_margin="@dimen/text_margin"
         android:text="Новособорная 10"
+        android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintBottom_toBottomOf="@+id/border"
         app:layout_constraintEnd_toEndOf="@+id/border"
