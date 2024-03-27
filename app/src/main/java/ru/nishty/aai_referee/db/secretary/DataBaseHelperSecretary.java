@@ -810,6 +810,26 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
         return categoryNames.toString();
     }
+    public String getJudgeNames(SQLiteDatabase db, int judgeId) {
+        String judgeName = "";
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Judge.TABLE_NAME,
+                new String[]{DataBaseContractSecretary.Judge.COLUMN_NAME},
+                DataBaseContractSecretary.Judge._ID + " = ?",
+                new String[]{String.valueOf(judgeId)},
+                null,
+                null,
+                null
+        );
+
+        if (cursor.moveToFirst()) {
+            judgeName = cursor.getString(cursor.getColumnIndexOrThrow(
+                    DataBaseContractSecretary.Judge.COLUMN_NAME));
+        }
+        cursor.close();
+        return judgeName;
+    }
+
 
 
     public void setProtocol(SQLiteDatabase db, Protocol protocol) {

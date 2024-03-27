@@ -60,8 +60,9 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
         SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
         holder.mIdView.setText(String.valueOf(position));
         holder.mPlayersView.setText(String.valueOf(getPlayersName( mValues.get(position).getPlayers())));
-        //holder.mJudgeView.setText( mValues.get(position).getJudgeId());
+        holder.mJudgeView.setText( dataBaseHelperSecretary.getJudgeNames(dbr,mValues.get(position).getJudgeId()));
         holder.mPlaceView.setText( mValues.get(position).getPlace());
+        holder.mDateView.setText(mValues.get(position).getDate());
         holder.mPlaygroundView.setText( mValues.get(position).getPlayground() + " площадка");
         holder.mCategoryView.setText(String.valueOf(dataBaseHelperSecretary.getCategoryNames(dbr,mValues.get(position).getPlayers())));
         holder.mTimeView.setText( mValues.get(position).getTime());
