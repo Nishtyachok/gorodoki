@@ -140,6 +140,8 @@ public class PlayerFragment extends Fragment {
                 return view;
             }
         };
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoryNames) {
             @Override
@@ -155,6 +157,8 @@ public class PlayerFragment extends Fragment {
                 return view;
             }
         };
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
         // Устанавливаем адаптер для Spinner'а
         spinnerGrade.setAdapter(gradeAdapter);
