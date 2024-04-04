@@ -127,29 +127,25 @@
     </fragment>
     <fragment
             android:id="@+id/protocolQrFragment2"
-            android:name="ru.nishty.aai_referee.ui.secretary.protocol_qr.ProtocolQrFragment"
+            android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
             android:label="fragment_protocol_qr"
             tools:layout="@layout/fragment_protocol_qr">
         <argument
-                android:name="protocol"
-                app:argType="ru.nishty.aai_referee.entity.referee.Protocol"/>
-        <argument
-                android:name="discipline"
-                app:argType="integer"/>
-        <argument
-                android:name="name"
-                app:argType="string"/>
+                android:name="performance"
+                app:argType="ru.nishty.aai_referee.entity.secretary.PerformanceSecretary"/>
+
+
         <action android:id="@+id/action_protocolQrFragment2_to_fragmentPerformance2"
                 app:destination="@id/fragmentPerformance2"/>
         <action
-            android:id="@+id/action_protocolQrFragment_to_fragmentPerformance"
+            android:id="@+id/action_protocolQrFragment2_to_fragmentPerformance"
             app:destination="@id/fragmentPerformance2"
             app:popUpTo="@id/fragmentPerformance2"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
             android:id="@+id/protocolQrFragment3"
-            android:name="ru.nishty.aai_referee.ui.secretary.protocol_qr.ProtocolQrFragment"
+            android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
             android:label="fragment_protocol_qr"
             tools:layout="@layout/fragment_protocol_qr">
         <argument

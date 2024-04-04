@@ -1,9 +1,10 @@
 package ru.nishty.aai_referee.entity.secretary;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class PerformanceSecretary {
+public class PerformanceSecretary implements Serializable {
     private UUID comp_id;
     private int id;
     private int internal_id;
@@ -11,7 +12,7 @@ public class PerformanceSecretary {
     private String date;
     private String playground;
     private List<Player> players;
-    private int judgeId;
+    private transient int judgeId;
     private String time;
 
     public PerformanceSecretary() {

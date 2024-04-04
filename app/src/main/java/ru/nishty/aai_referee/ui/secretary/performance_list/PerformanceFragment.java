@@ -70,16 +70,14 @@ public class PerformanceFragment extends Fragment {
             Protocol protocol = dataBaseHelperSecretary1.getProtocol(db1, ID, performance.getId());
             db1.close();
             dataBaseHelperSecretary1.close();
+            if (protocol == null) {
+                Bundle args = new Bundle();
+                args.putSerializable("performance", performance);
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_fragmentPerformance2_to_protocolQrFragment2, args);
+            } else {
 
-            Bundle args = new Bundle();
-            //args.putSerializable("protocol", protocol);
-            args.putString("date", performance.getDate());
-            args.putString("place", performance.getPlace());
-            args.putString("time", performance.getTime());
-            args.putString("players", performance.getPlayers().toString());
-            args.putString("playground", performance.getPlayground());
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_fragmentPerformance2_to_protocolQrFragment2, args);
+            }
         }));
 
         return view;

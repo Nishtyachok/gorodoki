@@ -4,14 +4,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvCreateGameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Создание игры"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+
 
     <!-- Поле для Игрока 1 -->
 <LinearLayout
@@ -19,7 +12,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_below="@id/tvCreateGameTitle"
     android:layout_marginTop="8dp">
     <Spinner
         android:id="@+id/spinnerPlayer1"

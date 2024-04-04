@@ -1,4 +1,4 @@
-package ru.nishty.aai_referee.ui.secretary.protocol_qr;
+package ru.nishty.aai_referee.ui.secretary.performance_qr;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -6,48 +6,42 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import androidx.activity.OnBackPressedCallback;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.entity.secretary.Protocol;
 
-import java.io.Serializable;
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProtocolQrFragment#newInstance} factory method to
+ * Use the {@link PerformanceQrFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProtocolQrFragment extends Fragment {
+public class PerformanceQrFragment extends Fragment {
 
 
-    private static final String ARG_PROTOCOL = "protocol";
-    private static final String ARG_DISCIPLINE = "discipline";
-    private static final String ARG_NAME = "name";
-    private static Protocol protocol;
-    private static int discipline;
-    private static String name;
+    private static final String ARG_PERFORMANCE_SECRETARY = "performance";
+    private static PerformanceSecretary performanceSecretary;
 
-    public ProtocolQrFragment() {
+
+    public PerformanceQrFragment() {
         // Required empty public constructor
     }
 
 
-
-    public static ProtocolQrFragment newInstance(Protocol protocol, int discipline) {
-        ProtocolQrFragment fragment = new ProtocolQrFragment();
+    public static PerformanceQrFragment newInstance(PerformanceSecretary performanceSecretary) {
+        PerformanceQrFragment fragment = new PerformanceQrFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PROTOCOL, (Serializable) protocol);
-        args.putInt(ARG_DISCIPLINE,discipline);
-        args.putString(ARG_NAME,name);
+        args.putSerializable(ARG_PERFORMANCE_SECRETARY, performanceSecretary);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,23 +50,10 @@ public class ProtocolQrFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            protocol = (Protocol) getArguments().getSerializable(ARG_PROTOCOL);
-            discipline = getArguments().getInt(ARG_DISCIPLINE);
-            name = getArguments().getString(ARG_NAME);
-        }
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("id",String.valueOf(protocol.getComp_id()));
-                bundle.putInt("discipline",discipline);
-                NavHostFragment.findNavController(
-                        ProtocolQrFragment.this
-                ).navigate(R.id.action_protocolQrFragment_to_fragmentPerformance,bundle);
-            }
+            performanceSecretary = (PerformanceSecretary) getArguments().getSerializable(ARG_PERFORMANCE_SECRETARY);
 
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this,callback);
+        }
+
 
     }
 
@@ -88,12 +69,12 @@ public class ProtocolQrFragment extends Fragment {
         ImageView qrCodeIV = view.findViewById(R.id.idIVQrcode);
         getActivity().getActionBar();
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(name);
+
         
 
         String str;
         Gson gson = new Gson();
-        str = gson.toJson(protocol);
+        str = gson.toJson(performanceSecretary);
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE,1000,1000);
