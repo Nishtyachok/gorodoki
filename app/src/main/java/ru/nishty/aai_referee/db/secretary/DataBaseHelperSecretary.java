@@ -487,6 +487,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 new String[]{
                         DataBaseContractSecretary.Performance.COLUMN_INTERNAL_ID,
                         DataBaseContractSecretary.Performance._ID,
+                        DataBaseContractSecretary.Performance.COLUMN_COMPETITION,
                         DataBaseContractSecretary.Performance.COLUMN_TIME,
                         DataBaseContractSecretary.Performance.COLUMN_PLACE,
                         DataBaseContractSecretary.Performance.COLUMN_PLAYGROUND,
@@ -499,6 +500,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         );
         while (cursor.moveToNext()) {
             PerformanceSecretary performance = new PerformanceSecretary();
+            performance.setComp_id(UUID.fromString(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Performance.COLUMN_COMPETITION))));
             performance.setInternal_id(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Performance.COLUMN_INTERNAL_ID)));
             performance.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Performance._ID)));
             performance.setTime(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Performance.COLUMN_TIME)));

@@ -7,18 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
+import ru.nishty.aai_referee.entity.secretary.Player;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,21 +32,17 @@ import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
  */
 public class PerformanceQrFragment extends Fragment {
 
-
     private static final String ARG_PERFORMANCE_SECRETARY = "performance";
     private static PerformanceSecretary performanceSecretary;
-
 
     public PerformanceQrFragment() {
         // Required empty public constructor
     }
 
-
     public static PerformanceQrFragment newInstance(PerformanceSecretary performanceSecretary) {
         PerformanceQrFragment fragment = new PerformanceQrFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PERFORMANCE_SECRETARY, performanceSecretary);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,42 +52,172 @@ public class PerformanceQrFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             performanceSecretary = (PerformanceSecretary) getArguments().getSerializable(ARG_PERFORMANCE_SECRETARY);
-
         }
-
-
     }
 
-
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_protocol_qr, container, false);
         ImageView qrCodeIV = view.findViewById(R.id.idIVQrcode);
-        getActivity().getActionBar();
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
 
-        
+        QrCodeData qrData = new QrCodeData();
+        qrData.setComp_id(performanceSecretary.getComp_id());
+        qrData.setId(performanceSecretary.getId());
+        qrData.setPlace(performanceSecretary.getPlace());
+        qrData.setDate(performanceSecretary.getDate());
+        qrData.setPlayground(performanceSecretary.getPlayground());
 
-        String str;
+        List<PlayerQrData> playerQrDataList = new ArrayList<>();
+        for (Player player : performanceSecretary.getPlayers()) {
+            PlayerQrData playerQrData = new PlayerQrData();
+            playerQrData.setId(player.getId());
+            playerQrData.setName(player.getName());
+            playerQrData.setRegionId(player.getRegionId());
+            playerQrData.setCategoryId(player.getCategoryId());
+            playerQrData.setGrade(player.getGrade());
+            playerQrDataList.add(playerQrData);
+        }
+        qrData.setPlayers(playerQrDataList);
+
+        qrData.setTime(performanceSecretary.getTime());
+
         Gson gson = new Gson();
-        str = gson.toJson(performanceSecretary);
+        String json = gson.toJson(qrData);
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE,1000,1000);
+            BitMatrix bitMatrix = multiFormatWriter.encode(json, BarcodeFormat.QR_CODE, 1000, 1000);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             qrCodeIV.setImageBitmap(bitmap);
-
-        }
-        catch (WriterException e){
+        } catch (WriterException e) {
             e.printStackTrace();
         }
         return view;
     }
+}
 
+class QrCodeData {
+    @SerializedName("c")
+    private UUID comp_id;
+    @SerializedName("i")
+    private int id;
+    @SerializedName("p")
+    private String place;
+    @SerializedName("d")
+    private String date;
+    @SerializedName("pg")
+    private String playground;
+    @SerializedName("pl")
+    private List<PlayerQrData> players;
+    @SerializedName("t")
+    private String time;
+    public UUID getComp_id() {
+        return comp_id;
+    }
+
+    public void setComp_id(UUID comp_id) {
+        this.comp_id = comp_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPlayground() {
+        return playground;
+    }
+
+    public void setPlayground(String playground) {
+        this.playground = playground;
+    }
+
+    public List<PlayerQrData> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<PlayerQrData> players) {
+        this.players = players;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+}
+
+class PlayerQrData {
+    @SerializedName("id")
+    private int id;
+    @SerializedName("n")
+    private String name;
+    @SerializedName("r")
+    private int regionId;
+    @SerializedName("c")
+    private int categoryId;
+    @SerializedName("g")
+    private int grade;
+
+    // Геттеры и сеттеры для полей
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 public class PerformanceSecretary implements Serializable {
     private UUID comp_id;
     private int id;
-    private int internal_id;
+    private transient int internal_id;
     private String place;
     private String date;
     private String playground;

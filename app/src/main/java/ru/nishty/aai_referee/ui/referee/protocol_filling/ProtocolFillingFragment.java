@@ -8,18 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
-import ru.nishty.aai_referee.entity.referee.Protocol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
+import ru.nishty.aai_referee.entity.referee.Protocol;
 
 
 public class ProtocolFillingFragment extends Fragment {
@@ -455,7 +457,7 @@ public class ProtocolFillingFragment extends Fragment {
 
         for (int i = 0; i < combinationsList.size(); i++) {
             List<String> combination = combinationsList.get(i);
-            if (i <= 14) {
+            if (i < 15) {
                 countPart1 += combination.size();
             } else {
                 countPart2 += combination.size();
@@ -471,7 +473,7 @@ public class ProtocolFillingFragment extends Fragment {
         for (int i = startIndex; i < endIndex; i++) {
             int sum = calculateSum(i);
             if (sum != 5) {
-                if (currentItemIndex < 15) {
+                if (i < 15) {
                     allSumsEqualFivePart1 = false;
                 } else {
                     allSumsEqualFivePart2 = false;
@@ -484,42 +486,55 @@ public class ProtocolFillingFragment extends Fragment {
         if (allSumsEqualFivePart1) {
             TextView textView17 = view.findViewById(R.id.textView17);
             textView17.setText(String.valueOf(countPart1));
-        }
-        // Обновление textView18 и textView19
-        if (allSumsEqualFivePart2) {
-            TextView textView18 = view.findViewById(R.id.textView18);
-            textView18.setText(String.valueOf(countPart2));
-            textView18.setText(String.valueOf(countPart2));
+        } else {
+            TextView textView17 = view.findViewById(R.id.textView17);
+            textView17.setText("-");
         }
 
-        if (allSumsEqualFivePart2 && allSumsEqualFivePart1) {
+        if (!allSumsEqualFivePart1) {
+            TextView textView18 = view.findViewById(R.id.textView18);
+            textView18.setText("-");
+        } else if (allSumsEqualFivePart2) {
+            TextView textView18 = view.findViewById(R.id.textView18);
+            textView18.setText(String.valueOf(countPart2));
+        } else {
+            TextView textView18 = view.findViewById(R.id.textView18);
+            textView18.setText("-");
+        }
+
+        // Обновление textView19
+        if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
             TextView textView19 = view.findViewById(R.id.textView19);
-            textView19.setText(String.valueOf(countPart2 + countPart1));
+            textView19.setText(String.valueOf(countPart1 + countPart2));
+        } else {
+            TextView textView19 = view.findViewById(R.id.textView19);
+            textView19.setText("-");
         }
 
         // Обновляем textView13
         int count;
         String countText;
-        if (currentItemIndex <= 14) {
+        if (currentItemIndex < 15) {
             count = countPart1;
         } else {
             count = countPart2;
         }
-        countText = "" + count;
+        countText = String.valueOf(count);
 
         TextView textView13 = view.findViewById(R.id.textView13);
         textView13.setText(countText);
+
         // Обновляем textView15
         int count15 = 30;
         int count30 = 30;
 
         int difference;
-        if (currentItemIndex <= 14) {
+        if (currentItemIndex < 15) {
             difference = count15 - countPart1;
         } else {
             difference = count30 - countPart2;
         }
-        String count15Text = "" + difference;
+        String count15Text = String.valueOf(difference);
         TextView textView15 = view.findViewById(R.id.textView15);
         textView15.setText(count15Text);
     }
