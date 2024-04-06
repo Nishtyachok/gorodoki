@@ -3,13 +3,15 @@ package ru.nishty.aai_referee.ui.secretary.performance_list;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ru.nishty.aai_referee.databinding.PerformanceItemSecretaryBinding;
 import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
@@ -54,24 +56,31 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        int p = position;
         Context context = holder.itemView.getContext();
         dataBaseHelperSecretary = new DataBaseHelperSecretary(context);
         SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
         holder.mIdView.setText(String.valueOf(position));
-        holder.mPlayersView.setText(String.valueOf(getPlayersName( mValues.get(position).getPlayers())));
-        holder.mJudgeView.setText( dataBaseHelperSecretary.getJudgeNames(dbr,mValues.get(position).getJudgeId()));
-        holder.mPlaceView.setText( mValues.get(position).getPlace());
+        holder.mPlayersView.setText(String.valueOf(getPlayersName(mValues.get(position).getPlayers())));
+        holder.mJudgeView.setText(dataBaseHelperSecretary.getJudgeNames(dbr, mValues.get(position).getJudgeId()));
+        holder.mPlaceView.setText(mValues.get(position).getPlace());
         holder.mDateView.setText(mValues.get(position).getDate());
-        holder.mPlaygroundView.setText( mValues.get(position).getPlayground() + " площадка");
-        holder.mCategoryView.setText(String.valueOf(dataBaseHelperSecretary.getCategoryNames(dbr,mValues.get(position).getPlayers())));
-        holder.mTimeView.setText( mValues.get(position).getTime());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onStateClickListener.onStateClick(mValues.get(p));
-            }
-        });
+        holder.mPlaygroundView.setText(mValues.get(position).getPlayground() + " площадка");
+
+        // Получение строки категорий
+        String categories = dataBaseHelperSecretary.getCategoryNames(dbr, mValues.get(position).getPlayers());
+        // Разделение строки на массив, обрезка пробелов и удаление пустых элементов
+        List<String> categoryList = Arrays.stream(categories.split(" "))
+                .filter(s -> !s.isEmpty()) // Убираем пустые строки
+                .collect(Collectors.toList());
+        // Преобразование списка в множество для удаления дубликатов и обратно в список для сохранения порядка
+        LinkedHashSet<String> uniqueCategoriesSet = new LinkedHashSet<>(categoryList);
+        // Объединение уникальных категорий в строку с запятой и пробелом в качестве разделителя
+        String uniqueCategoriesString = String.join(", ", uniqueCategoriesSet);
+        holder.mCategoryView.setText(uniqueCategoriesString);
+
+        holder.mTimeView.setText(mValues.get(position).getTime());
+
+        holder.itemView.setOnClickListener(v -> onStateClickListener.onStateClick(mValues.get(position)));
     }
 
     public void update(List<PerformanceSecretary> performances){
