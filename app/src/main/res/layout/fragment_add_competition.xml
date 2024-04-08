@@ -2,42 +2,62 @@
 <androidx.constraintlayout.widget.ConstraintLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:layout_width="match_parent"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:padding="16dp">
 
 	<!-- Competition Name EditText -->
 	<EditText
-			android:id="@+id/etCompetitionName"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:hint="Название соревнования"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:layout_marginTop="8dp"/>
+		android:id="@+id/etCompetitionName"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:hint="Название соревнования"
+		app:layout_constraintBottom_toTopOf="@+id/tvDate"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<!-- Competition Date EditText -->
-	<EditText
-			android:id="@+id/etCompetitionDate"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:hint="Дата проведения"
-			app:layout_constraintTop_toBottomOf="@id/etCompetitionName"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:layout_marginTop="8dp"/>
 
 	<!-- Competition Location EditText -->
+
 	<EditText
-			android:id="@+id/etCompetitionLocation"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:hint="Место проведения"
-			app:layout_constraintTop_toBottomOf="@id/etCompetitionDate"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			android:layout_marginTop="8dp"/>
+		android:id="@+id/etCompetitionDate"
+		android:layout_width="100dp"
+		android:layout_height="40dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="8dp"
+		android:gravity="center_horizontal|bottom|center"
+		android:hint="конец"
+		app:layout_constraintStart_toEndOf="@+id/textView4"
+		app:layout_constraintTop_toBottomOf="@+id/etCompetitionName" />
+
+
+	<EditText
+		android:id="@+id/etCompetitionDate2"
+		android:layout_width="100dp"
+		android:layout_height="40dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="8dp"
+		android:gravity="center_horizontal|bottom|center"
+		android:hint="начало"
+		app:layout_constraintBottom_toTopOf="@+id/etCompetitionLocation"
+		app:layout_constraintEnd_toStartOf="@+id/textView4"
+		app:layout_constraintStart_toEndOf="@+id/tvDate"
+		app:layout_constraintTop_toBottomOf="@+id/etCompetitionName"
+		app:layout_constraintVertical_bias="0.0" />
+
+	<EditText
+		android:id="@+id/etCompetitionLocation"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:hint="Место проведения"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
 	<!-- Head Judge Name EditText -->
 	<EditText
@@ -96,5 +116,36 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintHorizontal_bias="1.0"
 			app:layout_constraintVertical_bias="0.060000002"/>
+
+	<TextView
+		android:id="@+id/tvDate"
+		android:layout_width="141dp"
+		android:layout_height="35dp"
+		android:layout_marginStart="6dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginBottom="8dp"
+		android:gravity="center_horizontal|start|center"
+		android:text="Дата проведения:"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		app:layout_constraintBottom_toTopOf="@+id/etCompetitionLocation"
+		app:layout_constraintEnd_toStartOf="@+id/etCompetitionDate2"
+		app:layout_constraintHorizontal_bias="0.52"
+		app:layout_constraintStart_toStartOf="@+id/etCompetitionName"
+		app:layout_constraintTop_toBottomOf="@+id/etCompetitionName" />
+
+	<TextView
+		android:id="@+id/textView4"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:text="-"
+		android:gravity="center"
+		android:textColor="@color/black"
+		app:layout_constraintBottom_toBottomOf="@+id/etCompetitionDate2"
+		app:layout_constraintEnd_toStartOf="@+id/etCompetitionDate"
+		app:layout_constraintStart_toEndOf="@+id/etCompetitionDate2"
+		app:layout_constraintTop_toTopOf="@+id/etCompetitionDate2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
