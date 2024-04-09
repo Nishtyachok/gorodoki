@@ -3,12 +3,15 @@ package ru.nishty.aai_referee.ui.secretary.competition_list;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
-import ru.nishty.aai_referee.databinding.CompetitionItemBinding;
-import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
 import java.util.List;
+
+import ru.nishty.aai_referee.databinding.CompetitionItemSecretaryBinding;
+import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
 
 public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCompetitionRecyclerViewAdapter.ViewHolder> {
@@ -16,21 +19,24 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
     private final List<CompetitionSecretary> mValues;
 
     private final OnStateClickListener onStateClickListener;
+    private final OnStateClickListener onStateClickListener2;
 
     public interface OnStateClickListener{
         void onStateClick(CompetitionSecretary competition, int position);
 
     }
 
-    public MyCompetitionRecyclerViewAdapter(List<CompetitionSecretary> items, OnStateClickListener onStateClickListener) {
+
+    public MyCompetitionRecyclerViewAdapter(List<CompetitionSecretary> items, OnStateClickListener onStateClickListener, OnStateClickListener onStateClickListener2) {
         mValues = items;
         this.onStateClickListener = onStateClickListener;
+        this.onStateClickListener2 = onStateClickListener2;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new ViewHolder(CompetitionItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(CompetitionItemSecretaryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
 
     }
@@ -48,6 +54,14 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
                 onStateClickListener.onStateClick(mValues.get(p),p);
             }
         });
+
+        holder.mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStateClickListener2.onStateClick(mValues.get(p),p);
+            }
+        });
+
     }
 
     @Override
@@ -63,15 +77,16 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
-
         public final TextView mItem3;
+        public final Button mButton;
         public final TextView mContentView;
         public CompetitionSecretary mItem;
 
-        public ViewHolder(CompetitionItemBinding binding) {
+        public ViewHolder(CompetitionItemSecretaryBinding binding) {
             super(binding.getRoot());
             mItem3 = binding.content3;
             mIdView = binding.itemNumber;
+            mButton = binding.button;
             mContentView = binding.content;
         }
 

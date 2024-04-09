@@ -6,17 +6,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.UUID;
+
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 import ru.nishty.aai_referee.ui.referee.performance_list.placeholder.PerformanceContent;
-
-import java.util.UUID;
 
 /**
  * A fragment representing a list of Items.
@@ -27,7 +29,7 @@ public class PerformanceFragment extends Fragment {
     private static final String ARG_ID = "id";
     private static final String ARG_DISCIPLINE = "discipline";
     private static UUID ID;
-    private static int discipline;
+
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
@@ -60,7 +62,6 @@ public class PerformanceFragment extends Fragment {
                              Bundle savedInstanceState) {
         if (getArguments() != null) {
             ID = UUID.fromString(getArguments().getString(ARG_ID));
-            discipline = getArguments().getInt(ARG_DISCIPLINE);
         }
 
         View view = inflater.inflate(R.layout.fragment_performance_list, container, false);
@@ -99,13 +100,12 @@ public class PerformanceFragment extends Fragment {
 
                                     Bundle arg = new Bundle();
                                     arg.putSerializable("protocol",protocol);
-                                    arg.putInt(ARG_DISCIPLINE,discipline);
-                                    arg.putString("name",performance.getName());
+                                   // arg.putString("name",performance.getName());
                                     arg.putString("date",performance.getDate());
-                                    arg.putString("region",performance.getRegion());
+                                    //arg.putString("region",performance.getRegion());
                                     arg.putString("time",performance.getTime());
-                                    arg.putString("category",performance.getCategory());
-                                    arg.putString("grade",performance.getGrade());
+                                    //arg.putString("category",performance.getCategory());
+                                    //arg.putString("grade",performance.getGrade());
                                     arg.putString("playground",performance.getPlayground());
                                     NavHostFragment.findNavController(PerformanceFragment.this)
                                             .navigate(R.id.action_fragmentPerformance_to_protocolQrFragment,
@@ -118,13 +118,12 @@ public class PerformanceFragment extends Fragment {
 
                                     Bundle arg = new Bundle();
                                     arg.putSerializable("protocol",p);
-                                    arg.putInt(ARG_DISCIPLINE,discipline);
-                                    arg.putString("name",performance.getName());
+                                    //arg.putString("name",performance.getName());
                                     arg.putString("date",performance.getDate());
-                                    arg.putString("region",performance.getRegion());
+                                    //arg.putString("region",performance.getRegion());
                                     arg.putString("time",performance.getTime());
-                                    arg.putString("category",performance.getCategory());
-                                    arg.putString("grade",performance.getGrade());
+                                    //arg.putString("category",performance.getCategory());
+                                    //arg.putString("grade",performance.getGrade());
                                     arg.putString("playground",performance.getPlayground());
 
 

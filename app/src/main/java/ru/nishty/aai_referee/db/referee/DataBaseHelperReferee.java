@@ -6,14 +6,17 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.Nullable;
-import ru.nishty.aai_referee.entity.referee.Competition;
-import ru.nishty.aai_referee.entity.referee.Performance;
-import ru.nishty.aai_referee.entity.referee.Protocol;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.entity.referee.Performance;
+import ru.nishty.aai_referee.entity.referee.PlayerRef;
+import ru.nishty.aai_referee.entity.referee.Protocol;
 
 public class DataBaseHelperReferee extends SQLiteOpenHelper {
 
@@ -39,6 +42,7 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
         db.execSQL(DataBaseContractReferee.SQL_CREATE_ENTRIES_COMPETITION);
         db.execSQL(DataBaseContractReferee.SQL_CREATE_ENTRIES_PERFORMANCE);
         db.execSQL(DataBaseContractReferee.SQL_CREATE_ENTRIES_PROTOCOL);
+        db.execSQL(DataBaseContractReferee.SQL_CREATE_ENTRIES_PLAYER_REF);
     }
 
     @Override
@@ -46,6 +50,8 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
         db.execSQL(DataBaseContractReferee.SQL_DELETE_ENTRIES_PROTOCOL);
         db.execSQL(DataBaseContractReferee.SQL_DELETE_ENTRIES_PERFORMANCE);
         db.execSQL(DataBaseContractReferee.SQL_DELETE_ENTRIES_COMPETITION);
+        db.execSQL(DataBaseContractReferee.SQL_DELETE_ENTRIES_PLAYER_REF);
+
         onCreate(db);
     }
 
@@ -55,23 +61,28 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
         values.put(DataBaseContractReferee.Competition.COLUMN_NAME, competition.getName());
         values.put(DataBaseContractReferee.Competition.COLUMN_YEAR,competition.getYear());
         values.put(DataBaseContractReferee.Competition.COLUMN_PLACE,competition.getPlace());
-        values.put(DataBaseContractReferee.Competition.COLUMN_DISCIPLINE,competition.getDiscipline());
         db.insert(DataBaseContractReferee.Competition.TABLE_NAME,null,values);
         for (Performance performance :
                 competition.getPerformances()) {
             values = new ContentValues();
-            values.put(DataBaseContractReferee.Performance.COLUMN_INTERNAL_ID,String.valueOf(performance.getInternal_id()));
-            values.put(DataBaseContractReferee.Performance.COLUMN_NAME,performance.getName());
-            values.put(DataBaseContractReferee.Performance.COLUMN_TIME,performance.getTime());
-            values.put(DataBaseContractReferee.Performance.COLUMN_GRADE,performance.getGrade());
-            values.put(DataBaseContractReferee.Performance.COLUMN_CATEGORY,performance.getCategory());
-            values.put(DataBaseContractReferee.Performance.COLUMN_REGION,performance.getRegion());
-            values.put(DataBaseContractReferee.Performance.COLUMN_PLACE,performance.getPlace());
-            values.put(DataBaseContractReferee.Performance.COLUMN_PLAYGROUND,performance.getPlayground());
-            values.put(DataBaseContractReferee.Performance.COLUMN_DATE,performance.getDate());
-
-            values.put(DataBaseContractReferee.Performance.COLUMN_COMPETITION,String.valueOf(competition.getUuid()));
-            db.insert(DataBaseContractReferee.Performance.TABLE_NAME,null,values);
+            values.put(DataBaseContractReferee.Performance.COLUMN_INTERNAL_ID, performance.getInternal_id());
+            values.put(DataBaseContractReferee.Performance.COLUMN_TIME, performance.getTime());
+            values.put(DataBaseContractReferee.Performance.COLUMN_PLACE, performance.getPlace());
+            values.put(DataBaseContractReferee.Performance.COLUMN_PLAYGROUND, performance.getPlayground());
+            values.put(DataBaseContractReferee.Performance.COLUMN_DATE, performance.getDate());
+            values.put(DataBaseContractReferee.Performance.COLUMN_COMPETITION, String.valueOf(competition.getUuid()));
+            db.insert(DataBaseContractReferee.Performance.TABLE_NAME, null, values);
+            for (PlayerRef playerRef:
+                    performance.getPlayers()){
+                values = new ContentValues();
+                values.put(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY_ID,playerRef.getCategory());
+                values.put(DataBaseContractReferee.PlayerRef.COLUMN_GRADE,playerRef.getGrade());
+                values.put(DataBaseContractReferee.PlayerRef.COLUMN_NAME,playerRef.getName());
+                values.put(DataBaseContractReferee.PlayerRef.COLUMN_REGION_ID,playerRef.getRegion());
+                values.put(DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE, playerRef.getPerf_id());
+                values.put(DataBaseContractReferee.Performance.COLUMN_COMPETITION, String.valueOf(competition.getUuid()));
+                db.insert(DataBaseContractReferee.PlayerRef.TABLE_NAME, null, values);
+            }
         }
     }
 
@@ -82,14 +93,10 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
                 DataBaseContractReferee.Performance.TABLE_NAME,
                 new String[]{
                         DataBaseContractReferee.Performance.COLUMN_INTERNAL_ID,
-                        DataBaseContractReferee.Performance.COLUMN_NAME,
                         DataBaseContractReferee.Performance.COLUMN_TIME,
                         DataBaseContractReferee.Performance.COLUMN_PLACE,
                         DataBaseContractReferee.Performance.COLUMN_PLAYGROUND,
-                        DataBaseContractReferee.Performance.COLUMN_DATE,
-                        DataBaseContractReferee.Performance.COLUMN_GRADE,
-                        DataBaseContractReferee.Performance.COLUMN_REGION,
-                        DataBaseContractReferee.Performance.COLUMN_CATEGORY
+                        DataBaseContractReferee.Performance.COLUMN_DATE
 
                 },
                 DataBaseContractReferee.Performance.COLUMN_COMPETITION  + " = ?",
@@ -109,11 +116,7 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
                             DataBaseContractReferee.Performance.COLUMN_INTERNAL_ID
                     )
             ));
-            performance.setName(cursor.getString(
-                    cursor.getColumnIndexOrThrow(
-                            DataBaseContractReferee.Performance.COLUMN_NAME
-                    )
-            ));
+
             performance.setTime(cursor.getString(
                     cursor.getColumnIndexOrThrow(
                             DataBaseContractReferee.Performance.COLUMN_TIME
@@ -134,25 +137,50 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
                             DataBaseContractReferee.Performance.COLUMN_DATE
                     )
             ));
-            performance.setGrade(cursor.getString(
-                    cursor.getColumnIndexOrThrow(
-                            DataBaseContractReferee.Performance.COLUMN_GRADE
-                    )
-            ));
-            performance.setRegion(cursor.getString(
-                    cursor.getColumnIndexOrThrow(
-                            DataBaseContractReferee.Performance.COLUMN_REGION
-                    )
-            ));
-            performance.setCategory(cursor.getString(
-                    cursor.getColumnIndexOrThrow(
-                            DataBaseContractReferee.Performance.COLUMN_CATEGORY
-                    )
-            ));
+
             performances.add(0,performance);
         }
 
         return performances;
+    }
+    public PlayerRef getPlayerById(SQLiteDatabase db, UUID comp_id, int perf_id, int player_id) {
+        PlayerRef playerRef = new PlayerRef();
+        Cursor cursor = db.query(
+                DataBaseContractReferee.PlayerRef.TABLE_NAME,
+                null,
+                DataBaseContractReferee.PlayerRef.COLUMN_COMPETITION + " = ? AND "
+                        + DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE + " = ? AND "
+                        + DataBaseContractReferee.PlayerRef._ID + " = ?",
+                new String[]{
+                        comp_id.toString(),
+                        String.valueOf(perf_id),
+                        String.valueOf(player_id)
+                },
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToNext();
+
+        playerRef.setId(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef._ID)
+        ));
+        playerRef.setCategory(cursor.getString(
+                cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY_ID)
+        ));
+        playerRef.setGrade(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_GRADE)
+        ));
+        playerRef.setName(cursor.getString(cursor.getColumnIndexOrThrow(
+                DataBaseContractReferee.PlayerRef.COLUMN_NAME)
+        ));
+        playerRef.setRegion(cursor.getString(
+                cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_REGION_ID)
+        ));
+
+        return playerRef;
     }
 
     public List<Competition> getCompetitions(SQLiteDatabase db){
@@ -186,11 +214,6 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
             competition.setPlace(cursor.getString(
                     cursor.getColumnIndexOrThrow(
                             DataBaseContractReferee.Competition.COLUMN_PLACE
-                    )
-            ));
-            competition.setDiscipline(cursor.getInt(
-                    cursor.getColumnIndexOrThrow(
-                            DataBaseContractReferee.Competition.COLUMN_DISCIPLINE
                     )
             ));
             competitions.add(0,competition);

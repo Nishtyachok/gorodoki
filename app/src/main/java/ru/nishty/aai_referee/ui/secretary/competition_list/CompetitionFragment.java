@@ -77,7 +77,14 @@ public class CompetitionFragment extends Fragment {
                 NavHostFragment.findNavController(CompetitionFragment.this)
                         .navigate(R.id.action_competitionFragment2_to_fragmentPerformance22,bundle);
             }
-
+        }, new MyCompetitionRecyclerViewAdapter.OnStateClickListener(){
+            @Override
+            public void onStateClick(CompetitionSecretary competition, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("competition",competition);
+                NavHostFragment.findNavController(CompetitionFragment.this)
+                        .navigate(R.id.action_competitionFragment2_to_protocolQrFragment4,bundle);
+            }
         });
 
 

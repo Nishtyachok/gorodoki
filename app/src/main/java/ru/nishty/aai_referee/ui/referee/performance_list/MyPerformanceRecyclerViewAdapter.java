@@ -40,13 +40,13 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int p = position;
         holder.mIdView.setText(String.valueOf(position));
-        holder.mContentView.setText( mValues.get(position).getName());
+        //holder.mContentView.setText( mValues.get(position).getName());
         //holder.mContentView.setText( mValues.get(position).getGrade());
         //holder.mContentView.setText( mValues.get(position).getRegion());
         holder.mPlaceView.setText( mValues.get(position).getPlace());
         holder.mDateView.setText( mValues.get(position).getDate());
         holder.mPlaygroundView.setText( mValues.get(position).getPlayground());
-        holder.mCategoryView.setText( mValues.get(position).getCategory());
+        //holder.mCategoryView.setText( mValues.get(position).getCategory());
         holder.mTimeView.setText( mValues.get(position).getTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

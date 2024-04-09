@@ -788,7 +788,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 DataBaseContractSecretary.Player.COLUMN_NAME)
         ));
         player.setRegionId(cursor.getInt(
-                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_REGION_ID)
         ));
 
         return player;

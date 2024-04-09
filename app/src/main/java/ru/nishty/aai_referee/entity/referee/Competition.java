@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Competition {
-    @SerializedName("i")
+    @SerializedName("c")
     private UUID uuid;
     @SerializedName("n")
     private String name;
@@ -15,8 +15,6 @@ public class Competition {
     private String year;
     @SerializedName("p1")
     private String place;
-    @SerializedName("d")
-    private int discipline;
     @SerializedName("p")
     private List<Performance> performances = new ArrayList<>();
 
@@ -25,7 +23,6 @@ public class Competition {
         this.name = name;
         this.year = year;
         this.place = place;
-        this.discipline = discipline;
         this.performances = performances;
     }
 
@@ -64,13 +61,6 @@ public class Competition {
         this.place = place;
     }
 
-    public int getDiscipline() {
-        return discipline;
-    }
-
-    public void setDiscipline(int discipline) {
-        this.discipline = discipline;
-    }
 
     public List<Performance> getPerformances() {
         return performances;

@@ -2,11 +2,12 @@ package ru.nishty.aai_referee.entity.secretary;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CompetitionSecretary {
+public class CompetitionSecretary implements Serializable {
     @SerializedName("i")
     private UUID uuid;
     @SerializedName("n")

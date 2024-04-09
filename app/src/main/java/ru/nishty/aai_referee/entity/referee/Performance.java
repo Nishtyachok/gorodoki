@@ -1,21 +1,30 @@
 package ru.nishty.aai_referee.entity.referee;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Performance {
     private UUID comp_id;
+    @SerializedName("i")
     private int id;
     private int internal_id;
-    private String name;
-    private String grade;
-    private String region;
+    @SerializedName("pl")
+    private List<PlayerRef> players = new ArrayList<>();
+    @SerializedName("p")
     private String place;
+    @SerializedName("d")
     private String date;
-    private String playground;
-    private String category;
+    @SerializedName("t")
     private String time;
+    @SerializedName("pg")
+    private String playground;
 
-    public int getId() {return id;}
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -37,30 +46,16 @@ public class Performance {
         this.internal_id = internal_id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getRegion() {return region;}
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getPlace() {
         return place;
+    }
+
+    public List<PlayerRef> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<PlayerRef> playerRefs) {
+        this.players = playerRefs;
     }
 
     public void setPlace(String place) {
@@ -82,12 +77,6 @@ public class Performance {
     public void setPlayground(String playground) {
         this.playground = playground;
     }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {this.category = category;}
 
     public String getTime() {
         return time;
