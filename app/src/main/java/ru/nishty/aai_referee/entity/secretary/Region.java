@@ -1,25 +1,23 @@
 package ru.nishty.aai_referee.entity.secretary;
 
-import java.util.UUID;
-
 public class Region {
-    private UUID comp_id;
+    private String comp_id;
     private int id;
     private String name;
 
     public Region() {
     }
-    public Region(UUID comp_id, int id, String name) {
+    public Region(String comp_id, int id, String name) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

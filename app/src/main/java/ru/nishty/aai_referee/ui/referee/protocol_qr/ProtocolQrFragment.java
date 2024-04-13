@@ -31,7 +31,6 @@ public class ProtocolQrFragment extends Fragment {
 
 
     private static final String ARG_PROTOCOL = "protocol";
-    private static final String ARG_DISCIPLINE = "discipline";
     private static final String ARG_NAME = "name";
     private static Protocol protocol;
     private static int discipline;
@@ -43,11 +42,10 @@ public class ProtocolQrFragment extends Fragment {
 
 
 
-    public static ProtocolQrFragment newInstance(Protocol protocol, int discipline) {
+    public static ProtocolQrFragment newInstance(Protocol protocol) {
         ProtocolQrFragment fragment = new ProtocolQrFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PROTOCOL, protocol);
-        args.putInt(ARG_DISCIPLINE,discipline);
         args.putString(ARG_NAME,name);
         fragment.setArguments(args);
         return fragment;
@@ -58,15 +56,13 @@ public class ProtocolQrFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             protocol = (Protocol) getArguments().getSerializable(ARG_PROTOCOL);
-            discipline = getArguments().getInt(ARG_DISCIPLINE);
             name = getArguments().getString(ARG_NAME);
         }
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("id",String.valueOf(protocol.getComp_id()));
-                bundle.putInt("discipline",discipline);
+                bundle.putSerializable("id",protocol.getComp_id());
                 NavHostFragment.findNavController(
                         ProtocolQrFragment.this
                 ).navigate(R.id.action_protocolQrFragment_to_fragmentPerformance,bundle);

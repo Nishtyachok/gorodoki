@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-import ru.nishty.aai_referee.entity.secretary.Category;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.Category;
 
 public class CategoryFragment extends Fragment {
 
@@ -44,7 +46,7 @@ public class CategoryFragment extends Fragment {
         if (arguments != null) {
             competitionUuid = arguments.getString("competitionUuid");
         }
-        categoriesList = dataBaseHelperSecretary.getCategories(dbr, UUID.fromString(competitionUuid));
+        categoriesList = dataBaseHelperSecretary.getCategories(dbr, competitionUuid);
         if(categoriesList==null)
             categoriesList = new ArrayList<>();
         setupRecyclerView();
@@ -81,7 +83,7 @@ public class CategoryFragment extends Fragment {
                     int limit = Integer.parseInt(etLimit.getText().toString());
 
                     Category category = new Category();
-                    category.setComp_id(UUID.fromString(competitionUuid));
+                    category.setComp_id(competitionUuid);
                     category.setName(name);
                     category.setAgelimit(ageLimit);
                     category.setTours(tours);
@@ -90,7 +92,7 @@ public class CategoryFragment extends Fragment {
 
 
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
-                    long categoryId = dataBaseHelperSecretary.addCategory(db, category, UUID.fromString(competitionUuid));
+                    long categoryId = dataBaseHelperSecretary.addCategory(db, category, competitionUuid);
 
                     if (categoryId != -1) {
                         categoriesList.add(category);

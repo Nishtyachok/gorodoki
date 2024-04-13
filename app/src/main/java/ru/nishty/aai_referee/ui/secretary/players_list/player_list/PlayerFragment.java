@@ -24,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
@@ -58,7 +57,7 @@ public class PlayerFragment extends Fragment {
         if (arguments != null) {
             competitionUuid = arguments.getString("competitionUuid");
         }
-        playersList = dataBaseHelperSecretary.getPlayers(dbr, UUID.fromString(competitionUuid));
+        playersList = dataBaseHelperSecretary.getPlayers(dbr, competitionUuid);
         if(playersList==null)
             playersList = new ArrayList<>();
         setupRecyclerView();
@@ -91,7 +90,7 @@ public class PlayerFragment extends Fragment {
             }
         }
 
-        List<Region> regions = dataBaseHelperSecretary.getRegions(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
+        List<Region> regions = dataBaseHelperSecretary.getRegions(dataBaseHelperSecretary.getWritableDatabase(), competitionUuid);
         List<String> regionNames = new ArrayList<>();
         List<Integer> regionIds = new ArrayList<>();
         regionNames.add("Выберите регион игрока");
@@ -100,7 +99,7 @@ public class PlayerFragment extends Fragment {
             regionIds.add(region.getId());
         }
 
-        List<Category> categories = dataBaseHelperSecretary.getCategories(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(competitionUuid));
+        List<Category> categories = dataBaseHelperSecretary.getCategories(dataBaseHelperSecretary.getWritableDatabase(), competitionUuid);
         List<String> categoryNames = new ArrayList<>();
         List<Integer> categoryIds = new ArrayList<>();
         categoryNames.add("Выберите категорию");
@@ -193,14 +192,14 @@ public class PlayerFragment extends Fragment {
                     int selectedRegion = regionIds.get(selectedPositionRegion);
 
                     Player player = new Player();
-                    player.setComp_id(UUID.fromString(competitionUuid));
+                    player.setComp_id(competitionUuid);
                     player.setName(name);
                     player.setGrade(selectedGrade);
                     player.setCategoryId(selectedCategory);
                     player.setRegionId(selectedRegion);
 
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
-                    long playerId = dataBaseHelperSecretary.addPlayer(db, player, UUID.fromString(competitionUuid));
+                    long playerId = dataBaseHelperSecretary.addPlayer(db, player, competitionUuid);
 
                     if (playerId != -1) {
                         playersList.add(player);

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.nishty.aai_referee.R;
@@ -33,7 +32,7 @@ import ru.nishty.aai_referee.entity.secretary.Player;
 
 public class PerformanceAddFragment extends Fragment {
 
-    private UUID competitionId;
+    private String competitionId;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
 
 
@@ -41,7 +40,7 @@ public class PerformanceAddFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            competitionId = UUID.fromString(getArguments().getString("id"));
+            competitionId = getArguments().getString("id");
         }
     }
 
@@ -65,7 +64,7 @@ public class PerformanceAddFragment extends Fragment {
         AtomicBoolean isTimePickerOpened = new AtomicBoolean(false);
         AtomicBoolean isDatePickerOpened = new AtomicBoolean(false);
 
-        List<Player> player1 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(String.valueOf(competitionId)));
+        List<Player> player1 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
         List<String> player1Names = new ArrayList<>();
         List<Integer> player1Ids = new ArrayList<>();
         player1Names.add("Выберите первого игрока");
@@ -73,7 +72,7 @@ public class PerformanceAddFragment extends Fragment {
             player1Names.add(player.getName());
             player1Ids.add(player.getId());
         }
-        List<Player> player2 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(String.valueOf(competitionId)));
+        List<Player> player2 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
         List<String> player2Names = new ArrayList<>();
         List<Integer> player2Ids = new ArrayList<>();
         player2Names.add("Выберите второго игрока");
@@ -81,7 +80,7 @@ public class PerformanceAddFragment extends Fragment {
             player2Names.add(player.getName());
             player2Ids.add(player.getId());
         }
-        List<Judge> judges = dataBaseHelperSecretary.getJudges(dataBaseHelperSecretary.getWritableDatabase(), UUID.fromString(String.valueOf(competitionId)));
+        List<Judge> judges = dataBaseHelperSecretary.getJudges(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
         List<String> judgeNames = new ArrayList<>();
         List<Integer> judgeIds = new ArrayList<>();
         judgeNames.add("Выберите судью");
@@ -283,9 +282,8 @@ public class PerformanceAddFragment extends Fragment {
                 int selectedPlayer2 = player2Ids.get(selectedPositionPlayer2);
                 int selectedJudge = judgeIds.get(selectedPositionJudge);
 
-                Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr, UUID.fromString(String.valueOf(competitionId)), selectedPlayer1);
-                Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr, UUID.fromString(String.valueOf(competitionId)), selectedPlayer2);
-
+                Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer1);
+                Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer2);
                 List<Player> players = new ArrayList<>();
                 if (playerOne != null && playerTwo != null) {
                     players.add(playerOne);
@@ -296,7 +294,7 @@ public class PerformanceAddFragment extends Fragment {
                     return;
                 }
                 PerformanceSecretary performanceSecretary = new PerformanceSecretary();
-                performanceSecretary.setComp_id(competitionId);
+                performanceSecretary.setComp_id(String.valueOf(competitionId));
                 performanceSecretary.setPlayers(players);
                 performanceSecretary.setDate(date);
                 performanceSecretary.setTime(time);

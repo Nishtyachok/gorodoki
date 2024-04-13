@@ -5,22 +5,21 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CompetitionSecretary implements Serializable {
     @SerializedName("i")
-    private UUID uuid;
+    private String uuid;
     @SerializedName("n")
     private String name;
     @SerializedName("y")
     private String year;
-    @SerializedName("p1")
+    @SerializedName("p")
     private String place;
     @SerializedName("hj")
     private String headJudge;
     @SerializedName("hs")
     private String headSecretary;
-    @SerializedName("p")
+    @SerializedName("pe")
     private List<PerformanceSecretary> performanceSecretaries = new ArrayList<>();
     @SerializedName("j")
     private List<Judge> judges = new ArrayList<>();
@@ -31,7 +30,7 @@ public class CompetitionSecretary implements Serializable {
     @SerializedName("pl")
     private List<Player> players = new ArrayList<>();
 
-    public CompetitionSecretary(UUID uuid, String name, String year, String place, String headJudge, String headSecretary, List<PerformanceSecretary> performanceSecretaries, List<Judge> judges, List<Category> categories, List<Region> regions, List<Player> players) {
+    public CompetitionSecretary(String uuid, String name, String year, String place, String headJudge, String headSecretary, List<PerformanceSecretary> performanceSecretaries, List<Judge> judges, List<Category> categories, List<Region> regions, List<Player> players) {
 
         this.uuid = uuid;
         this.name = name;
@@ -49,10 +48,10 @@ public class CompetitionSecretary implements Serializable {
     public CompetitionSecretary() {
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

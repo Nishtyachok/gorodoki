@@ -1,26 +1,32 @@
 package ru.nishty.aai_referee.entity.secretary;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 public class PerformanceSecretary implements Serializable {
-    private UUID comp_id;
+    @SerializedName("i")
+    private String comp_id;
+    @SerializedName("id")
     private int id;
-    private transient int internal_id;
+    @SerializedName("p")
     private String place;
+    @SerializedName("d")
     private String date;
+    @SerializedName("pg")
     private String playground;
+    @SerializedName("pl")
     private List<Player> players;
     private transient int judgeId;
+    @SerializedName("t")
     private String time;
 
     public PerformanceSecretary() {
     }
-    public PerformanceSecretary(UUID comp_id, int id, int internal_id,  String place, String date, String playground,List<Player> players, int judgeId, String time) {
+    public PerformanceSecretary(String comp_id, int id,  String place, String date, String playground,List<Player> players, int judgeId, String time) {
         this.comp_id = comp_id;
         this.id = id;
-        this.internal_id = internal_id;
         this.place = place;
         this.date = date;
         this.playground = playground;
@@ -35,19 +41,12 @@ public class PerformanceSecretary implements Serializable {
         this.id = id;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
-    }
-
-    public int getInternal_id() {
-        return internal_id;
-    }
-    public void setInternal_id(int internal_id) {
-        this.internal_id = internal_id;
     }
     public String getPlace() {
         return place;

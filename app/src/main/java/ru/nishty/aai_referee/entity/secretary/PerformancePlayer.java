@@ -1,26 +1,24 @@
 package ru.nishty.aai_referee.entity.secretary;
 
-import java.util.UUID;
-
 public class PerformancePlayer {
-    private UUID comp_id;
+    private String comp_id;
     private int id;
     private int playerId;
     private int performanceId;
     public PerformancePlayer() {
     }
-    public PerformancePlayer(UUID comp_id, int id,int playerId,int performanceId) {
+    public PerformancePlayer(String comp_id, int id,int playerId,int performanceId) {
         this.comp_id = comp_id;
         this.id = id;
         this.playerId = playerId;
         this.performanceId = performanceId;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

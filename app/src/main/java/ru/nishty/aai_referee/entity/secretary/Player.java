@@ -1,18 +1,25 @@
 package ru.nishty.aai_referee.entity.secretary;
 
-import java.util.UUID;
+import com.google.gson.annotations.SerializedName;
 
 public class Player {
-    private UUID comp_id;
+    @SerializedName("i")
+    private String comp_id;
+    @SerializedName("iid")
     private int id;
+    @SerializedName("n")
     private String name;
+    @SerializedName("r")
     private int regionId;
+    @SerializedName("c")
     private int categoryId;
+    @SerializedName("g")
     private int grade;
 
     public Player() {
     }
-    public Player(UUID comp_id, int id, String name, int regionId, int categoryId, int grade) {
+
+    public Player(String comp_id, int id, String name, int regionId, int categoryId, int grade) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
@@ -21,11 +28,11 @@ public class Player {
         this.grade = grade;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 
@@ -68,6 +75,7 @@ public class Player {
     public void setGrade(int grade) {
         this.grade = grade;
     }
+
     @Override
     public String toString() {
         return "Player{" +

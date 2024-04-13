@@ -17,8 +17,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.util.UUID;
-
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 
@@ -79,7 +77,7 @@ public class CompetitionQrFragment extends Fragment {
 
 class QrCodeData {
     @SerializedName("i")
-    private UUID uuid;
+    private String uuid;
     @SerializedName("n")
     private String name;
     @SerializedName("y")
@@ -87,11 +85,11 @@ class QrCodeData {
     @SerializedName("p")
     private String place;
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

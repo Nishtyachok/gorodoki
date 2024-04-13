@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-import ru.nishty.aai_referee.entity.secretary.Region;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.Region;
 
 public class RegionFragment extends Fragment {
 
@@ -44,7 +46,7 @@ public class RegionFragment extends Fragment {
         if (arguments != null) {
             competitionUuid = arguments.getString("competitionUuid");
         }
-        regionsList = dataBaseHelperSecretary.getRegions(dbr, UUID.fromString(competitionUuid));
+        regionsList = dataBaseHelperSecretary.getRegions(dbr, competitionUuid);
         if(regionsList==null)
             regionsList = new ArrayList<>();
         setupRecyclerView();
@@ -73,12 +75,12 @@ public class RegionFragment extends Fragment {
                     String name = etRegionName.getText().toString();
 
                     Region region = new Region();
-                    region.setComp_id(UUID.fromString(competitionUuid));
+                    region.setComp_id(competitionUuid);
                     region.setName(name);
 
 
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
-                    long regionId = dataBaseHelperSecretary.addRegion(db, region, UUID.fromString(competitionUuid));
+                    long regionId = dataBaseHelperSecretary.addRegion(db, region, competitionUuid);
 
                     if (regionId != -1) {
                         regionsList.add(region);

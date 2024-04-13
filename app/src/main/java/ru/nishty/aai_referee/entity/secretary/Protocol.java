@@ -1,12 +1,8 @@
 package ru.nishty.aai_referee.entity.secretary;
 
 
-import java.util.UUID;
-
 public class Protocol  {
-
-
-    private UUID comp_id;
+    private String comp_id;
     private int perf_id;
     private int id;
     private int game1;
@@ -21,7 +17,7 @@ public class Protocol  {
     public Protocol() {
     }
 
-    public Protocol(UUID comp_id, int perf_id, int id, int game1, int game2, int games_sum, String shots1, String shots2, int player_id, int limit, int tours) {
+    public Protocol(String comp_id, int perf_id, int id, int game1, int game2, int games_sum, String shots1, String shots2, int player_id, int limit, int tours) {
         this.comp_id = comp_id;
         this.perf_id = perf_id;
         this.id = id;
@@ -35,11 +31,11 @@ public class Protocol  {
         this.tours = tours;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

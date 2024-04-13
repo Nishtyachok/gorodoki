@@ -2,16 +2,19 @@ package ru.nishty.aai_referee.entity.referee;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-public class PlayerRef {
-    private UUID comp_id;
+public class PlayerRef implements Serializable {
+
+    @SerializedName("i")
+    private String comp_id;
+    @SerializedName("id")
     private int perf_id;
     @SerializedName("c")
     private String category;
     @SerializedName("g")
     private int grade;
-    @SerializedName("id")
+    @SerializedName("iid")
     private int id;
     @SerializedName("n")
     private String name;
@@ -19,7 +22,7 @@ public class PlayerRef {
     private String region;
     public PlayerRef() {
     }
-    public PlayerRef(UUID comp_id,int perf_id, String name, int id, int grade, String region, String category) {
+    public PlayerRef(String comp_id,int perf_id, String name, int id, int grade, String region, String category) {
         this.comp_id = comp_id;
         this.perf_id = perf_id;
         this.name = name;
@@ -29,11 +32,11 @@ public class PlayerRef {
         this.category = category;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

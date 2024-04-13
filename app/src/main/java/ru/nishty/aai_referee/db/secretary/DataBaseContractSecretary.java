@@ -88,7 +88,6 @@ public final class DataBaseContractSecretary {
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_JUDGE_ID = "judge_id";
         public static final String COLUMN_PLAYGROUND = "playground";
-        public static final String COLUMN_INTERNAL_ID = "i_id";
     }
 
     public static class Protocol implements BaseColumns {
@@ -106,7 +105,7 @@ public final class DataBaseContractSecretary {
     }
     public static final String SQL_CREATE_ENTRIES_COMPETITION =
             "CREATE TABLE " + Competition.TABLE_NAME + " (" +
-                    Competition._ID + " BLOB PRIMARY KEY, " +
+                    Competition._ID + " TEXT PRIMARY KEY, " +
                     Competition.COLUMN_NAME + " TEXT, " +
                     Competition.COLUMN_YEAR + " TEXT, " +
                     Competition.COLUMN_PLACE + " TEXT, " +
@@ -116,7 +115,7 @@ public final class DataBaseContractSecretary {
     public static final String SQL_CREATE_ENTRIES_JUDGE =
             "CREATE TABLE " + Judge.TABLE_NAME + " (" +
                     Judge._ID + " INTEGER PRIMARY KEY, " +
-                    Performance.COLUMN_COMPETITION + " BLOB, " +
+                    Performance.COLUMN_COMPETITION + " TEXT, " +
                     Judge.COLUMN_NAME + " TEXT, " +
                     Judge.COLUMN_CATEGORY + " TEXT, " +
                     Judge.COLUMN_REGION + " TEXT, " +
@@ -126,7 +125,7 @@ public final class DataBaseContractSecretary {
             "CREATE TABLE " + Region.TABLE_NAME + " (" +
                     Region._ID + " INTEGER PRIMARY KEY, " +
                     Region.COLUMN_NAME + " TEXT, " +
-                    Region.COLUMN_COMPETITION + " BLOB, " +
+                    Region.COLUMN_COMPETITION + " TEXT, " +
                     "FOREIGN KEY (" + Region.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE); ";
     public static final String SQL_CREATE_ENTRIES_PLAYER =
@@ -136,7 +135,7 @@ public final class DataBaseContractSecretary {
                     Player.COLUMN_REGION_ID + " INTEGER, " +
                     Player.COLUMN_CATEGORY_ID + " INTEGER, " +
                     Player.COLUMN_GRADE + " INTEGER, " +
-                    Player.COLUMN_COMPETITION + " BLOB, " +
+                    Player.COLUMN_COMPETITION + " TEXT, " +
                     "FOREIGN KEY (" + Player.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE "+
                     "FOREIGN KEY (" + Player.COLUMN_REGION_ID + ") REFERENCES " +
@@ -146,13 +145,12 @@ public final class DataBaseContractSecretary {
     public static final String SQL_CREATE_ENTRIES_PERFORMANCE =
             "CREATE TABLE " + Performance.TABLE_NAME + " (" +
                     Performance._ID + " INTEGER PRIMARY KEY, " +
-                    Performance.COLUMN_COMPETITION + " BLOB, " +
+                    Performance.COLUMN_COMPETITION + " TEXT, " +
                     Performance.COLUMN_TIME + " TEXT, " +
                     Performance.COLUMN_DATE + " TEXT, " +
                     Performance.COLUMN_PLACE + " TEXT, " +
                     Performance.COLUMN_PLAYGROUND + " TEXT, " +
 
-                    Performance.COLUMN_INTERNAL_ID + " INTEGER, " +
                     Performance.COLUMN_JUDGE_ID + " INTEGER, " +
                     "FOREIGN KEY (" + Performance.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE " +
@@ -166,13 +164,13 @@ public final class DataBaseContractSecretary {
                     Category.COLUMN_TOURS + " INTEGER, " +
                     Category.COLUMN_FIGURES + " INTEGER, " +
                     Category.COLUMN_LIMIT + " INTEGER, " +
-                    Category.COLUMN_COMPETITION + " BLOB)";
+                    Category.COLUMN_COMPETITION + " TEXT)";
     public static final String SQL_CREATE_ENTRIES_PERFORMANCEPLAYER =
             "CREATE TABLE " + PerformancePlayer.TABLE_NAME + " (" +
                     PerformancePlayer._ID + " INTEGER PRIMARY KEY, " +
                     PerformancePlayer.COLUMN_PLAYER_ID + " INTEGER, " +
                     PerformancePlayer.COLUMN_PERFORMANCE_ID + " INTEGER, "+
-                    PerformancePlayer.COLUMN_COMPETITION + " BLOB, " +
+                    PerformancePlayer.COLUMN_COMPETITION + " TEXT, " +
                     "FOREIGN KEY (" + PerformancePlayer.COLUMN_PERFORMANCE_ID + ") REFERENCES " +
                     Performance.TABLE_NAME + "(" + Performance._ID + ")ON DELETE CASCADE ON UPDATE CASCADE "+
                     "FOREIGN KEY (" + PerformancePlayer.COLUMN_PERFORMANCE_ID + ") REFERENCES " +
@@ -183,7 +181,7 @@ public final class DataBaseContractSecretary {
     public static final String SQL_CREATE_ENTRIES_PROTOCOL =
             "CREATE TABLE " + Protocol.TABLE_NAME + " (" +
                     Protocol._ID + " INTEGER PRIMARY KEY, " +
-                    Protocol.COLUMN_COMPETITION + " BLOB, " +
+                    Protocol.COLUMN_COMPETITION + " TEXT, " +
                     Protocol.COLUMN_PERFORMANCE_ID + " INTEGER, " +
                     Protocol.COLUMN_PLAYER_ID + " INTEGER, " +
                     Protocol.COLUMN_SHOTS1 + " TEXT, " +

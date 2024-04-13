@@ -2,11 +2,10 @@ package ru.nishty.aai_referee.entity.referee;
 
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Protocol implements Serializable {
 
-    private UUID comp_id;
+    private String comp_id;
     private int perf_id;
     private int id;
     private String name;
@@ -20,15 +19,15 @@ public class Protocol implements Serializable {
     public Protocol() {
     }
 
-    public Protocol(UUID comp_id) {
+    public Protocol(String comp_id) {
         this.comp_id = comp_id;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

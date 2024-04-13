@@ -6,17 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import androidx.fragment.app.Fragment;
+
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
-
-import java.util.UUID;
 
 public class SecretaryFragment extends Fragment {
 
@@ -111,7 +112,7 @@ public class SecretaryFragment extends Fragment {
 
     private void generateQRCode() {
         CompetitionSecretary competitionSecretary = new CompetitionSecretary();
-        competitionSecretary.setUuid(UUID.randomUUID());
+        competitionSecretary.setUuid("vriq21");
         competitionSecretary.setName("13.04 - 17.04 2023");
         competitionSecretary.setYear("Championship TO");
         competitionSecretary.setPlace("Tomsk region, Seversk");

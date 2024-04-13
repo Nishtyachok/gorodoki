@@ -1,9 +1,7 @@
 package ru.nishty.aai_referee.entity.secretary;
 
-import java.util.UUID;
-
 public class Category {
-    private UUID comp_id;
+    private String comp_id;
     private int id;
     private String name;
     private String agelimit;
@@ -13,7 +11,7 @@ public class Category {
 
     public Category() {
     }
-    public Category(UUID comp_id, int id, String name,String agelimit, int tours, int figures, int limit) {
+    public Category(String comp_id, int id, String name,String agelimit, int tours, int figures, int limit) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
@@ -23,11 +21,11 @@ public class Category {
         this.limit = limit;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 

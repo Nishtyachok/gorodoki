@@ -2,15 +2,15 @@ package ru.nishty.aai_referee.entity.referee;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Performance {
-    private UUID comp_id;
+public class Performance implements Serializable {
     @SerializedName("i")
+    private String comp_id;
+    @SerializedName("id")
     private int id;
-    private int internal_id;
     @SerializedName("pl")
     private List<PlayerRef> players = new ArrayList<>();
     @SerializedName("p")
@@ -30,20 +30,12 @@ public class Performance {
         this.id = id;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
-    }
-
-    public int getInternal_id() {
-        return internal_id;
-    }
-
-    public void setInternal_id(int internal_id) {
-        this.internal_id = internal_id;
     }
 
     public String getPlace() {
@@ -55,7 +47,7 @@ public class Performance {
     }
 
     public void setPlayers(List<PlayerRef> playerRefs) {
-        this.players = playerRefs;
+        players = playerRefs;
     }
 
     public void setPlace(String place) {

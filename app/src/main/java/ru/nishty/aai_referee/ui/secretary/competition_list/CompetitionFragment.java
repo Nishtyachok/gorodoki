@@ -72,7 +72,7 @@ public class CompetitionFragment extends Fragment {
             @Override
             public void onStateClick(CompetitionSecretary competition, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("id",String.valueOf(competition.getUuid()));
+                bundle.putSerializable("id",competition.getUuid());
                 //bundle.putInt("discipline",competition.getDiscipline());
                 NavHostFragment.findNavController(CompetitionFragment.this)
                         .navigate(R.id.action_competitionFragment2_to_fragmentPerformance22,bundle);

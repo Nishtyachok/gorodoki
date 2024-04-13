@@ -2,23 +2,23 @@ package ru.nishty.aai_referee.entity.referee;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Competition {
-    @SerializedName("c")
-    private UUID uuid;
+public class Competition implements Serializable {
+    @SerializedName("i")
+    private String uuid;
     @SerializedName("n")
     private String name;
     @SerializedName("y")
     private String year;
-    @SerializedName("p1")
-    private String place;
     @SerializedName("p")
+    private String place;
+    @SerializedName("pe")
     private List<Performance> performances = new ArrayList<>();
 
-    public Competition(UUID uuid, String name, String year,String place, int discipline, List<Performance> performances) {
+    public Competition(String uuid, String name, String year,String place, List<Performance> performances) {
         this.uuid = uuid;
         this.name = name;
         this.year = year;
@@ -29,11 +29,11 @@ public class Competition {
     public Competition() {
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

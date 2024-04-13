@@ -3,10 +3,12 @@ package ru.nishty.aai_referee;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,17 +20,20 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-
 import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.entity.referee.Performance;
 import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
-
 import ru.nishty.aai_referee.listeners.ScanListener;
 import ru.nishty.aai_referee.ui.referee.competition_list.placeholder.CompetitionContent;
 
@@ -129,44 +134,58 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public boolean isCompetitionQR(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.has("y");
+        } catch (JSONException e) {
+            Log.e("QR Parsing", "Invalid JSON format", e);
+            return false;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        // if the intentResult is null then
-        // toast a message as "cancelled"
         if (intentResult != null) {
             if (intentResult.getContents() == null) {
                 Toast.makeText(getBaseContext(), R.string.cancelled, Toast.LENGTH_SHORT).show();
             } else {
-                // if the intentResult is not null we'll set
-                // the content and format of scan message
-
                 Gson gson = new Gson();
-                Competition competition;
-                competition = gson.fromJson(intentResult.getContents(),Competition.class);
+                if (isCompetitionQR(intentResult.getContents())) { // QR-код соревнования
+                    Competition competition = gson.fromJson(intentResult.getContents(), Competition.class);
+                    DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
+                    SQLiteDatabase dbr = dataBaseHelperReferee.getWritableDatabase();
+                    dataBaseHelperReferee.addCompetition(dbr, competition);
+                    dbr.close();
+                    dataBaseHelperReferee.close();
 
-                DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
+                    CompetitionSecretary competition1 = gson.fromJson(intentResult.getContents(), CompetitionSecretary.class);
+                    DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
+                    SQLiteDatabase dbs = dataBaseHelperSecretary.getWritableDatabase();
+                    dataBaseHelperSecretary.addCompetition(dbs, competition1);
+                    dbs.close();
+                    dataBaseHelperSecretary.close();
 
-                SQLiteDatabase dbr = dataBaseHelperReferee.getWritableDatabase();
+                    String competitionUuid = competition.getUuid();
+                } else { // QR-код performance
+                    Performance performance = gson.fromJson(intentResult.getContents(), Performance.class);
+                    String competitionUuid = performance.getComp_id();
 
-                dataBaseHelperReferee.addCompetition(dbr, competition);
-                dbr.close();
-                dataBaseHelperReferee.close();
+                    DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
+                    SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
+                    Competition competition = dataBaseHelperReferee.getCompetitionByUuid(db, competitionUuid);
 
+                    if (competition != null) {
+                        dataBaseHelperReferee.addPerformance(db, competition.getUuid(), performance);
+                    }
 
-                CompetitionSecretary competition1;
-                competition1 = gson.fromJson(intentResult.getContents(),CompetitionSecretary.class);
-                DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
-                SQLiteDatabase dbs = dataBaseHelperSecretary.getWritableDatabase();
-                dataBaseHelperSecretary.addCompetition(dbs, competition1);
-                dbs.close();
-                dataBaseHelperSecretary.close();
-
+                    db.close();
+                    dataBaseHelperReferee.close();
+                }
 
                 CompetitionContent.onScan();
-
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

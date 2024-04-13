@@ -48,7 +48,7 @@
         tools:layout="@layout/fragment_performance_list">
 
         <argument
-            android:name="id"
+            android:name="i"
             app:argType="string" />
         <action
             android:id="@+id/action_fragmentPerformance_to_competitionFragment"
@@ -56,9 +56,6 @@
         <action
             android:id="@+id/action_fragmentPerformance_to_protocolFillingFragment"
             app:destination="@id/protocolFillingFragment" />
-        <argument
-            android:name="discipline"
-            app:argType="integer" />
         <action
             android:id="@+id/action_fragmentPerformance_to_protocolQrFragment"
             app:destination="@id/protocolQrFragment" />

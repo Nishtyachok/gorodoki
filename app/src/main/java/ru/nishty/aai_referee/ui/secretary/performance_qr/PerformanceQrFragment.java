@@ -1,5 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.performance_qr;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,9 +20,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
 import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
 import ru.nishty.aai_referee.entity.secretary.Player;
 
@@ -34,6 +35,8 @@ public class PerformanceQrFragment extends Fragment {
 
     private static final String ARG_PERFORMANCE_SECRETARY = "performance";
     private static PerformanceSecretary performanceSecretary;
+    private DataBaseHelperSecretary dataBaseHelperSecretary;
+
 
     public PerformanceQrFragment() {
         // Required empty public constructor
@@ -57,6 +60,9 @@ public class PerformanceQrFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
+        SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
         View view = inflater.inflate(R.layout.fragment_protocol_qr, container, false);
         ImageView qrCodeIV = view.findViewById(R.id.idIVQrcode);
 
@@ -72,8 +78,8 @@ public class PerformanceQrFragment extends Fragment {
             PlayerQrData playerQrData = new PlayerQrData();
             playerQrData.setId(player.getId());
             playerQrData.setName(player.getName());
-            playerQrData.setRegionId(player.getRegionId());
-            playerQrData.setCategoryId(player.getCategoryId());
+            playerQrData.setRegionId(dataBaseHelperSecretary.getRegionNameById(dbr, player.getRegionId()));
+            playerQrData.setCategoryId(dataBaseHelperSecretary.getCategoryNameById(dbr, player.getCategoryId()));
             playerQrData.setGrade(player.getGrade());
             playerQrDataList.add(playerQrData);
         }
@@ -97,9 +103,9 @@ public class PerformanceQrFragment extends Fragment {
 }
 
 class QrCodeData {
-    @SerializedName("c")
-    private UUID comp_id;
     @SerializedName("i")
+    private String comp_id;
+    @SerializedName("id")
     private int id;
     @SerializedName("p")
     private String place;
@@ -111,11 +117,12 @@ class QrCodeData {
     private List<PlayerQrData> players;
     @SerializedName("t")
     private String time;
-    public UUID getComp_id() {
+
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 
@@ -169,18 +176,17 @@ class QrCodeData {
 }
 
 class PlayerQrData {
-    @SerializedName("id")
+    @SerializedName("iid")
     private int id;
     @SerializedName("n")
     private String name;
     @SerializedName("r")
-    private int regionId;
+    private String regionId;
     @SerializedName("c")
-    private int categoryId;
+    private String categoryId;
     @SerializedName("g")
     private int grade;
 
-    // Геттеры и сеттеры для полей
     public int getId() {
         return id;
     }
@@ -197,19 +203,19 @@ class PlayerQrData {
         this.name = name;
     }
 
-    public int getRegionId() {
+    public String getRegionId() {
         return regionId;
     }
 
-    public void setRegionId(int regionId) {
+    public void setRegionId(String regionId) {
         this.regionId = regionId;
     }
 
-    public int getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

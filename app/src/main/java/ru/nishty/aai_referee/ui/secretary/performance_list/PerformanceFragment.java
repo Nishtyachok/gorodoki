@@ -27,7 +27,7 @@ import ru.nishty.aai_referee.entity.secretary.Protocol;
 public class PerformanceFragment extends Fragment {
 
     private static final String ARG_ID = "id";
-    private static UUID ID;
+    private static String ID;
     private int mColumnCount = 1;
 
     public PerformanceFragment() {
@@ -45,7 +45,7 @@ public class PerformanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (getArguments() != null) {
-            ID = UUID.fromString(getArguments().getString(ARG_ID));
+            ID = getArguments().getString(ARG_ID);
         }
         View view = inflater.inflate(R.layout.fragment_performance_list_secretary, container, false);
         FloatingActionButton addButton = view.findViewById(R.id.add_performance_button);

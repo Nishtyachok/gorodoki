@@ -7,19 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
-import ru.nishty.aai_referee.entity.secretary.Judge;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
+import ru.nishty.aai_referee.entity.secretary.Judge;
 
 public class JudgeFragment extends Fragment {
 
@@ -44,7 +46,7 @@ public class JudgeFragment extends Fragment {
         if (arguments != null) {
             competitionUuid = arguments.getString("competitionUuid");
         }
-        judgesList = dataBaseHelperSecretary.getJudges(dbr, UUID.fromString(competitionUuid));
+        judgesList = dataBaseHelperSecretary.getJudges(dbr, competitionUuid);
         if(judgesList==null)
             judgesList = new ArrayList<>();
         setupRecyclerView();
@@ -74,13 +76,13 @@ public class JudgeFragment extends Fragment {
                     String region = etJudgeRegion.getText().toString();
                     String category = etJudgeCategory.getText().toString();
                     Judge judge = new Judge();
-                    judge.setComp_id(UUID.fromString(competitionUuid));
+                    judge.setComp_id(competitionUuid);
                     judge.setName(name);
                     judge.setRegion(region);
                     judge.setCategory(category);
 
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
-                    long judgeId = dataBaseHelperSecretary.addJudge(db, judge, UUID.fromString(competitionUuid));
+                    long judgeId = dataBaseHelperSecretary.addJudge(db, judge, competitionUuid);
 
                     if (judgeId != -1) {
                         judgesList.add(judge);

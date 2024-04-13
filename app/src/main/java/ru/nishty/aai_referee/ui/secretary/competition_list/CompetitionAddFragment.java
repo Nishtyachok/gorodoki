@@ -20,7 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.nishty.aai_referee.R;
@@ -39,10 +39,21 @@ public class CompetitionAddFragment extends Fragment {
     private EditText etCompetitionLocation;
     private EditText etHeadJudge;
     private EditText etHeadSecretary;
-    private UUID uuid = UUID.randomUUID();
+    private String uuid = generateRandomString();
 
     private CompetitionSecretary competitionSecretary;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
+
+    private static String generateRandomString() {
+        String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder randomString = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            randomString.append(characters.charAt(randomIndex));
+        }
+        return randomString.toString();
+    }
 
     @Nullable
     @Override
@@ -262,13 +273,13 @@ public class CompetitionAddFragment extends Fragment {
 
     private void navigateToJudgesFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString("competitionUuid", competitionSecretary.getUuid().toString());
+        bundle.putString("competitionUuid", competitionSecretary.getUuid());
         Navigation.findNavController(requireView()).navigate(R.id.action_competitionAddFragment_to_judgesFragment, bundle);
     }
 
     private void navigateToPlayersFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString("competitionUuid", competitionSecretary.getUuid().toString());
+        bundle.putString("competitionUuid", competitionSecretary.getUuid());
         Navigation.findNavController(requireView()).navigate(R.id.action_competitionAddFragment_to_playersFragment, bundle);
     }
 

@@ -1,9 +1,7 @@
 package ru.nishty.aai_referee.entity.secretary;
 
-import java.util.UUID;
-
 public class Judge {
-    private UUID comp_id;
+    private String comp_id;
     private int id;
     private String name;
     private String region;
@@ -11,7 +9,7 @@ public class Judge {
 
     public Judge() {
     }
-    public Judge(UUID comp_id, int id, String name, String region, String category) {
+    public Judge(String comp_id, int id, String name, String region, String category) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
@@ -19,11 +17,11 @@ public class Judge {
         this.category = category;
     }
 
-    public UUID getComp_id() {
+    public String getComp_id() {
         return comp_id;
     }
 
-    public void setComp_id(UUID comp_id) {
+    public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
     }
 
