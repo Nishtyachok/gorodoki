@@ -1,7 +1,10 @@
 package ru.nishty.aai_referee;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,28 +42,46 @@ import ru.nishty.aai_referee.ui.referee.competition_list.placeholder.Competition
 
 public class MainActivity extends AppCompatActivity {
 
+    private int currentApiVersion;
 
     private AppBarConfiguration appBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getApplicationContext());
 
-        SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
-        dataBaseHelperReferee.onUpgrade(db,1,1);
-        db.close();
-        dataBaseHelperReferee.close();
 
-        DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
-        SQLiteDatabase db1 = dataBaseHelperSecretary.getWritableDatabase();
-        dataBaseHelperSecretary.onUpgrade(db1,1,1);
-        db1.close();
-        dataBaseHelperSecretary.close();
-        */
+        currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+
+        if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
+        {
+
+            getWindow().getDecorView().setSystemUiVisibility(flags);
+            final View decorView = getWindow().getDecorView();
+
+            decorView
+                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
+                    {
+                        @Override
+                        public void onSystemUiVisibilityChange(int visibility)
+                        {
+                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+                            {
+                                decorView.setSystemUiVisibility(flags);
+                            }
+                        }
+                    });
+        }
+
         setContentView(R.layout.activity_main);
-
         AppBarConfiguration appBarConfiguration;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -77,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
-        setToolbar();
+
+
 
         CompetitionContent.setClickListener(new ScanListener() {
             @Override
@@ -99,7 +121,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @SuppressLint("NewApi")
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
+        if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
+        {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);

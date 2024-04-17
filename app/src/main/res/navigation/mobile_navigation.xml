@@ -89,18 +89,16 @@
 
     <fragment
         android:id="@+id/protocolFillingFragment"
-        android:name="ru.nishty.aai_referee.ui.referee.protocol_filling.ProtocolFillingFragment"
+        android:name="ru.nishty.aai_referee.ui.referee.protocol_filling.ProtocolFillingPlayerFragment"
         android:label="@string/protocol"
-        tools:layout="@layout/fragment_protocol_filling">
+        tools:layout="@layout/fragment_protocol_filling_pager">
         <argument
             android:name="protocol"
             app:argType="ru.nishty.aai_referee.entity.referee.Protocol" />
         <argument
-            android:name="name"
-            app:argType="string" />
-        <argument
-            android:name="discipline"
-            app:argType="integer" />
+            android:name="performance"
+            app:argType="ru.nishty.aai_referee.entity.referee.Performance" />
+
         <action
             android:id="@+id/action_protocolFillingFragment_to_protocolQrFragment"
             app:destination="@id/protocolQrFragment" />
@@ -118,12 +116,10 @@
         <argument
             android:name="protocol"
             app:argType="ru.nishty.aai_referee.entity.referee.Protocol" />
+
         <argument
-            android:name="discipline"
-            app:argType="integer" />
-        <argument
-            android:name="name"
-            app:argType="string" />
+            android:name="performance"
+            app:argType="ru.nishty.aai_referee.entity.referee.Performance" />
     </fragment>
     <fragment
             android:id="@+id/protocolQrFragment2"
@@ -165,9 +161,7 @@
         <argument
                 android:name="protocol"
                 app:argType="ru.nishty.aai_referee.entity.referee.Protocol"/>
-        <argument
-                android:name="discipline"
-                app:argType="integer"/>
+
         <argument
                 android:name="name"
                 app:argType="string"/>

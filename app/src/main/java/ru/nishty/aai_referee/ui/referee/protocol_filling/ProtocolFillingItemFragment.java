@@ -30,7 +30,6 @@ public class ProtocolFillingItemFragment extends Fragment {
     private View view;
 
     public ProtocolFillingItemFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -63,13 +62,12 @@ public class ProtocolFillingItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_protocol_filling_item, container, false);
         return view;
     }
 
-    public int getValue(){
+    public int getValue() {
         RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
         RadioButton radioButton;
         int id = radioGroup.getCheckedRadioButtonId();

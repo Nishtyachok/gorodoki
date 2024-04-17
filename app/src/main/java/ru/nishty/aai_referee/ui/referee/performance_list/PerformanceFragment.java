@@ -13,11 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
-import ru.nishty.aai_referee.entity.referee.PlayerRef;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 import ru.nishty.aai_referee.ui.referee.performance_list.placeholder.PerformanceContent;
 
@@ -29,6 +26,7 @@ public class PerformanceFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_ID = "i";
     private static String ID;
+
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
@@ -83,48 +81,34 @@ public class PerformanceFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            ;
 
             recyclerView.setAdapter(new MyPerformanceRecyclerViewAdapter
                     (
                             PerformanceContent.ITEM_MAP,
                             (performance) -> {
-                                List<PlayerRef> players = performance.getPlayers();
-                                for (PlayerRef player : players) {
-                                    try {
-                                        DataBaseHelperReferee dataBaseHelperReferee1 = new DataBaseHelperReferee(getContext());
-                                        SQLiteDatabase db1 = dataBaseHelperReferee1.getReadableDatabase();
-                                        Protocol protocol = dataBaseHelperReferee1.getProtocol(db1, ID, performance.getId());
-                                        protocol.setName(player.getName());
+                                try {
+                                    DataBaseHelperReferee dataBaseHelperReferee1 = new DataBaseHelperReferee(getContext());
+                                    SQLiteDatabase db1 = dataBaseHelperReferee1.getReadableDatabase();
+                                    Protocol protocol = dataBaseHelperReferee1.getProtocol(db1, ID, performance.getId());
+                                    Bundle arg = new Bundle();
 
-                                        Bundle arg = new Bundle();
-                                        arg.putSerializable("protocol", protocol);
-                                        arg.putString("date", performance.getDate());
-                                        arg.putString("time", performance.getTime());
-                                        arg.putString("playground", performance.getPlayground());
-                                        arg.putString("category", player.getCategory());
-                                        arg.putInt("grade", player.getGrade());
-                                        arg.putString("region", player.getRegion());
+                                    arg.putSerializable("protocol", protocol);
+                                    arg.putSerializable("performance", performance);
 
-                                        NavHostFragment.findNavController(PerformanceFragment.this)
-                                                .navigate(R.id.action_fragmentPerformance_to_protocolQrFragment, arg);
-                                    } catch (Exception e) {
-                                        Protocol p = new Protocol();
-                                        p.setComp_id(ID);
-                                        p.setPerf_id(performance.getId());
+                                    NavHostFragment.findNavController(PerformanceFragment.this)
+                                            .navigate(R.id.action_fragmentPerformance_to_protocolQrFragment, arg);
+                                } catch (Exception e) {
+                                    Protocol p = new Protocol();
+                                    p.setComp_id(ID);
+                                    p.setPerf_id(performance.getId());
 
-                                        Bundle arg = new Bundle();
-                                        arg.putSerializable("protocol", p);
-                                        arg.putString("date", performance.getDate());
-                                        arg.putString("time", performance.getTime());
-                                        arg.putString("playground", performance.getPlayground());
-                                        arg.putString("category", player.getCategory());
-                                        arg.putInt("grade", player.getGrade());
-                                        arg.putString("region", player.getRegion());
+                                    Bundle arg = new Bundle();
+                                    arg.putSerializable("protocol", p);
+                                    arg.putSerializable("performance", performance);
 
-                                        NavHostFragment.findNavController(PerformanceFragment.this)
-                                                .navigate(R.id.action_fragmentPerformance_to_protocolFillingFragment, arg);
-                                    }
+
+                                    NavHostFragment.findNavController(PerformanceFragment.this)
+                                            .navigate(R.id.action_fragmentPerformance_to_protocolFillingFragment, arg);
                                 }
                             }
                     ));

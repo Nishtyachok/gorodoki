@@ -13,10 +13,7 @@ import java.util.List;
 import ru.nishty.aai_referee.databinding.FragmentProtocolFillingItemBinding;
 
 public class MyProtocolRecyclerViewAdapter extends RecyclerView.Adapter<MyProtocolRecyclerViewAdapter.ViewHolder> {
-
     private final List<Integer> mValues;
-
-
 
     public MyProtocolRecyclerViewAdapter(List<Integer> mValues) {
         this.mValues = mValues;
@@ -39,11 +36,9 @@ public class MyProtocolRecyclerViewAdapter extends RecyclerView.Adapter<MyProtoc
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mDisciplineView;
         public final RadioGroup mRadioGroup;
-
 
         public ViewHolder(FragmentProtocolFillingItemBinding binding) {
             super(binding.getRoot());

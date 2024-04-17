@@ -20,6 +20,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import ru.nishty.aai_referee.R;
+import ru.nishty.aai_referee.entity.referee.Performance;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 
 /**
@@ -31,10 +32,9 @@ public class ProtocolQrFragment extends Fragment {
 
 
     private static final String ARG_PROTOCOL = "protocol";
-    private static final String ARG_NAME = "name";
+    private static final String ARG_PERFORMANCE = "performance";
     private static Protocol protocol;
-    private static int discipline;
-    private static String name;
+    private static Performance performance;
 
     public ProtocolQrFragment() {
         // Required empty public constructor
@@ -42,11 +42,11 @@ public class ProtocolQrFragment extends Fragment {
 
 
 
-    public static ProtocolQrFragment newInstance(Protocol protocol) {
+    public static ProtocolQrFragment newInstance(Protocol protocol,Performance performance) {
         ProtocolQrFragment fragment = new ProtocolQrFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PROTOCOL, protocol);
-        args.putString(ARG_NAME,name);
+        args.putSerializable(ARG_PERFORMANCE, performance);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +56,7 @@ public class ProtocolQrFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             protocol = (Protocol) getArguments().getSerializable(ARG_PROTOCOL);
-            name = getArguments().getString(ARG_NAME);
+            performance = (Performance) getArguments().getSerializable(ARG_PERFORMANCE);
         }
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -85,7 +85,7 @@ public class ProtocolQrFragment extends Fragment {
         ImageView qrCodeIV = view.findViewById(R.id.idIVQrcode);
         getActivity().getActionBar();
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(name);
+        toolbar.setTitle(performance.getPlayers().get(0).getName());
         
 
         String str;

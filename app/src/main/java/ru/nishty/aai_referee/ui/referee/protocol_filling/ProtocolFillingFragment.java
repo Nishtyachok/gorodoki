@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -21,10 +20,13 @@ import java.util.List;
 
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
+import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
+import ru.nishty.aai_referee.entity.referee.Performance;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 
 
 public class ProtocolFillingFragment extends Fragment {
+
     private View view;
     private List<Button> buttons;
     private List<String> buttonActions;
@@ -34,41 +36,45 @@ public class ProtocolFillingFragment extends Fragment {
     private TextView textView17;
     private TextView textView18;
     private TextView textView19;
-
-    private List<String> itemList;  // Список из 15 элементов
-
+    private List<String> itemList;
     private static final String ARG_PROTOCOL = "protocol";
-    private static final String ARG_DISCIPLINE = "discipline";
-    private static final String ARG_NAME = "name";
-    private static final String ARG_GRADE = "grade";
-    private static final String ARG_REGION = "region";
-    private static final String ARG_DATE = "date";
-    private static final String ARG_PLAYGROUND = "playground";
-    private static final String ARG_CATEGORY = "category";
-    private static final String ARG_TIME = "time";
+    private static final String ARG_PERFORMANCE = "performance";
 
     private static Protocol protocol;
-    private static int discipline;
-    private static String name;
-    private static String grade;
-    private static String region;
-    private static String date;
-    private static String playground;
-    private static String category;
-    private static String time;
-
+    private static Performance performance;
+    private ProtocolFillingPagerAdapter pagerAdapter;
+    private int currentPage = 0;
+    private int position;
 
     public ProtocolFillingFragment() {
+    }
+
+    public static ProtocolFillingFragment newInstance(Protocol protocol, Performance performance, int position) {
+        ProtocolFillingFragment fragment = new ProtocolFillingFragment();
+        Bundle args = new Bundle();
+        args.putInt("position", position);
+        args.putSerializable("protocol", protocol);
+        args.putSerializable("performance", performance);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            protocol = (Protocol) getArguments().getSerializable("protocol");
+            performance = (Performance) getArguments().getSerializable("performance");
+            currentPage = getArguments().getInt("position");
+        }
+        initializeItemList();
+    }
 
-        // Инициализация списка элементов
+    private void initializeItemList() {
         itemList = Arrays.asList("пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо",
                 "пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо");
     }
+
 
     @Nullable
     @Override
@@ -76,15 +82,9 @@ public class ProtocolFillingFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
+            position = getArguments().getInt("position");
             protocol = (Protocol) getArguments().getSerializable(ARG_PROTOCOL);
-            discipline = getArguments().getInt(ARG_DISCIPLINE);
-            name = getArguments().getString(ARG_NAME);
-            grade = getArguments().getString(ARG_GRADE);
-            region = getArguments().getString(ARG_REGION);
-            date = getArguments().getString(ARG_DATE);
-            playground = getArguments().getString(ARG_PLAYGROUND);
-            category = getArguments().getString(ARG_CATEGORY);
-            time = getArguments().getString(ARG_TIME);
+            performance = (Performance) getArguments().getSerializable(ARG_PERFORMANCE);
         }
 
         view = inflater.inflate(R.layout.fragment_protocol_filling, container, false);
@@ -97,15 +97,13 @@ public class ProtocolFillingFragment extends Fragment {
         TextView category_t = view.findViewById(R.id.performance_category);
         TextView region_t = view.findViewById(R.id.performance_region);
 
-        name_t.setText(name);
-        time_t.setText(time);
-        playground_t.setText(playground);
-        date_t.setText(date);
-        grade_t.setText(grade);
-        category_t.setText(category);
-        region_t.setText(region);
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(name);
+        time_t.setText(performance.getTime());
+        playground_t.setText(performance.getPlayground() + " playground");
+        date_t.setText(performance.getDate());
+        name_t.setText(performance.getPlayers().get(currentPage).getName());
+        grade_t.setText(getContext().getString(DataBaseContractSecretary.GradeHelper.getGrade(performance.getPlayers().get(currentPage).getGrade())));
+        category_t.setText(performance.getPlayers().get(currentPage).getCategory());
+        region_t.setText(performance.getPlayers().get(currentPage).getRegion());
 
         buttons = Arrays.asList(
                 view.findViewById(R.id.one),
@@ -138,8 +136,6 @@ public class ProtocolFillingFragment extends Fragment {
             textView10.setText(itemList.get(currentItemIndex));
         }
 
-
-        // Настройка для всех кнопок
         setupButtonListeners(buttons);
         save.setOnClickListener(v -> {
             String s = String.valueOf(textView17.getText());
@@ -151,18 +147,16 @@ public class ProtocolFillingFragment extends Fragment {
             String s2 = String.valueOf(textView19.getText());
             protocol.setGames_sum(s2);
             if (s.equals("-") || s1.equals("-") || s2.equals("-")) {
-                return; // Прерываем выполнение кода, так как не все поля заполнены
+                return;
             }
 
             List<List<String>> firstPart = new ArrayList<>();
             List<List<String>> secondPart = new ArrayList<>();
 
-// Заполняем первый массив первыми 15 элементами combinationsList
             for (int i = 0; i < 15; i++) {
                 firstPart.add(combinationsList.get(i));
             }
 
-// Заполняем второй массив последующими 15 элементами combinationsList
             for (int i = 15; i < combinationsList.size(); i++) {
                 secondPart.add(combinationsList.get(i));
             }
@@ -177,14 +171,8 @@ public class ProtocolFillingFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(ARG_PROTOCOL, protocol);
-            bundle.putInt(ARG_DISCIPLINE, discipline);
-            bundle.putString(ARG_NAME, name);
-            bundle.putString(ARG_TIME, time);
-            bundle.putString(ARG_CATEGORY, category);
-            bundle.putString(ARG_PLAYGROUND, playground);
-            bundle.putString(ARG_DATE, date);
-            bundle.putString(ARG_GRADE, grade);
-            bundle.putString(ARG_REGION, region);
+            bundle.putSerializable(ARG_PERFORMANCE, performance);
+
 
             NavHostFragment.findNavController(ProtocolFillingFragment.this)
                     .navigate(R.id.action_protocolFillingFragment_to_protocolQrFragment, bundle);
@@ -197,10 +185,8 @@ public class ProtocolFillingFragment extends Fragment {
         for (Button button : buttons) {
             button.setOnClickListener(v -> {
                 if (button.getId() == R.id.eight) {
-                    // Если нажата кнопка 8, обработать её клик
                     handleButton8Click();
                 } else {
-                    // Иначе обработать нажатие кнопок 1-7
                     handleButtonClick(buttons.indexOf(button), button);
                 }
             });
@@ -241,32 +227,24 @@ public class ProtocolFillingFragment extends Fragment {
                 Button lastSelectedButton = buttons.get(lastSelectedButtonIndex);
                 String buttonText = lastSelectedButton.getText().toString();
 
-                // Проверка на числовой формат
                 boolean isNumeric = isNumeric(buttonText);
 
                 if (isNumeric) {
                     int value = Integer.parseInt(buttonText);
 
-                    // Проверяем, что сумма с новым значением не превышает 5
                     if (currentSum + value <= 5) {
                         currentSum += value;
 
-                        // Добавляем элемент в текущий подмассив
                         combinationsList.get(currentItemIndex).add(Integer.toString(value));
                         logButtonActions();
                     }
                 } else {
-                    // Если элемент типа string, добавляем его в массив
                     buttonActions.add(buttonText);
-
-                    // Добавляем элемент в текущий подмассив
                     combinationsList.get(currentItemIndex).add(buttonText);
                     logButtonActions();
                 }
 
-                // Проверка суммы чисел в массиве
                 if (currentSum == 5) {
-                    // Если сумма равна 5, изменить элементы списка
                     updateItemList();
                     updateTextViews();
                     logButtonActions();
@@ -275,7 +253,6 @@ public class ProtocolFillingFragment extends Fragment {
                 if (textViewText.equals("0")) {
                     addMinimumElementsToSubarrays();
                 }
-                // Сбросить состояние всех кнопок после обработки кнопки 8
                 resetButtonStates(buttons);
             }
             lastSelectedButtonIndex = -1;
@@ -294,7 +271,6 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void addMinimumElementsToSubarrays() {
-        // Перебираем подмассивы
         int a, b;
         String s = String.valueOf(textView17.getText());
         if (s.equals("-")) {
@@ -308,11 +284,8 @@ public class ProtocolFillingFragment extends Fragment {
             List<String> subArray = combinationsList.get(i);
             int currentSum = calculateSum(i);
 
-            // Проверяем, если сумма в подмассиве меньше 5
             if (currentSum < 5) {
-                // Добавляем минимальное количество элементов до достижения суммы 5
                 while (currentSum < 5 && subArray.size() < b) {
-                    // Добавить элементы в подмассив в зависимости от текущей суммы
                     if (i == 14 || i == 29) {
                         while (currentSum < 5) {
                             subArray.add("1");
@@ -320,7 +293,7 @@ public class ProtocolFillingFragment extends Fragment {
                         }
                     } else if (currentSum == 4) {
                         subArray.add("1");
-                        currentSum += 1;  // Обеспечиваем выход из цикла
+                        currentSum += 1;
                     } else if (currentSum == 3) {
                         subArray.add("1");
                         subArray.add("1");
@@ -339,7 +312,6 @@ public class ProtocolFillingFragment extends Fragment {
                         currentSum += 5;
                     }
                 }
-                // Обновляем элементы списка и текстовые представления
                 updateItemList();
                 updateTextViews();
                 logButtonActions();
@@ -348,7 +320,6 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void disableButtons() {
-        // Блокируем все кнопки после достижения суммы 5
         for (Button button : buttons) {
             button.setEnabled(false);
         }
@@ -371,18 +342,14 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void updateItemList() {
-        // Логика обновления элементов списка
         currentItemIndex++;
-        // currentSum = 0; // Сбросить текущую сумму
         if (currentItemIndex >= itemList.size()) {
             currentItemIndex--;
         }
     }
 
     private void showPreviousItem() {
-        // Проверяем, что есть предыдущие элементы в списке
         if (!combinationsList.isEmpty() && currentItemIndex > 0) {
-            // Уменьшаем индекс для отображения предыдущего элемента
             currentItemIndex--;
             List<String> previousCombination = combinationsList.get(currentItemIndex);
             displayPreviousCombination(previousCombination);
@@ -392,14 +359,13 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void displayPreviousCombination(List<String> previousCombination) {
-        updateTextViews(); // Обновить текст на экране
+        updateTextViews();
         StringBuilder logText = new StringBuilder();
         for (String element : previousCombination) {
             logText.append(element).append("   ");
         }
         textView12.setText(logText.toString());
 
-        // Показать предыдущий элемент itemList
         if (currentItemIndex >= 0 && currentItemIndex < itemList.size()) {
             TextView textView10 = view.findViewById(R.id.textView10);
             textView10.setText(itemList.get(currentItemIndex));
@@ -407,9 +373,6 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void showNextItem() {
-        // Переходим к следующему подмассиву
-
-
         currentItemIndex++;
         if (currentItemIndex >= combinationsList.size()) {
             currentItemIndex--;
@@ -421,14 +384,13 @@ public class ProtocolFillingFragment extends Fragment {
     }
 
     private void displayNextCombination(List<String> nextCombination) {
-        updateTextViews(); // Обновить текст на экране
+        updateTextViews();
         StringBuilder logText = new StringBuilder();
         for (String element : nextCombination) {
             logText.append(element).append("   ");
         }
         textView12.setText(logText.toString());
 
-        // Показать следующий элемент itemList
         if (currentItemIndex >= 0 && currentItemIndex < itemList.size()) {
             TextView textView10 = view.findViewById(R.id.textView10);
             textView10.setText(itemList.get(currentItemIndex));
@@ -447,9 +409,7 @@ public class ProtocolFillingFragment extends Fragment {
         for (String element : currentCombination) {
             logText.append(element).append("   ");
         }
-        // Отображаем лог-текст в textView12
         textView12.setText(logText.toString());
-        // Лог длины каждого подмассива
         Log.d("CombinationsList", combinationsList.toString());
         // Лог длины всех подмассивов
         int countPart1 = 0;
@@ -466,7 +426,6 @@ public class ProtocolFillingFragment extends Fragment {
 
         boolean allSumsEqualFivePart1 = true;
         boolean allSumsEqualFivePart2 = true;
-        // Проверка условия для отображения textView17
         int startIndex = (currentItemIndex < 15) ? 0 : 15;
         int endIndex = (currentItemIndex < 15) ? 15 : 30;
 
@@ -482,7 +441,6 @@ public class ProtocolFillingFragment extends Fragment {
             }
         }
 
-        // Обновление textView17
         if (allSumsEqualFivePart1) {
             TextView textView17 = view.findViewById(R.id.textView17);
             textView17.setText(String.valueOf(countPart1));
@@ -502,7 +460,6 @@ public class ProtocolFillingFragment extends Fragment {
             textView18.setText("-");
         }
 
-        // Обновление textView19
         if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
             TextView textView19 = view.findViewById(R.id.textView19);
             textView19.setText(String.valueOf(countPart1 + countPart2));
@@ -511,7 +468,6 @@ public class ProtocolFillingFragment extends Fragment {
             textView19.setText("-");
         }
 
-        // Обновляем textView13
         int count;
         String countText;
         if (currentItemIndex < 15) {
@@ -524,7 +480,6 @@ public class ProtocolFillingFragment extends Fragment {
         TextView textView13 = view.findViewById(R.id.textView13);
         textView13.setText(countText);
 
-        // Обновляем textView15
         int count15 = 30;
         int count30 = 30;
 
@@ -538,6 +493,4 @@ public class ProtocolFillingFragment extends Fragment {
         TextView textView15 = view.findViewById(R.id.textView15);
         textView15.setText(count15Text);
     }
-
-
 }

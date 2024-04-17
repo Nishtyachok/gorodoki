@@ -210,14 +210,19 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
     }
 
     // Метод для получения списка игроков для определенного выступления
-    private List<PlayerRef> getPlayerRefsForPerformance(SQLiteDatabase db, String compId, int performanceId) {
+    public List<PlayerRef> getPlayerRefsForPerformance(SQLiteDatabase db, String compId, int performanceId) {
         List<PlayerRef> players = new ArrayList<>();
 
         Cursor cursor = db.query(
                 DataBaseContractReferee.PlayerRef.TABLE_NAME,
                 new String[]{
+                        DataBaseContractReferee.PlayerRef._ID,
                         DataBaseContractReferee.PlayerRef.COLUMN_NAME,
-                        DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY
+                        DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY,
+                        DataBaseContractReferee.PlayerRef.COLUMN_GRADE,
+                        DataBaseContractReferee.PlayerRef.COLUMN_REGION,
+                        DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE,
+                        DataBaseContractReferee.PlayerRef.COLUMN_COMPETITION
                 },
                 DataBaseContractReferee.PlayerRef.COLUMN_COMPETITION + " = ? AND " +
                         DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE + " = ?",
@@ -232,8 +237,13 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
             PlayerRef player = new PlayerRef();
+            player.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef._ID)));
             player.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_NAME)));
             player.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY)));
+            player.setGrade(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_GRADE)));
+            player.setRegion(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_REGION)));
+            player.setComp_id(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_COMPETITION)));
+            player.setPerf_id(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE)));
 
             players.add(player);
         }

@@ -8,6 +8,7 @@ public class Protocol implements Serializable {
     private String comp_id;
     private int perf_id;
     private int id;
+    private int player_id;
     private String name;
     private String shots1;
     private String shots2;
@@ -29,6 +30,14 @@ public class Protocol implements Serializable {
 
     public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
+    }
+
+    public int getPlayer_id() {
+        return player_id;
+    }
+
+    public void setPlayer_id(int player_id) {
+        this.player_id = player_id;
     }
 
     public int getPerf_id() {

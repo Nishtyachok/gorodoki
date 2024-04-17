@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="#fff"
+    android:background="#fff">
 
-    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -507,6 +506,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/four"
                 app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>
