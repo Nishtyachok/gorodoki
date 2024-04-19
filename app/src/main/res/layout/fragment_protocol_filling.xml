@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/performance_name"
-            android:layout_width="246dp"
+            android:layout_width="280dp"
             android:layout_height="26dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/performance_region"
-            android:layout_width="248dp"
+            android:layout_width="280dp"
             android:layout_height="26dp"
             android:layout_marginStart="16dp"
             android:text="TextView"
@@ -83,39 +83,36 @@
             android:id="@+id/performance_grade"
             android:layout_width="51dp"
             android:layout_height="24dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="32dp"
             android:text="TextView"
-            android:textSize="15sp"
             android:textColor="@color/black"
+            android:textSize="15sp"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/performance_time"
-            />
+            app:layout_constraintTop_toTopOf="@+id/performance_time" />
 
         <TextView
             android:id="@+id/performance_name8"
             android:layout_width="51dp"
             android:layout_height="24dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="32dp"
             android:text="Range:"
             android:textColor="@color/black"
 
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/performance_grade"
-            app:layout_constraintTop_toTopOf="@+id/performance_time"
-            />
+            app:layout_constraintTop_toTopOf="@+id/performance_time" />
 
         <TextView
             android:id="@+id/performance_category"
             android:layout_width="103dp"
-            android:layout_height="26dp"
+            android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="15sp"
             android:textColor="@color/black"
+            android:textSize="15sp"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/performance_name8"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/performance_name8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -142,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:text="game 1:"
+            android:text="Партия 1:"
             android:textColor="@color/black"
 
             app:layout_constraintStart_toStartOf="@+id/border"
@@ -190,7 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:text="game 2:"
+            android:text="Партия 2:"
             android:textColor="@color/black"
 
             app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -202,7 +199,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:text="result:"
+            android:text="Результат:"
             android:textColor="@color/black"
 
             app:layout_constraintEnd_toEndOf="@+id/border"
@@ -236,8 +233,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Remainder:"
+            android:layout_marginEnd="16dp"
+            android:text="Осталось:"
             android:textColor="@color/black"
 
             android:textSize="20sp"
@@ -262,9 +259,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="Dropped:"
-            android:textSize="20sp"
+            android:text="Бросил:"
             android:textColor="@color/black"
+            android:textSize="20sp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/save_protocol" />
@@ -275,7 +272,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Figure:"
+            android:text="Фигура:"
             android:textColor="@color/black"
 
             android:textSize="20sp"
@@ -288,9 +285,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:text="Shots:"
-            android:textSize="20sp"
+            android:text="Броски:"
             android:textColor="@color/black"
+            android:textSize="20sp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -308,30 +305,32 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-                android:id="@+id/textView12"
-                android:layout_width="299dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:textColor="@color/black"
-                android:textSize="22sp"
-                android:textStyle="bold"
+            android:id="@+id/textView12"
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:textColor="@color/black"
+            android:textSize="22sp"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView10"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <Button
-                android:id="@+id/save_protocol"
-                android:layout_width="136dp"
-                android:layout_height="39dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/edging"
-                android:isScrollContainer="false"
-                android:text="complete"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="78dp"/>
+            android:id="@+id/save_protocol"
+            android:layout_width="136dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="78dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edging"
+            android:isScrollContainer="false"
+            android:text="завершить"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
                 android:id="@+id/divider3"
@@ -350,42 +349,37 @@
         android:layout_height="42dp">
 
         <Button
-                android:id="@+id/save_protocol3"
-                android:layout_width="150dp"
-                android:layout_height="37dp"
-                android:background="@drawable/edging"
-                android:isScrollContainer="false"
-                android:text="next figure"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="5dp"/>
+            android:id="@+id/save_protocol3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/edging"
+            android:isScrollContainer="false"
+            android:text="следующая"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/save_protocol5"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-                android:id="@+id/save_protocol5"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
-                android:background="@drawable/edging"
-                android:isScrollContainer="false"
-                android:text="previous figure"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/save_protocol3"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="4dp"
-                android:layout_marginTop="5dp"/>
+            android:id="@+id/save_protocol5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/edging"
+            android:isScrollContainer="false"
+            android:text="предыдущая"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_protocol3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-                android:id="@+id/textView21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="Result:"
-                android:textColor="@color/black"
-
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="0.733"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

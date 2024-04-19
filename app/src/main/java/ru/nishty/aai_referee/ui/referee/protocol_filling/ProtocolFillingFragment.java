@@ -98,7 +98,7 @@ public class ProtocolFillingFragment extends Fragment {
         TextView region_t = view.findViewById(R.id.performance_region);
 
         time_t.setText(performance.getTime());
-        playground_t.setText(performance.getPlayground() + " playground");
+        playground_t.setText(performance.getPlayground() + " площадка");
         date_t.setText(performance.getDate());
         name_t.setText(performance.getPlayers().get(currentPage).getName());
         grade_t.setText(getContext().getString(DataBaseContractSecretary.GradeHelper.getGrade(performance.getPlayers().get(currentPage).getGrade())));
