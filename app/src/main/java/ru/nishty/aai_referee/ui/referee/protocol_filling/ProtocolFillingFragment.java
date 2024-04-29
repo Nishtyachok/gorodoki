@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.referee.DataBaseHelperReferee;
 import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
 import ru.nishty.aai_referee.entity.referee.Performance;
+import ru.nishty.aai_referee.entity.referee.PlayerRef;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 
 
@@ -138,34 +140,27 @@ public class ProtocolFillingFragment extends Fragment {
 
         setupButtonListeners(buttons);
         save.setOnClickListener(v -> {
-            String s = String.valueOf(textView17.getText());
-            protocol.setGame1(s);
 
-            String s1 = String.valueOf(textView18.getText());
-            protocol.setGame2(s1);
-
-            String s2 = String.valueOf(textView19.getText());
-            protocol.setGames_sum(s2);
-            if (s.equals("-") || s1.equals("-") || s2.equals("-")) {
-                return;
-            }
-
-            List<List<String>> firstPart = new ArrayList<>();
-            List<List<String>> secondPart = new ArrayList<>();
-
-            for (int i = 0; i < 15; i++) {
-                firstPart.add(combinationsList.get(i));
-            }
-
-            for (int i = 15; i < combinationsList.size(); i++) {
-                secondPart.add(combinationsList.get(i));
-            }
-            protocol.setShots1(firstPart.toString());
-            protocol.setShots2(secondPart.toString());
-            // TODO: set proper name
-            protocol.setName("test");
+            List<PlayerRef> playersRefs = new ArrayList<>();
             DataBaseHelperReferee dataBaseHelperReferee = new DataBaseHelperReferee(getContext());
             SQLiteDatabase db = dataBaseHelperReferee.getWritableDatabase();
+            for (int i = 0; i < performance.getPlayers().size(); i++) {
+                PlayerRef currentPlayer = performance.getPlayers().get(i);
+                PlayerRef playerProtocol = new PlayerRef();
+                if (currentPlayer.getG1() == 0 || currentPlayer.getG2() == 0) {
+                    Toast.makeText(getActivity(), "Завершите все партии для каждого участника", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                playerProtocol.setIid(currentPlayer.getIid());
+                playerProtocol.setG1(currentPlayer.getG1());
+                playerProtocol.setG2(currentPlayer.getG2());
+                playerProtocol.setS1(currentPlayer.getS1());
+                playerProtocol.setS2(currentPlayer.getS2());
+                playersRefs.add(playerProtocol);
+                dataBaseHelperReferee.updatePlayerShots(db,currentPlayer.getPerf_id(),currentPlayer.getComp_id(), currentPlayer.getIid(), currentPlayer.getG1(), currentPlayer.getG2(), currentPlayer.getS1(), currentPlayer.getS2());
+
+            }
+            protocol.setPlayers(playersRefs);
 
             dataBaseHelperReferee.setProtocol(db, protocol);
 
@@ -411,7 +406,6 @@ public class ProtocolFillingFragment extends Fragment {
         }
         textView12.setText(logText.toString());
         Log.d("CombinationsList", combinationsList.toString());
-        // Лог длины всех подмассивов
         int countPart1 = 0;
         int countPart2 = 0;
 
@@ -455,6 +449,7 @@ public class ProtocolFillingFragment extends Fragment {
         } else if (allSumsEqualFivePart2) {
             TextView textView18 = view.findViewById(R.id.textView18);
             textView18.setText(String.valueOf(countPart2));
+
         } else {
             TextView textView18 = view.findViewById(R.id.textView18);
             textView18.setText("-");
@@ -463,6 +458,21 @@ public class ProtocolFillingFragment extends Fragment {
         if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
             TextView textView19 = view.findViewById(R.id.textView19);
             textView19.setText(String.valueOf(countPart1 + countPart2));
+            performance.getPlayers().get(currentPage).setG1(countPart1);
+            performance.getPlayers().get(currentPage).setG2(countPart2);
+            List<List<String>> firstPart = new ArrayList<>();
+            List<List<String>> secondPart = new ArrayList<>();
+
+            for (int i = 0; i < 15; i++) {
+                firstPart.add(combinationsList.get(i));
+            }
+
+            for (int i = 15; i < combinationsList.size(); i++) {
+                secondPart.add(combinationsList.get(i));
+            }
+
+            performance.getPlayers().get(currentPage).setS1(firstPart.toString());
+            performance.getPlayers().get(currentPage).setS2(secondPart.toString());
         } else {
             TextView textView19 = view.findViewById(R.id.textView19);
             textView19.setText("-");

@@ -1,15 +1,29 @@
 package ru.nishty.aai_referee.entity.secretary;
 
 
-public class Protocol  {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.nishty.aai_referee.entity.referee.PlayerRef;
+
+public class Protocol implements Serializable {
+    @SerializedName("i")
     private String comp_id;
+    @SerializedName("id")
     private int perf_id;
+    @SerializedName("pid")
     private int id;
     private int game1;
     private int game2;
     private int games_sum;
     private String shots1;
     private String shots2;
+    @SerializedName("pl")
+    private List<PlayerRef> players = new ArrayList<>();
+    @SerializedName("iid")
     private int player_id;
     private int limit;
     private int tours;
@@ -53,6 +67,14 @@ public class Protocol  {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<PlayerRef> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<PlayerRef> players) {
+        this.players = players;
     }
 
     public int getGame1() {

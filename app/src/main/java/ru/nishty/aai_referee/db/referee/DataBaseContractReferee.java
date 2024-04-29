@@ -25,8 +25,13 @@ public final class DataBaseContractReferee {
         public static final String TABLE_NAME = "player_ref";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_REGION = "region";
+        public static final String COLUMN_ID = "id";
         public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_GRADE = "grade";
+        public static final String COLUMN_G1 = "g1";
+        public static final String COLUMN_G2 = "g2";
+        public static final String COLUMN_S1 = "s1";
+        public static final String COLUMN_S2 = "s2";
         public static final String COLUMN_COMPETITION = "competition";
         public static final String COLUMN_PERFORMANCE = "performance";
 
@@ -36,15 +41,7 @@ public final class DataBaseContractReferee {
         public static final String TABLE_NAME = "protocol";
         public static final String COLUMN_COMPETITION = "competition";
         public static final String COLUMN_PERFORMANCE = "performance";
-        public static final String COLUMN_TECHNIQUE = "technique";
-        public static final String COLUMN_ARTISTRY = "artistry";
-        public static final String COLUMN_GAME1 = "game1";
-        public static final String COLUMN_GAME2 = "game2";
-        public static final String COLUMN_GAMES_SUM = "games_sum";
-        public static final String COLUMN_LIMIT = "_limit";
-        public static final String COLUMN_SHOTS1 = "shots1";
-        public static final String COLUMN_SHOTS2 = "shots2";
-        public static final String COLUMN_COMPLEXITY = "complexity";
+        // public static final String COLUMN_LIMIT = "_limit";
     }
 
     public static final String SQL_CREATE_ENTRIES_COMPETITION =
@@ -70,9 +67,14 @@ public final class DataBaseContractReferee {
     public static final String SQL_CREATE_ENTRIES_PLAYER_REF =
             "CREATE TABLE " + PlayerRef.TABLE_NAME + " (" +
                     PlayerRef._ID + " INTEGER PRIMARY KEY, " +
+                    PlayerRef.COLUMN_ID + " INTEGER, " +
                     PlayerRef.COLUMN_NAME + " TEXT, " +
                     PlayerRef.COLUMN_COMPETITION + " TEXT, " +
                     PlayerRef.COLUMN_PERFORMANCE + " TEXT, " +
+                    PlayerRef.COLUMN_G1 + " INTEGER, " +
+                    PlayerRef.COLUMN_G2 + " INTEGER, " +
+                    PlayerRef.COLUMN_S1 + " TEXT, " +
+                    PlayerRef.COLUMN_S2 + " TEXT, " +
                     PlayerRef.COLUMN_REGION + " TEXT, " +
                     PlayerRef.COLUMN_CATEGORY + " TEXT, " +
                     PlayerRef.COLUMN_GRADE + " INTEGER, " +
@@ -88,15 +90,7 @@ public final class DataBaseContractReferee {
                     Protocol._ID + " INTEGER PRIMARY KEY, " +
                     Protocol.COLUMN_COMPETITION + " TEXT, " +
                     Protocol.COLUMN_PERFORMANCE + " INTEGER, " +
-                    Protocol.COLUMN_TECHNIQUE + " TEXT, " +
-                    Protocol.COLUMN_COMPLEXITY + " TEXT, " +
-                    Protocol.COLUMN_ARTISTRY + " TEXT, " +
-                    Protocol.COLUMN_SHOTS1 + " TEXT, " +
-                    Protocol.COLUMN_SHOTS2 + " TEXT, " +
-                    Protocol.COLUMN_LIMIT + " INTEGER, " +
-                    Protocol.COLUMN_GAME1 + " INTEGER, " +
-                    Protocol.COLUMN_GAME2 + " INTEGER, " +
-                    Protocol.COLUMN_GAMES_SUM + " INTEGER, " +
+                   // Protocol.COLUMN_LIMIT + " INTEGER, " +
 
             "FOREIGN KEY (" + Protocol.COLUMN_COMPETITION +
                     ") REFERENCES " + Competition.TABLE_NAME + "(" +

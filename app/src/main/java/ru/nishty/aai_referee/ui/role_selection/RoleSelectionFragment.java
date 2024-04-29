@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 import ru.nishty.aai_referee.R;
 
 public class RoleSelectionFragment extends Fragment {
@@ -23,7 +25,6 @@ public class RoleSelectionFragment extends Fragment {
         refereeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ваш код для перехода к competitionFragment
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.action_fragment_role_selection_to_competitionFragment);
             }
@@ -38,8 +39,6 @@ public class RoleSelectionFragment extends Fragment {
             }
         });
 
-
-        // Добавьте обработчики для других элементов, если необходимо
 
         return rootView;
     }

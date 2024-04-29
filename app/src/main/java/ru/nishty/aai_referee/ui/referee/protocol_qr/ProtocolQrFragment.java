@@ -37,10 +37,7 @@ public class ProtocolQrFragment extends Fragment {
     private static Performance performance;
 
     public ProtocolQrFragment() {
-        // Required empty public constructor
     }
-
-
 
     public static ProtocolQrFragment newInstance(Protocol protocol,Performance performance) {
         ProtocolQrFragment fragment = new ProtocolQrFragment();
@@ -79,7 +76,6 @@ public class ProtocolQrFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_protocol_qr, container, false);
         ImageView qrCodeIV = view.findViewById(R.id.idIVQrcode);

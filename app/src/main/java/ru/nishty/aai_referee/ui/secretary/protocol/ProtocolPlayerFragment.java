@@ -1,4 +1,4 @@
-package ru.nishty.aai_referee.ui.referee.protocol_filling;
+package ru.nishty.aai_referee.ui.secretary.protocol;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,27 +15,28 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import ru.nishty.aai_referee.R;
-import ru.nishty.aai_referee.entity.referee.Performance;
-import ru.nishty.aai_referee.entity.referee.PlayerRef;
-import ru.nishty.aai_referee.entity.referee.Protocol;
+import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
+import ru.nishty.aai_referee.entity.secretary.Player;
+import ru.nishty.aai_referee.entity.secretary.Protocol;
 
-public class ProtocolFillingPlayerFragment extends Fragment {
+public class ProtocolPlayerFragment extends Fragment {
     private static final String ARG_PLAYER = "player";
-    private PlayerRef player;
+    private Player player;
     private View view;
     private static final String ARG_PROTOCOL = "protocol";
     private static final String ARG_PERFORMANCE = "performance";
 
-    private ViewPager2 viewPager2;
-    private TabLayout tabLayout;
-    private ProtocolFillingPagerAdapter pagerAdapter;
+
+    private ViewPager2 view_Pager_2;
+    private TabLayout tab_Layout;
+    private ProtocolPagerAdapter pagerAdapter;
     private int currentPage = 0;
     private static Protocol protocol;
-    private static Performance performance;
+    private static PerformanceSecretary performance;
 
 
-    public static ProtocolFillingPlayerFragment newInstance(PlayerRef player, Protocol protocol, Performance performance) {
-        ProtocolFillingPlayerFragment fragment = new ProtocolFillingPlayerFragment();
+    public static ProtocolPlayerFragment newInstance(Player player, Protocol protocol, PerformanceSecretary performance) {
+        ProtocolPlayerFragment fragment = new ProtocolPlayerFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PLAYER, player);
         args.putSerializable(ARG_PROTOCOL, protocol);
@@ -49,9 +50,9 @@ public class ProtocolFillingPlayerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            player = (PlayerRef) getArguments().getSerializable("player");
+            player = (Player) getArguments().getSerializable("player");
+            performance = (PerformanceSecretary) getArguments().getSerializable("performance");
             protocol = (Protocol) getArguments().getSerializable("protocol");
-            performance = (Performance) getArguments().getSerializable("performance");
         }
     }
 
@@ -59,22 +60,22 @@ public class ProtocolFillingPlayerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
-            protocol = (Protocol) getArguments().getSerializable(ARG_PROTOCOL);
-            performance = (Performance) getArguments().getSerializable(ARG_PERFORMANCE);
+            protocol = (Protocol) getArguments().getSerializable("protocol");
+            performance = (PerformanceSecretary) getArguments().getSerializable(ARG_PERFORMANCE);
         }
-        view = inflater.inflate(R.layout.fragment_protocol_filling_pager, container, false);
+        view = inflater.inflate(R.layout.fragment_protocol_pager, container, false);
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(performance.getPlayers().get(currentPage).getName());
-        viewPager2 = view.findViewById(R.id.viewPager2);
-        tabLayout = view.findViewById(R.id.tabLayout);
-        pagerAdapter = new ProtocolFillingPagerAdapter(this, protocol, performance);
-        viewPager2.setAdapter(pagerAdapter);
+        view_Pager_2 = view.findViewById(R.id.view_Pager_2);
+        tab_Layout = view.findViewById(R.id.tab_Layout);
+        pagerAdapter = new ProtocolPagerAdapter(this, protocol, performance);
+        view_Pager_2.setAdapter(pagerAdapter);
 
-        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+        new TabLayoutMediator(tab_Layout, view_Pager_2, (tab, position) -> {
             String playerName = formatPlayerName(performance.getPlayers().get(position).getName());
             tab.setText(playerName);
         }).attach();
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        view_Pager_2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -99,5 +100,4 @@ public class ProtocolFillingPlayerFragment extends Fragment {
             return firstName + " " + lastNameInitial;
         }
     }
-
 }

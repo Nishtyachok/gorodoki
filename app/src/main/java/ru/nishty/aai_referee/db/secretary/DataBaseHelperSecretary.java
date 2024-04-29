@@ -7,12 +7,14 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.nishty.aai_referee.entity.referee.PlayerRef;
 import ru.nishty.aai_referee.entity.secretary.Category;
 import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
 import ru.nishty.aai_referee.entity.secretary.Judge;
@@ -215,18 +217,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             Log.e(DATABASE_NAME, "Ошибка при обновлении категории с ID: " + category.getId());
         }
     }
-
-    /*
-     *
-     * категория +
-     * судья
-     * регион +
-     * игрок
-     * соревнование
-     * игра
-     * игра_игрок
-     *
-     * */
     public long addRegion(SQLiteDatabase db, Region region, String competitionUuid) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Region.TABLE_NAME,
@@ -513,7 +503,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     }
 
     public void addPerformance(SQLiteDatabase db, PerformanceSecretary performance, List<Player> players) {
-        // Добавление информации о выступлении в базу данных
+        
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Performance.COLUMN_COMPETITION, performance.getComp_id());
         values.put(DataBaseContractSecretary.Performance.COLUMN_TIME, performance.getTime());
@@ -524,7 +514,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
 
         long performanceId = db.insert(DataBaseContractSecretary.Performance.TABLE_NAME, null, values);
 
-        // Добавление игроков в выступление
+        
         for (Player player : players) {
             ContentValues playerPerformanceValues = new ContentValues();
             playerPerformanceValues.put(DataBaseContractSecretary.PerformancePlayer.COLUMN_COMPETITION, performance.getComp_id().toString());
@@ -576,7 +566,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     }
 
 
-//////////////////////////////////////////////////
+
 
 
     public void setPerformance(SQLiteDatabase db, PerformanceSecretary performance, List<Player> players) {
@@ -588,7 +578,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         values.put(DataBaseContractSecretary.Performance.COLUMN_JUDGE_ID, performance.getJudgeId());
 
 
-        // Обновляем участников выступления
+        
         db.delete(DataBaseContractSecretary.PerformancePlayer.TABLE_NAME,
                 DataBaseContractSecretary.PerformancePlayer.COLUMN_PERFORMANCE_ID + " = ?",
                 new String[]{});
@@ -760,6 +750,62 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
 
     }
+    public Protocol getProtocolPlayer(SQLiteDatabase db, String comp_id, int perf_id, int current_page) {
+        Protocol protocol = new Protocol();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(
+                    DataBaseContractSecretary.Protocol.TABLE_NAME,
+                    null,
+                    DataBaseContractSecretary.Protocol.COLUMN_COMPETITION + " = ? AND "
+                            + DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID + " = ?",
+                    new String[]{ comp_id, String.valueOf(perf_id) },
+                    null,
+                    null,
+                    DataBaseContractSecretary.Protocol._ID,
+                    null
+            );
+
+            if (cursor.moveToPosition(current_page)) {
+                protocol.setId(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol._ID)
+                ));
+                protocol.setComp_id(cursor.getString(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_COMPETITION)
+                ));
+                protocol.setShots1(cursor.getString(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_SHOTS1)
+                ));
+                protocol.setShots2(cursor.getString(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_SHOTS2)
+                ));
+                protocol.setGame1(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAME1)
+                ));
+                protocol.setGame2(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAME2)
+                ));
+                protocol.setGames_sum(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAMES_SUM)
+                ));
+                protocol.setLimit(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_LIMIT)
+                ));
+                protocol.setPerf_id(cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID)
+                ));
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return protocol;
+    }
 
     public Player getPlayerById(SQLiteDatabase db, String comp_id, int player_id) {
         Player player = new Player();
@@ -847,8 +893,81 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return judgeName;
     }
+    public List<Integer> getProtocolsByPlayer(SQLiteDatabase db,String comp_id, int playerId) {
+        List<Integer> protocolIds = new ArrayList<>();
+        String[] columns = {DataBaseContractSecretary.Protocol._ID};
+        String selection = "player_id = ? AND comp_id = ?";
+        String[] selectionArgs = {String.valueOf(playerId), comp_id};
+        Cursor cursor = null;
 
+        try {
+            cursor = db.query("protocol", columns, selection, selectionArgs, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int protocolId = cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol._ID));
+                    protocolIds.add(protocolId);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
 
+        return protocolIds;
+    }
+
+    public void addProtocol(SQLiteDatabase db, Protocol protocol, Context context) {
+        for (PlayerRef player : protocol.getPlayers()) {
+            String selection = DataBaseContractSecretary.Protocol.COLUMN_COMPETITION + " = ? AND " +
+                    DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID + " = ? AND " +
+                    DataBaseContractSecretary.Protocol.COLUMN_PLAYER_ID + " = ?";
+            String[] selectionArgs = {
+                    String.valueOf(protocol.getComp_id()),
+                    String.valueOf(protocol.getPerf_id()),
+                    String.valueOf(player.getIid())
+            };
+
+            Cursor cursor = db.query(
+                    DataBaseContractSecretary.Protocol.TABLE_NAME,
+                    null,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                Toast.makeText(context, "Протокол уже был отсканирован", Toast.LENGTH_SHORT).show();
+                cursor.close();
+                break;
+            }
+
+            cursor.close();
+
+            ContentValues playerValues = new ContentValues();
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_COMPETITION, String.valueOf(protocol.getComp_id()));
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID, protocol.getPerf_id());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_PLAYER_ID, player.getIid());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_GAME1, player.getG1());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_GAME2, player.getG2());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_GAMES_SUM, player.getG1() + player.getG2());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_SHOTS1, player.getS1());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_SHOTS2, player.getS2());
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_TOURS, 1);
+            playerValues.put(DataBaseContractSecretary.Protocol.COLUMN_LIMIT, 15);
+
+            long protocolId = db.insert(DataBaseContractSecretary.Protocol.TABLE_NAME, null, playerValues);
+            if (protocolId == -1) {
+                Log.e(DATABASE_NAME, "Ошибка при добавлении протокола");
+            } else {
+                Log.d(DATABASE_NAME, "Протокол успешно добавлено с ID: " + protocolId);
+            }
+        }
+    }
     public void setProtocol(SQLiteDatabase db, Protocol protocol) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Protocol.COLUMN_COMPETITION, String.valueOf(protocol.getComp_id()));

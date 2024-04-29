@@ -93,12 +93,13 @@
 
         <TextView
             android:id="@+id/performance_name8"
-            android:layout_width="51dp"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_marginTop="32dp"
-            android:text="Range:"
-            android:textColor="@color/black"
+            android:layout_marginEnd="4dp"
+            android:text="@string/range"
 
+            android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/performance_grade"
             app:layout_constraintTop_toTopOf="@+id/performance_time" />
@@ -107,10 +108,11 @@
             android:id="@+id/performance_category"
             android:layout_width="103dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:text="TextView"
             android:textColor="@color/black"
-            android:textSize="15sp"
 
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/performance_name8" />
 
@@ -139,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:text="Партия 1:"
+            android:text="@string/game_1"
             android:textColor="@color/black"
 
             app:layout_constraintStart_toStartOf="@+id/border"
@@ -187,7 +189,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
-            android:text="Партия 2:"
+            android:text="@string/game_2"
             android:textColor="@color/black"
 
             app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -199,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:text="Результат:"
+            android:text="@string/result"
             android:textColor="@color/black"
 
             app:layout_constraintEnd_toEndOf="@+id/border"
@@ -234,7 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Осталось:"
+            android:text="@string/ostalos"
             android:textColor="@color/black"
 
             android:textSize="20sp"
@@ -259,7 +261,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:text="Бросил:"
+            android:text="@string/droped"
             android:textColor="@color/black"
             android:textSize="20sp"
 
@@ -272,7 +274,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Фигура:"
+            android:text="@string/figurs"
             android:textColor="@color/black"
 
             android:textSize="20sp"
@@ -285,7 +287,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:text="Броски:"
+            android:text="@string/broski"
             android:textColor="@color/black"
             android:textSize="20sp"
 
@@ -327,7 +329,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/edging"
             android:isScrollContainer="false"
-            android:text="завершить"
+            android:text="@string/completed"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -357,7 +359,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/edging"
             android:isScrollContainer="false"
-            android:text="следующая"
+            android:text="@string/next"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -373,7 +375,7 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/edging"
             android:isScrollContainer="false"
-            android:text="предыдущая"
+            android:text="@string/unnext"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save_protocol3"
@@ -400,7 +402,7 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:background="@drawable/button_selector"
-                android:text="X"
+                android:text="@string/x"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -492,7 +494,7 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:background="@drawable/button_selector"
-                android:text="✓"
+                android:text="@string/galochka"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 app:layout_constraintStart_toEndOf="@+id/seven"

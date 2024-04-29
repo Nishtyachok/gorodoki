@@ -20,8 +20,7 @@ import ru.nishty.aai_referee.ui.secretary.competition_list.placeholder.Competiti
 
 
 public class CompetitionFragment extends Fragment {
-
-
+    FloatingActionButton scanBtn2;
     RecyclerView recyclerView;
     FloatingActionButton scanBtn;
 
@@ -116,6 +115,15 @@ public class CompetitionFragment extends Fragment {
 
             }
         });
+        scanBtn2 = view.findViewById(R.id.scan_competition_button);
+
+        scanBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ru.nishty.aai_referee.ui.referee.competition_list.placeholder.CompetitionContent.onClick();
+            }
+        });
+
 
         return view;
     }

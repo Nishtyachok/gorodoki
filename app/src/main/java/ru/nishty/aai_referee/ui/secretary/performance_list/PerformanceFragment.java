@@ -76,7 +76,11 @@ public class PerformanceFragment extends Fragment {
                 NavHostFragment.findNavController(this)
                         .navigate(R.id.action_fragmentPerformance2_to_protocolQrFragment2, args);
             } else {
-
+                Bundle args = new Bundle();
+                args.putSerializable("performance", performance);
+                args.putSerializable("protocol", protocol);
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_fragmentPerformance2_to_protocol, args);
             }
         }));
 

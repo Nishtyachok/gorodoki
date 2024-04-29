@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_fragmentPerformance2_to_performanceAddFragment"
             app:destination="@id/performanceAddFragment" />
+        <action
+            android:id="@+id/action_fragmentPerformance2_to_protocol"
+            app:destination="@id/protocol" />
     </fragment>
     <fragment
         android:id="@+id/competitionFragment"
@@ -152,6 +155,22 @@
             app:destination="@id/competitionFragment2"
             app:popUpTo="@id/competitionFragment2"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/protocol"
+        android:name="ru.nishty.aai_referee.ui.secretary.protocol.ProtocolPlayerFragment"
+        android:label="fragment_protocol"
+        tools:layout="@layout/fragment_protocol_pager">
+        <argument
+            android:name="protocol"
+            app:argType="ru.nishty.aai_referee.entity.secretary.Protocol" />
+        <argument
+            android:name="performance"
+            app:argType="ru.nishty.aai_referee.entity.secretary.PerformanceSecretary" />
+        <action
+            android:id="@+id/action_protocol_to_fragmentPerformance2"
+            app:destination="@id/fragmentPerformance2" />
+
     </fragment>
     <fragment
             android:id="@+id/protocolQrFragment3"

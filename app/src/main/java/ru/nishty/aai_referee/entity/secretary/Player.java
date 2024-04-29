@@ -2,7 +2,9 @@ package ru.nishty.aai_referee.entity.secretary;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     @SerializedName("i")
     private String comp_id;
     @SerializedName("iid")

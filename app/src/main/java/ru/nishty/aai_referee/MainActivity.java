@@ -179,11 +179,21 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+    public boolean isProtocolQR(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.has("pid");
+        } catch (JSONException e) {
+            Log.e("QR Parsing", "Invalid JSON format", e);
+            return false;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
         if (intentResult != null) {
             if (intentResult.getContents() == null) {
                 Toast.makeText(getBaseContext(), R.string.cancelled, Toast.LENGTH_SHORT).show();
@@ -203,9 +213,22 @@ public class MainActivity extends AppCompatActivity {
                     dataBaseHelperSecretary.addCompetition(dbs, competition1);
                     dbs.close();
                     dataBaseHelperSecretary.close();
+                    CompetitionContent.onScan();
 
-                    String competitionUuid = competition.getUuid();
-                } else { // QR-код performance
+                } else if(isProtocolQR(intentResult.getContents())) { // QR-код protocol
+                    ru.nishty.aai_referee.entity.secretary.Protocol protocol = gson.fromJson(intentResult.getContents(), ru.nishty.aai_referee.entity.secretary.Protocol.class);
+                    String competitionUuid = protocol.getComp_id();
+
+                    DataBaseHelperSecretary dataBaseHelperSecretary = new DataBaseHelperSecretary(getApplicationContext());
+                    SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
+                    if (competitionUuid != null) {
+                        dataBaseHelperSecretary.addProtocol(db, protocol, getBaseContext());
+                    }
+
+                    db.close();
+                    dataBaseHelperSecretary.close();
+                    ru.nishty.aai_referee.ui.secretary.competition_list.placeholder.CompetitionContent.onScan();
+                } else {  // QR-код performance
                     Performance performance = gson.fromJson(intentResult.getContents(), Performance.class);
                     String competitionUuid = performance.getComp_id();
 
@@ -219,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
 
                     db.close();
                     dataBaseHelperReferee.close();
+                    CompetitionContent.onScan();
                 }
 
-                CompetitionContent.onScan();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -26,7 +26,6 @@ public class PerformanceContent {
 
 
     public static void addItem(Performance performance) {
-
         ITEM_MAP.add(performance);
     }
 
@@ -35,11 +34,5 @@ public class PerformanceContent {
         ITEM_MAP.addAll(content);
     }
 
-
-
-
-    /**
-     * A placeholder item representing a piece of content.
-     */
 
 }

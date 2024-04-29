@@ -1,21 +1,22 @@
 package ru.nishty.aai_referee.entity.referee;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class Protocol implements Serializable {
 
+    @SerializedName("i")
     private String comp_id;
+    @SerializedName("id")
     private int perf_id;
+    @SerializedName("pid")
     private int id;
-    private int player_id;
-    private String name;
-    private String shots1;
-    private String shots2;
+    @SerializedName("pl")
+    private List<PlayerRef> players;
     private String limit;
-    private String game1;
-    private String game2;
-    private String games_sum;
 
     public Protocol() {
     }
@@ -32,14 +33,20 @@ public class Protocol implements Serializable {
         this.comp_id = comp_id;
     }
 
-    public int getPlayer_id() {
-        return player_id;
+    public List<PlayerRef> getPlayers() {
+        return players;
     }
-
-    public void setPlayer_id(int player_id) {
-        this.player_id = player_id;
+    public void setPlayers(List<PlayerRef> playerRefs) {
+        players = playerRefs;
     }
-
+    public void updatePlayer(PlayerRef player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getId() == player.getId()) {
+                players.set(i, player);
+                break;
+            }
+        }
+    }
     public int getPerf_id() {
         return perf_id;
     }
@@ -56,60 +63,12 @@ public class Protocol implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getShots1() {
-        return shots1;
-    }
-
-    public void setShots1(String shots1) {
-        this.shots1 = shots1;
-    }
-
-    public String getShots2() {
-        return shots2;
-    }
-
-    public void setShots2(String shots2) {
-        this.shots2 = shots2;
-    }
-
     public String getLimit() {
         return limit;
     }
 
     public void setLimit(String limit) {
         this.limit = limit;
-    }
-
-    public String getGame1() {
-        return game1;
-    }
-
-    public void setGame1(String game1) {
-        this.game1 = game1;
-    }
-
-    public String getGame2() {
-        return game2;
-    }
-
-    public void setGame2(String game2) {
-        this.game2 = game2;
-    }
-
-    public String getGames_sum() {
-        return games_sum;
-    }
-
-    public void setGames_sum(String games_sum) {
-        this.games_sum = games_sum;
     }
 
 

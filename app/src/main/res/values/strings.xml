@@ -39,14 +39,23 @@
     <string name="gradeKMS">KMS</string>
     <string name="gradeMS">MS</string>
     <string name="gradeZMS">HMS</string>
-    <string name="solo">Solo</string>
-    <string name="duel">Duel</string>
-    <string name="group">Group</string>
-    <string name="ensemble">Ensemble</string>
     <string name="protocol">Protocol</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hintNamePlayer">Player name</string>
+    <string name="ostalos">Осталось:</string>
+    <string name="droped">Бросил:</string>
+    <string name="figurs">Фигура:</string>
+    <string name="broski">Броски:</string>
+    <string name="completed">завершить</string>
+    <string name="unnext">предыдущая</string>
+    <string name="x">X</string>
+    <string name="galochka">✓</string>
+    <string name="next">следующая</string>
+    <string name="result">Результат:</string>
+    <string name="game_2">Партия 2:</string>
+    <string name="game_1">Партия 1:</string>
+    <string name="range">Разряд:</string>
+    <string name="summ">Сумма</string>
 
 
 </resources>
