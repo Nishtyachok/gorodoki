@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -806,6 +807,37 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
         return protocol;
     }
+    public List<Protocol> getProtocolsById(SQLiteDatabase db, String comp_id, List<Integer> protocol_ids) {
+        List<Protocol> protocols = new ArrayList<>();
+        String selection = DataBaseContractSecretary.Protocol.COLUMN_COMPETITION + " = ? AND " +
+                DataBaseContractSecretary.Protocol._ID + " IN (" + TextUtils.join(",", protocol_ids) + ")";
+        String[] selectionArgs = {comp_id};
+
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Protocol.TABLE_NAME,
+                null,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            Protocol protocol = new Protocol();
+            protocol.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol._ID)));
+            protocol.setGame1(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAME1)));
+            protocol.setGame2(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAME2)));
+            protocol.setGames_sum(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_GAMES_SUM)));
+            protocol.setShots1(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_SHOTS1)));
+            protocol.setShots2(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_SHOTS2)));
+            protocol.setLimit(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_LIMIT)));
+            protocol.setTours(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_TOURS)));
+            protocols.add(protocol);
+        }
+        cursor.close();
+        return protocols;
+    }
 
     public Player getPlayerById(SQLiteDatabase db, String comp_id, int player_id) {
         Player player = new Player();
@@ -896,7 +928,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     public List<Integer> getProtocolsByPlayer(SQLiteDatabase db,String comp_id, int playerId) {
         List<Integer> protocolIds = new ArrayList<>();
         String[] columns = {DataBaseContractSecretary.Protocol._ID};
-        String selection = "player_id = ? AND comp_id = ?";
+        String selection = "player_id = ? AND competition = ?";
         String[] selectionArgs = {String.valueOf(playerId), comp_id};
         Cursor cursor = null;
 

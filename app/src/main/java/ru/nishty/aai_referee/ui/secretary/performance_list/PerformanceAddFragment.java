@@ -20,8 +20,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ru.nishty.aai_referee.R;
@@ -55,6 +57,8 @@ public class PerformanceAddFragment extends Fragment {
         // Инициализация элементов управления
         Spinner spinnerPlayer1 = view.findViewById(R.id.spinnerPlayer1);
         Spinner spinnerPlayer2 = view.findViewById(R.id.spinnerPlayer2);
+        Spinner spinnerPlayer3 = view.findViewById(R.id.spinnerPlayer3);
+        Spinner spinnerPlayer4 = view.findViewById(R.id.spinnerPlayer4);
         EditText etDate = view.findViewById(R.id.etDate);
         EditText etTime = view.findViewById(R.id.etTime);
         EditText etLocation = view.findViewById(R.id.etLocation);
@@ -79,6 +83,22 @@ public class PerformanceAddFragment extends Fragment {
         for (Player player : player2) {
             player2Names.add(player.getName());
             player2Ids.add(player.getId());
+        }
+        List<Player> player3 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
+        List<String> player3Names = new ArrayList<>();
+        List<Integer> player3Ids = new ArrayList<>();
+        player3Names.add("Выберите третьего игрока");
+        for (Player player : player3) {
+            player3Names.add(player.getName());
+            player3Ids.add(player.getId());
+        }
+        List<Player> player4 = dataBaseHelperSecretary.getPlayers(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
+        List<String> player4Names = new ArrayList<>();
+        List<Integer> player4Ids = new ArrayList<>();
+        player4Names.add("Выберите четвёртого игрока");
+        for (Player player : player4) {
+            player4Names.add(player.getName());
+            player4Ids.add(player.getId());
         }
         List<Judge> judges = dataBaseHelperSecretary.getJudges(dataBaseHelperSecretary.getWritableDatabase(), String.valueOf(competitionId));
         List<String> judgeNames = new ArrayList<>();
@@ -120,7 +140,36 @@ public class PerformanceAddFragment extends Fragment {
         };
         player2Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
+        ArrayAdapter<String> player3Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, player3Names) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) { // Первый элемент списка
+                    // Устанавливаем серый цвет для текста
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    // Устанавливаем обычный цвет для текста (черный, например)
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        player3Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> player4Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, player4Names) {
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) { // Первый элемент списка
+                    // Устанавливаем серый цвет для текста
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    // Устанавливаем обычный цвет для текста (черный, например)
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        player4Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ArrayAdapter<String> judgeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, judgeNames) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
@@ -138,6 +187,8 @@ public class PerformanceAddFragment extends Fragment {
         judgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPlayer1.setAdapter(player1Adapter);
         spinnerPlayer2.setAdapter(player2Adapter);
+        spinnerPlayer3.setAdapter(player3Adapter);
+        spinnerPlayer4.setAdapter(player4Adapter);
         spinnerJudge.setAdapter(judgeAdapter);
         // Установка OnClickListener для etDate EditText
         etDate.setOnClickListener(v -> {
@@ -246,17 +297,17 @@ public class PerformanceAddFragment extends Fragment {
             // Получение данных из элементов управления
             int selectedPositionPlayer1 = spinnerPlayer1.getSelectedItemPosition() - 1;
             int selectedPositionPlayer2 = spinnerPlayer2.getSelectedItemPosition() - 1;
+            int selectedPositionPlayer3 = spinnerPlayer3.getSelectedItemPosition() - 1;
+            int selectedPositionPlayer4 = spinnerPlayer4.getSelectedItemPosition() - 1;
             String date = etDate.getText().toString();
             String time = etTime.getText().toString();
             String location = etLocation.getText().toString();
             String courtNumber = etCourtNumber.getText().toString();
             int selectedPositionJudge = spinnerJudge.getSelectedItemPosition() - 1;
+            Set<Integer> selectedPlayerIds = new HashSet<>();
 
-            if (selectedPositionPlayer1 == -1) {
-                Toast.makeText(getActivity(), "Пожалуйста, выберите первого игрока", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (selectedPositionPlayer2 == -1) {
-                Toast.makeText(getActivity(), "Пожалуйста, выберите второго игрока", Toast.LENGTH_SHORT).show();
+            if (selectedPositionPlayer1 == -1 && selectedPositionPlayer2 == -1 && selectedPositionPlayer3 == -1 && selectedPositionPlayer4 == -1) {
+                Toast.makeText(getActivity(), "Пожалуйста, выберите хотя бы одного игрока", Toast.LENGTH_SHORT).show();
                 return;
             } else if (date.isEmpty()) {
                 Toast.makeText(getActivity(), "Пожалуйста, введите дату", Toast.LENGTH_SHORT).show();
@@ -270,41 +321,85 @@ public class PerformanceAddFragment extends Fragment {
             } else if (courtNumber.isEmpty()) {
                 Toast.makeText(getActivity(), "Пожалуйста, укажите номер площадки", Toast.LENGTH_SHORT).show();
                 return;
-            } else if (selectedPositionPlayer2 == selectedPositionPlayer1) {
-                Toast.makeText(getActivity(), "Пожалуйста, выберите разных игроков", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (selectedPositionJudge == -1) {
+            }  else if (selectedPositionJudge == -1) {
                 Toast.makeText(getActivity(), "Пожалуйста, выберите судью", Toast.LENGTH_SHORT).show();
                 return;
-            } else {
+            }
+            int selectedJudge = judgeIds.get(selectedPositionJudge);
 
+            List<Player> players = new ArrayList<>();
+
+            if (selectedPositionPlayer1 != -1) {
                 int selectedPlayer1 = player1Ids.get(selectedPositionPlayer1);
-                int selectedPlayer2 = player2Ids.get(selectedPositionPlayer2);
-                int selectedJudge = judgeIds.get(selectedPositionJudge);
-
-                Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer1);
-                Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer2);
-                List<Player> players = new ArrayList<>();
-                if (playerOne != null && playerTwo != null) {
-                    players.add(playerOne);
-                    players.add(playerTwo);
-                } else {
-                    // Если объекты игроков не найдены, выводим сообщение об ошибке
-                    Toast.makeText(getActivity(), "Ошибка при получении данных об игроках", Toast.LENGTH_SHORT).show();
+                if (!selectedPlayerIds.add(selectedPlayer1)) {
+                    Toast.makeText(getActivity(), "Выберите разных игроков", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                PerformanceSecretary performanceSecretary = new PerformanceSecretary();
-                performanceSecretary.setComp_id(String.valueOf(competitionId));
-                performanceSecretary.setPlayers(players);
-                performanceSecretary.setDate(date);
-                performanceSecretary.setTime(time);
-                performanceSecretary.setPlace(location);
-                performanceSecretary.setPlayground(courtNumber);
-                performanceSecretary.setJudgeId(selectedJudge);
-
-                SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
-                dataBaseHelperSecretary.addPerformance(db, performanceSecretary, players);
+                Player playerOne = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer1);
+                if (playerOne != null) {
+                    players.add(playerOne);
+                } else {
+                    Toast.makeText(getActivity(), "Ошибка при получении данных об игроке 1", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
+
+            if (selectedPositionPlayer2 != -1) {
+                int selectedPlayer2 = player2Ids.get(selectedPositionPlayer2);
+                if (!selectedPlayerIds.add(selectedPlayer2)) {
+                    Toast.makeText(getActivity(), "Выберите разных игроков", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Player playerTwo = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer2);
+                if (playerTwo != null) {
+                    players.add(playerTwo);
+                } else {
+                    Toast.makeText(getActivity(), "Ошибка при получении данных об игроке 2", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (selectedPositionPlayer3 != -1) {
+                int selectedPlayer3 = player3Ids.get(selectedPositionPlayer3);
+                if (!selectedPlayerIds.add(selectedPlayer3)) {
+                    Toast.makeText(getActivity(), "Выберите разных игроков", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Player playerThree = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer3);
+                if (playerThree != null) {
+                    players.add(playerThree);
+                } else {
+                    Toast.makeText(getActivity(), "Ошибка при получении данных об игроке 3", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (selectedPositionPlayer4 != -1) {
+                int selectedPlayer4 = player4Ids.get(selectedPositionPlayer4);
+                if (!selectedPlayerIds.add(selectedPlayer4)) {
+                    Toast.makeText(getActivity(), "Выберите разных игроков", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Player playerFour = dataBaseHelperSecretary.getPlayerById(dbr, String.valueOf(competitionId), selectedPlayer4);
+                if (playerFour != null) {
+                    players.add(playerFour);
+                } else {
+                    Toast.makeText(getActivity(), "Ошибка при получении данных об игроке 4", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            PerformanceSecretary performanceSecretary = new PerformanceSecretary();
+            performanceSecretary.setComp_id(String.valueOf(competitionId));
+            performanceSecretary.setPlayers(players);
+            performanceSecretary.setDate(date);
+            performanceSecretary.setTime(time);
+            performanceSecretary.setPlace(location);
+            performanceSecretary.setPlayground(courtNumber);
+            performanceSecretary.setJudgeId(selectedJudge);
+
+            SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
+            dataBaseHelperSecretary.addPerformance(db, performanceSecretary, players);
+
 
             NavHostFragment.findNavController(this)
                     .navigateUp();

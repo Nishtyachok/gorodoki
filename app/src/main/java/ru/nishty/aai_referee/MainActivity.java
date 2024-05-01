@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentApiVersion;
 
     private AppBarConfiguration appBarConfiguration;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,20 +62,16 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
 
-        if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
-        {
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().getDecorView().setSystemUiVisibility(flags);
             final View decorView = getWindow().getDecorView();
 
             decorView
-                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
-                    {
+                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                         @Override
-                        public void onSystemUiVisibilityChange(int visibility)
-                        {
-                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
-                            {
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                                 decorView.setSystemUiVisibility(flags);
                             }
                         }
@@ -98,8 +95,15 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
-
-
+        /*FloatingActionButton btnOpenGallery = findViewById(R.id.fab3);
+        btnOpenGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Открываете галерею для выбора изображения
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+            }
+        });*/
 
         CompetitionContent.setClickListener(new ScanListener() {
             @Override
@@ -121,13 +125,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     @SuppressLint("NewApi")
     @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
+    public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
-        {
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -136,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
@@ -147,11 +151,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
 
-
         if (id == R.id.action_settings) {
 
         }
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             NavController navController = Navigation.findNavController(this, R.id.toolbar);
             navController.navigateUp();
 
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setToolbar(){
+    public void setToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
     public boolean isProtocolQR(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -215,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                     dataBaseHelperSecretary.close();
                     CompetitionContent.onScan();
 
-                } else if(isProtocolQR(intentResult.getContents())) { // QR-код protocol
+                } else if (isProtocolQR(intentResult.getContents())) { // QR-код protocol
                     ru.nishty.aai_referee.entity.secretary.Protocol protocol = gson.fromJson(intentResult.getContents(), ru.nishty.aai_referee.entity.secretary.Protocol.class);
                     String competitionUuid = protocol.getComp_id();
 
@@ -251,9 +255,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 package ru.nishty.aai_referee.ui.referee.competition_list.placeholder;
 
-import ru.nishty.aai_referee.entity.referee.Competition;
-import ru.nishty.aai_referee.listeners.ScanListener;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.nishty.aai_referee.entity.referee.Competition;
+import ru.nishty.aai_referee.listeners.ScanListener;
 
 /**
  * Helper class for providing sample content for user interfaces created by

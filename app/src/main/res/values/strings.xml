@@ -56,6 +56,9 @@
     <string name="game_1">Партия 1:</string>
     <string name="range">Разряд:</string>
     <string name="summ">Сумма</string>
+    <string name="turn_on_flashlight">включить фонарик</string>
+    <string name="turn_off_flashlight">выключить фонарик</string>
+    <string name="open_galery">Открыть галерею</string>
 
 
 </resources>

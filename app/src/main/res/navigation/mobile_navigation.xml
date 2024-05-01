@@ -7,19 +7,25 @@
 
 
     <fragment
-            android:id="@+id/competitionFragment2"
-            android:name="ru.nishty.aai_referee.ui.secretary.competition_list.CompetitionFragment"
-            android:label="@string/competition_list"
-            tools:layout="@layout/fragment_competition_list_secretary">
-        <action android:id="@+id/action_competitionFragment2_to_fragmentPerformance22"
-                app:destination="@id/fragmentPerformance2"/>
-        <action android:id="@+id/action_competitionFragment2_to_competitionAddFragment"
-                app:destination="@id/competitionAddFragment"/>
-        <action android:id="@+id/action_competitionFragment2_to_protocolQrFragment3"
-                app:destination="@id/protocolQrFragment3"/>
+        android:id="@+id/competitionFragment2"
+        android:name="ru.nishty.aai_referee.ui.secretary.competition_list.CompetitionFragment"
+        android:label="@string/competition_list"
+        tools:layout="@layout/fragment_competition_list_secretary">
+        <action
+            android:id="@+id/action_competitionFragment2_to_fragmentPerformance22"
+            app:destination="@id/fragmentPerformance2" />
+        <action
+            android:id="@+id/action_competitionFragment2_to_competitionAddFragment"
+            app:destination="@id/competitionAddFragment" />
+        <action
+            android:id="@+id/action_competitionFragment2_to_protocolQrFragment3"
+            app:destination="@id/protocolQrFragment3" />
         <action
             android:id="@+id/action_competitionFragment2_to_protocolQrFragment4"
             app:destination="@id/protocolQrFragment4" />
+        <action
+            android:id="@+id/action_competitionFragment2_to_resultFragment"
+            app:destination="@id/resultFragment" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -27,16 +33,17 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
-            android:id="@+id/fragment_role_selection"
-            android:name="ru.nishty.aai_referee.ui.role_selection.RoleSelectionFragment"
-            android:label="@string/role_selection"
-            tools:layout="@layout/fragment_role_selection">
+        android:id="@+id/fragment_role_selection"
+        android:name="ru.nishty.aai_referee.ui.role_selection.RoleSelectionFragment"
+        android:label="@string/role_selection"
+        tools:layout="@layout/fragment_role_selection">
 
         <action
-                android:id="@+id/action_fragment_role_selection_to_competitionFragment"
-                app:destination="@id/competitionFragment" />
-        <action android:id="@+id/action_fragment_role_selection_to_competitionFragment2"
-                app:destination="@id/competitionFragment2"/>
+            android:id="@+id/action_fragment_role_selection_to_competitionFragment"
+            app:destination="@id/competitionFragment" />
+        <action
+            android:id="@+id/action_fragment_role_selection_to_competitionFragment2"
+            app:destination="@id/competitionFragment2" />
 
     </fragment>
 
@@ -61,17 +68,19 @@
             app:destination="@id/protocolQrFragment" />
     </fragment>
     <fragment
-            android:id="@+id/fragmentPerformance2"
-            android:name="ru.nishty.aai_referee.ui.secretary.performance_list.PerformanceFragment"
-            tools:layout="@layout/fragment_performance_list_secretary">
+        android:id="@+id/fragmentPerformance2"
+        android:name="ru.nishty.aai_referee.ui.secretary.performance_list.PerformanceFragment"
+        tools:layout="@layout/fragment_performance_list_secretary">
 
         <argument
-                android:name="id"
-                app:argType="string"/>
-        <action android:id="@+id/action_fragmentPerformance2_to_protocolQrFragment2"
-                app:destination="@id/protocolQrFragment2"/>
-        <action android:id="@+id/action_fragmentPerformance2_to_competitionFragment22"
-                app:destination="@id/competitionFragment2"/>
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentPerformance2_to_protocolQrFragment2"
+            app:destination="@id/protocolQrFragment2" />
+        <action
+            android:id="@+id/action_fragmentPerformance2_to_competitionFragment22"
+            app:destination="@id/competitionFragment2" />
         <action
             android:id="@+id/action_fragmentPerformance2_to_performanceAddFragment"
             app:destination="@id/performanceAddFragment" />
@@ -110,7 +119,7 @@
         android:id="@+id/protocolQrFragment"
         android:name="ru.nishty.aai_referee.ui.referee.protocol_qr.ProtocolQrFragment"
         android:label="fragment_protocol_qr"
-        tools:layout="@layout/fragment_protocol_qr" >
+        tools:layout="@layout/fragment_protocol_qr">
         <action
             android:id="@+id/action_protocolQrFragment_to_fragmentPerformance"
             app:destination="@id/fragmentPerformance"
@@ -125,16 +134,17 @@
             app:argType="ru.nishty.aai_referee.entity.referee.Performance" />
     </fragment>
     <fragment
-            android:id="@+id/protocolQrFragment2"
-            android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
-            android:label="fragment_protocol_qr"
-            tools:layout="@layout/fragment_protocol_qr">
+        android:id="@+id/protocolQrFragment2"
+        android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
+        android:label="fragment_protocol_qr"
+        tools:layout="@layout/fragment_protocol_qr">
         <argument
-                android:name="performance"
-                app:argType="ru.nishty.aai_referee.entity.secretary.PerformanceSecretary"/>
+            android:name="performance"
+            app:argType="ru.nishty.aai_referee.entity.secretary.PerformanceSecretary" />
 
-        <action android:id="@+id/action_protocolQrFragment2_to_fragmentPerformance2"
-                app:destination="@id/fragmentPerformance2"/>
+        <action
+            android:id="@+id/action_protocolQrFragment2_to_fragmentPerformance2"
+            app:destination="@id/fragmentPerformance2" />
         <action
             android:id="@+id/action_protocolQrFragment2_to_fragmentPerformance"
             app:destination="@id/fragmentPerformance2"
@@ -173,80 +183,93 @@
 
     </fragment>
     <fragment
-            android:id="@+id/protocolQrFragment3"
-            android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
-            android:label="fragment_protocol_qr"
-            tools:layout="@layout/fragment_protocol_qr">
+        android:id="@+id/protocolQrFragment3"
+        android:name="ru.nishty.aai_referee.ui.secretary.performance_qr.PerformanceQrFragment"
+        android:label="fragment_protocol_qr"
+        tools:layout="@layout/fragment_protocol_qr">
         <argument
-                android:name="protocol"
-                app:argType="ru.nishty.aai_referee.entity.referee.Protocol"/>
+            android:name="protocol"
+            app:argType="ru.nishty.aai_referee.entity.referee.Protocol" />
 
         <argument
-                android:name="name"
-                app:argType="string"/>
-        <action android:id="@+id/action_protocolQrFragment3_to_competitionFragment2"
-                app:destination="@id/competitionFragment2"/>
+            android:name="name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_protocolQrFragment3_to_competitionFragment2"
+            app:destination="@id/competitionFragment2" />
     </fragment>
     <fragment
-            android:id="@+id/competitionAddFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.competition_list.CompetitionAddFragment"
-            android:label="Создание соревнования"
-            tools:layout="@layout/fragment_add_competition" >
-        <action android:id="@+id/action_competitionAddFragment_to_playersFragment"
-                app:destination="@id/playersFragment"/>
-        <action android:id="@+id/action_competitionAddFragment_to_judgesFragment"
-                app:destination="@id/judgesFragment"/>
-        <action android:id="@+id/action_competitionAddFragment_to_protocolQrFragment3"
-                app:destination="@id/protocolQrFragment3"/>
+        android:id="@+id/competitionAddFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.competition_list.CompetitionAddFragment"
+        android:label="Создание соревнования"
+        tools:layout="@layout/fragment_add_competition">
+        <action
+            android:id="@+id/action_competitionAddFragment_to_playersFragment"
+            app:destination="@id/playersFragment" />
+        <action
+            android:id="@+id/action_competitionAddFragment_to_judgesFragment"
+            app:destination="@id/judgesFragment" />
+        <action
+            android:id="@+id/action_competitionAddFragment_to_protocolQrFragment3"
+            app:destination="@id/protocolQrFragment3" />
         <action
             android:id="@+id/action_competitionAddFragment_to_competitionFragment2"
             app:destination="@id/competitionFragment2" />
     </fragment>
     <fragment
-            android:id="@+id/judgesFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.judge_list.JudgeFragment"
-            android:label="Судьи"
-            tools:layout="@layout/fragment_judges" />
+        android:id="@+id/judgesFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.judge_list.JudgeFragment"
+        android:label="Судьи"
+        tools:layout="@layout/fragment_judges" />
 
     <fragment
-            android:id="@+id/playersFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.players_list.PlayersFragment"
-            android:label="Игроки"
-            tools:layout="@layout/fragment_players">
-        <action
-                android:id="@+id/action_playersFragment_to_categoriesFragment"
-                app:destination="@id/categoryFragment" />
-        <action
-                android:id="@+id/action_playersFragment_to_regionsFragment"
-                app:destination="@id/regionFragment" />
-        <action
-                android:id="@+id/action_playersFragment_to_playerListFragment"
-                app:destination="@id/playerListFragment" />
+        android:id="@+id/resultFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.result.ResultFragment"
+        android:label="Результаты"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 
     <fragment
-            android:id="@+id/categoryFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.players_list.category_list.CategoryFragment"
-            android:label="Категории"
-            tools:layout="@layout/fragment_category" />
+        android:id="@+id/playersFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.players_list.PlayersFragment"
+        android:label="Игроки"
+        tools:layout="@layout/fragment_players">
+        <action
+            android:id="@+id/action_playersFragment_to_categoriesFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_playersFragment_to_regionsFragment"
+            app:destination="@id/regionFragment" />
+        <action
+            android:id="@+id/action_playersFragment_to_playerListFragment"
+            app:destination="@id/playerListFragment" />
+    </fragment>
 
     <fragment
-            android:id="@+id/regionFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.players_list.region_list.RegionFragment"
-            android:label="Регионы"
-            tools:layout="@layout/fragment_region" />
+        android:id="@+id/categoryFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.players_list.category_list.CategoryFragment"
+        android:label="Категории"
+        tools:layout="@layout/fragment_category" />
 
     <fragment
-            android:id="@+id/playerListFragment"
-            android:name="ru.nishty.aai_referee.ui.secretary.players_list.player_list.PlayerFragment"
-            android:label="Список игроков"
-            tools:layout="@layout/fragment_player" />
+        android:id="@+id/regionFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.players_list.region_list.RegionFragment"
+        android:label="Регионы"
+        tools:layout="@layout/fragment_region" />
+
+    <fragment
+        android:id="@+id/playerListFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.players_list.player_list.PlayerFragment"
+        android:label="Список игроков"
+        tools:layout="@layout/fragment_player" />
     <fragment
         android:id="@+id/performanceAddFragment"
         android:name="ru.nishty.aai_referee.ui.secretary.performance_list.PerformanceAddFragment"
         android:label="Добавление игры"
-        tools:layout="@layout/fragment_add_performance"
-    >
+        tools:layout="@layout/fragment_add_performance">
         <action
             android:id="@+id/action_performanceAddFragment_to_fragmentPerformance2"
             app:destination="@id/fragmentPerformance2" />

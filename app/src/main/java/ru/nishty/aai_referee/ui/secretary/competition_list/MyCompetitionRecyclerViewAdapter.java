@@ -20,6 +20,8 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
 
     private final OnStateClickListener onStateClickListener;
     private final OnStateClickListener onStateClickListener2;
+    private final OnStateClickListener onStateClickListener3;
+
 
     public interface OnStateClickListener{
         void onStateClick(CompetitionSecretary competition, int position);
@@ -27,10 +29,12 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
     }
 
 
-    public MyCompetitionRecyclerViewAdapter(List<CompetitionSecretary> items, OnStateClickListener onStateClickListener, OnStateClickListener onStateClickListener2) {
+    public MyCompetitionRecyclerViewAdapter(List<CompetitionSecretary> items, OnStateClickListener onStateClickListener, OnStateClickListener onStateClickListener2,OnStateClickListener onStateClickListener3) {
         mValues = items;
         this.onStateClickListener = onStateClickListener;
         this.onStateClickListener2 = onStateClickListener2;
+        this.onStateClickListener3 = onStateClickListener3;
+
     }
 
     @Override
@@ -61,6 +65,12 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
                 onStateClickListener2.onStateClick(mValues.get(p),p);
             }
         });
+        holder.mResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStateClickListener3.onStateClick(mValues.get(p),p);
+            }
+        });
 
     }
 
@@ -79,6 +89,7 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
         public final TextView mIdView;
         public final TextView mItem3;
         public final Button mButton;
+        public final Button mResult;
         public final TextView mContentView;
         public CompetitionSecretary mItem;
 
@@ -87,6 +98,7 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
             mItem3 = binding.content3;
             mIdView = binding.itemNumber;
             mButton = binding.button;
+            mResult = binding.result;
             mContentView = binding.content;
         }
 
