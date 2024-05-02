@@ -16,7 +16,7 @@
     <string name="grade3">3</string>
     <string name="gradeKMS">КМС</string>
     <string name="gradeMS">МС</string>
-    <string name="gradeZMS">ЗМС</string>
+    <string name="gradeZMS">МСМК</string>
     <string name="save">Сохранить</string>
     <string name="hint_grade">Выберите разряд</string>
     <string name="hint_category">Выберите категорию</string>

@@ -6,7 +6,7 @@
 
     <TableLayout
         android:id="@+id/tableLayoutResult"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/endind_table"
         android:stretchColumns="*"
@@ -275,10 +275,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_list"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayoutResult"
         tools:listitem="@layout/result_item" />
