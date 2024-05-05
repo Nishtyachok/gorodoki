@@ -23,18 +23,15 @@ public class MyResultRecyclerViewAdapter extends RecyclerView.Adapter<MyResultRe
 
     public MyResultRecyclerViewAdapter(List<ResultPlayer> mValues) {
         this.mValues = mValues;
-        // Сортировка игроков по количеству протоколов
         Collections.sort(mValues, new Comparator<ResultPlayer>() {
             @Override
             public int compare(ResultPlayer p1, ResultPlayer p2) {
                 int p1ProtocolCount = p1.getProtocols() != null ? p1.getProtocols().size() : 0;
                 int p2ProtocolCount = p2.getProtocols() != null ? p2.getProtocols().size() : 0;
-                // Сравниваем количество протоколов
                 int compareProtocolCount = Integer.compare(p2ProtocolCount, p1ProtocolCount);
                 if (compareProtocolCount != 0) {
                     return compareProtocolCount;
                 } else {
-                    // Дополнительная сортировка для игроков с одинаковым количеством протоколов
                     if (p1ProtocolCount == 3) {
                         return Integer.compare(getT123Sum(p1), getT123Sum(p2));
                     } else if (p1ProtocolCount == 2) {
@@ -82,18 +79,12 @@ public class MyResultRecyclerViewAdapter extends RecyclerView.Adapter<MyResultRe
         Context context = holder.itemView.getContext();
         dataBaseHelperSecretary = new DataBaseHelperSecretary(context);
         SQLiteDatabase dbr = dataBaseHelperSecretary.getReadableDatabase();
-
-        // Получаем данные из базы данных для текущей позиции
         ResultPlayer player = mValues.get(position);
-
         holder.mNumber.setText(String.valueOf(position + 1));
         holder.mName.setText(player.getName());
         holder.mRange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(player.getRange())));
         holder.mRegion.setText(player.getRegion());
 
-
-
-        // Обработка протоколов
         List<Protocol> protocols = player.getProtocols();
         if (protocols != null && !protocols.isEmpty()) {
             Protocol protocol1 = protocols.get(0);
@@ -103,26 +94,35 @@ public class MyResultRecyclerViewAdapter extends RecyclerView.Adapter<MyResultRe
 
             if (protocols.size() > 1) {
                 Protocol protocol2 = protocols.get(1);
+                int x2 = protocol2.getGames_sum() + protocol1.getGames_sum();
                 holder.mP21.setText(String.valueOf(protocol2.getGame1()));
                 holder.mP22.setText(String.valueOf(protocol2.getGame2()));
                 holder.mT2.setText(String.valueOf(protocol2.getGames_sum()));
                 holder.mT12.setText(String.valueOf(protocol2.getGames_sum() + protocol1.getGames_sum()));
-
+                if(x2>=125&&x2<=140&& player.getRange()<4){
+                    holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(4)));
+                }
+                if(x2>=109&&x2<=124&& player.getRange()<5){
+                    holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(5)));
+                }
+                if(x2<=108&& player.getRange()<6){
+                    holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(6)));
+                }
                 if (protocols.size() > 2) {
                     Protocol protocol3 = protocols.get(2);
-                    int xx = protocol3.getGames_sum() + protocol2.getGames_sum() + protocol1.getGames_sum();
+                    int x3 = protocol3.getGames_sum() + protocol2.getGames_sum() + protocol1.getGames_sum();
                     holder.mP31.setText(String.valueOf(protocol3.getGame1()));
                     holder.mP32.setText(String.valueOf(protocol3.getGame2()));
                     holder.mT3.setText(String.valueOf(protocol3.getGames_sum()));
-                    holder.mT123.setText(String.valueOf(xx));
+                    holder.mT123.setText(String.valueOf(x3));
                     holder.mPlant.setText(String.valueOf(position + 1));
-                    if(xx>=133&&xx<=140&& player.getRange()<7){
+                    if(x3>=133&&x3<=140&& player.getRange()<7){
                         holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(7)));
                     }
-                    if(xx>=121&&xx<=132&& player.getRange()<8){
+                    if(x3<=132&& player.getRange()<8){
                         holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(8)));
                     }
-                    if(xx<=120&& player.getRange()==8){
+                    if(x3<=120&& player.getRange()==8){
                         holder.mNrange.setText(context.getString(DataBaseContractSecretary.GradeHelper.getGrade(9)));
                     }
 

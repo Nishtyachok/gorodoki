@@ -22,23 +22,12 @@ import ru.nishty.aai_referee.ui.referee.performance_list.placeholder.Performance
  * A fragment representing a list of Items.
  */
 public class PerformanceFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
     private static final String ARG_ID = "i";
     private static String ID;
-
-
-    // TODO: Customize parameters
     private int mColumnCount = 1;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public PerformanceFragment() {
     }
 
-    // TODO: Customize parameter initialization
     public static PerformanceFragment newInstance(int columnCount) {
         PerformanceFragment fragment = new PerformanceFragment();
         Bundle args = new Bundle();
@@ -50,8 +39,6 @@ public class PerformanceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -70,8 +57,6 @@ public class PerformanceFragment extends Fragment {
         db.close();
         dataBaseHelperReferee.close();
 
-
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;

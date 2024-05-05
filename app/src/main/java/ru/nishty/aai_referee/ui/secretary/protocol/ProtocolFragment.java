@@ -93,7 +93,6 @@ public class ProtocolFragment extends Fragment {
             List<List<String>> firstGameShots = parseShots(protocols.get(j).getShots1());
             List<List<String>> secondGameShots = parseShots(protocols.get(j).getShots2());
 
-
             for (int rowIndex = 1; rowIndex < 20; rowIndex++) {
                 TableRow tableRow = tableRows.get(rowIndex);
 
@@ -113,7 +112,6 @@ public class ProtocolFragment extends Fragment {
                         continue;
                     case 17:
                         int gs = protocols.get(j).getGames_sum();
-                        // Update the corresponding prevGamesSum variable based on the counter
                         switch (prevGamesSumCounter) {
                             case 1:
                                 prevGamesSum1 = gs;
@@ -121,9 +119,7 @@ public class ProtocolFragment extends Fragment {
                                 prevGamesSum2 = gs;
                             case 3:
                                 prevGamesSum3 = gs;
-                                // Add more cases for additional prevGamesSum variables if needed
                         }
-                        // Update the counter for the next iteration
                         prevGamesSumCounter++;
                         textViews.get(j + 1).setText(String.valueOf(gs));
                         continue;

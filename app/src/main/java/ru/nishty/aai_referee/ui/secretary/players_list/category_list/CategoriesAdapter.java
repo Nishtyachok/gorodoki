@@ -3,12 +3,14 @@ package ru.nishty.aai_referee.ui.secretary.players_list.category_list;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import ru.nishty.aai_referee.databinding.CategoryItemBinding;
-import ru.nishty.aai_referee.entity.secretary.Category;
 
 import java.util.List;
+
+import ru.nishty.aai_referee.databinding.CategoryItemBinding;
+import ru.nishty.aai_referee.entity.secretary.Category;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
@@ -57,9 +59,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         public void bind(Category category) {
             tvName.setText(category.getName());
             tvAgeLimit.setText(category.getAgelimit());
-            tvTours.setText(String.valueOf(category.getTours()));
-            tvFigures.setText(String.valueOf(category.getFigures()));
-            tvLimit.setText(String.valueOf(category.getLimit()));
+            tvTours.setText("Туры: "+ String.valueOf(category.getTours()));
+            tvFigures.setText("Фигур: "+String.valueOf(category.getFigures()));
+            tvLimit.setText("Лимит: "+String.valueOf(category.getLimit()));
 
         }
     }

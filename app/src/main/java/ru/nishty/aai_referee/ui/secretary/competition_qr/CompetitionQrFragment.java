@@ -31,7 +31,6 @@ import ru.nishty.aai_referee.entity.secretary.CompetitionSecretary;
  * create an instance of this fragment.
  */
 public class CompetitionQrFragment extends Fragment {
-
     private static final String ARG_COMPETITION_SECRETARY = "competition";
     private static CompetitionSecretary competitionSecretary;
 

@@ -36,14 +36,11 @@ import ru.nishty.aai_referee.entity.secretary.Player;
  * create an instance of this fragment.
  */
 public class PerformanceQrFragment extends Fragment {
-
     private static final String ARG_PERFORMANCE_SECRETARY = "performance";
     private static PerformanceSecretary performanceSecretary;
     private DataBaseHelperSecretary dataBaseHelperSecretary;
 
-
     public PerformanceQrFragment() {
-        // Required empty public constructor
     }
 
     public static PerformanceQrFragment newInstance(PerformanceSecretary performanceSecretary) {

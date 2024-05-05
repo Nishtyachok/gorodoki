@@ -148,7 +148,7 @@ public class ProtocolFillingFragment extends Fragment {
                 PlayerRef currentPlayer = performance.getPlayers().get(i);
                 PlayerRef playerProtocol = new PlayerRef();
                 if (currentPlayer.getG1() == 0 || currentPlayer.getG2() == 0) {
-                    Toast.makeText(getActivity(), "Завершите все партии для каждого участника", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Завершите партии для каждого участника", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 playerProtocol.setIid(currentPlayer.getIid());
@@ -280,7 +280,7 @@ public class ProtocolFillingFragment extends Fragment {
             int currentSum = calculateSum(i);
 
             if (currentSum < 5) {
-                while (currentSum < 5 && subArray.size() < b) {
+                while (currentSum < 5 ) {
                     if (i == 14 || i == 29) {
                         while (currentSum < 5) {
                             subArray.add("1");

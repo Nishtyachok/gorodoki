@@ -60,7 +60,6 @@ public class CompetitionFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-
     private MyCompetitionRecyclerViewAdapter adapter;
 
     /**
@@ -83,8 +82,6 @@ public class CompetitionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -93,9 +90,6 @@ public class CompetitionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
         View view = inflater.inflate(R.layout.fragment_competition_list, container, false);
 
         fab2 = view.findViewById(R.id.fab2);
@@ -286,4 +280,6 @@ public class CompetitionFragment extends Fragment {
             return false;
         }
     }
+
+
 }

@@ -30,7 +30,6 @@ import ru.nishty.aai_referee.entity.referee.Protocol;
  */
 public class ProtocolQrFragment extends Fragment {
 
-
     private static final String ARG_PROTOCOL = "protocol";
     private static final String ARG_PERFORMANCE = "performance";
     private static Protocol protocol;
@@ -70,9 +69,6 @@ public class ProtocolQrFragment extends Fragment {
 
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +78,6 @@ public class ProtocolQrFragment extends Fragment {
         getActivity().getActionBar();
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(performance.getPlayers().get(0).getName());
-        
 
         String str;
         Gson gson = new Gson();
@@ -100,5 +95,4 @@ public class ProtocolQrFragment extends Fragment {
         }
         return view;
     }
-
 }

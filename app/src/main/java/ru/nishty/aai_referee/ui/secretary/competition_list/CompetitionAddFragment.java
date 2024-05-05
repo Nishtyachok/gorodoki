@@ -73,14 +73,8 @@ public class CompetitionAddFragment extends Fragment {
         etHeadSecretary = view.findViewById(R.id.etHeadSecretary);
         AtomicBoolean isDatePickerOpened2 = new AtomicBoolean(false);
         AtomicBoolean isDatePickerOpened = new AtomicBoolean(false);
-
-
-
         dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
         SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
-
-
-        // Создание соревнования при создании фрагмента
         competitionSecretary = new CompetitionSecretary();
         competitionSecretary.setUuid(uuid);
 
@@ -91,52 +85,37 @@ public class CompetitionAddFragment extends Fragment {
             int month = calendar.get(Calendar.MONTH);
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-            // Открываем диалоговое окно выбора даты
             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                     (view1, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                        // Форматируем выбранную дату
                         String selectedDate = String.format(Locale.getDefault(), "%02d.%02d.%d", selectedDayOfMonth, selectedMonth + 1, selectedYear);
-                        // Устанавливаем выбранную дату в EditText
                         etCompetitionDate2.setText(selectedDate);
                     }, year, month, dayOfMonth);
-
-            // Показываем диалоговое окно выбора даты
             datePickerDialog.show();
         });
 
-// Отключаем свойство фокусировки для etDate EditText
         etCompetitionDate2.setFocusable(false);
-        etCompetitionDate2.setClickable(true); // Разрешаем нажатия на etDate EditText
+        etCompetitionDate2.setClickable(true);
 
         etCompetitionDate2.setOnFocusChangeListener((v, hasFocus) -> {
-            // Open Date Picker Dialog only if it has not been opened before
             if (hasFocus) {
-                // Get current date
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                // Launch Date Picker Dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                         (view1, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                            // Format the selected date
                             String selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%d", selectedDayOfMonth, selectedMonth + 1, selectedYear);
-                            // Set the selected date to the EditText
                             etCompetitionDate2.setText(selectedDate);
                         }, year, month, dayOfMonth);
 
-                // Show the Date Picker Dialog
                 datePickerDialog.show();
-
-                // Set the flag to true indicating the Date Picker Dialog has been opened
                 isDatePickerOpened2.set(true);
             }
         });
 
         etCompetitionDate.setOnClickListener(v -> {
             Toast.makeText(getActivity(), "Если соревнование в 1 день - не указывайте дату окончания", Toast.LENGTH_SHORT).show();
-            // Получаем текущую дату
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -145,42 +124,29 @@ public class CompetitionAddFragment extends Fragment {
             // Открываем диалоговое окно выбора даты
             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                     (view1, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                        // Форматируем выбранную дату
                         String selectedDate = String.format(Locale.getDefault(), "%02d.%02d.%d", selectedDayOfMonth, selectedMonth + 1, selectedYear);
-                        // Устанавливаем выбранную дату в EditText
                         etCompetitionDate.setText(selectedDate);
                     }, year, month, dayOfMonth);
-
-            // Показываем диалоговое окно выбора даты
             datePickerDialog.show();
         });
 
-// Отключаем свойство фокусировки для etDate EditText
         etCompetitionDate.setFocusable(false);
-        etCompetitionDate.setClickable(true); // Разрешаем нажатия на etDate EditText
+        etCompetitionDate.setClickable(true);
 
         etCompetitionDate.setOnFocusChangeListener((v, hasFocus) -> {
-            // Open Date Picker Dialog only if it has not been opened before
             if (hasFocus) {
-                // Get current date
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                // Launch Date Picker Dialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                         (view1, selectedYear, selectedMonth, selectedDayOfMonth) -> {
-                            // Format the selected date
                             String selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%d", selectedDayOfMonth, selectedMonth + 1, selectedYear);
-                            // Set the selected date to the EditText
                             etCompetitionDate.setText(selectedDate);
                         }, year, month, dayOfMonth);
 
-                // Show the Date Picker Dialog
                 datePickerDialog.show();
-
-                // Set the flag to true indicating the Date Picker Dialog has been opened
                 isDatePickerOpened.set(true);
             }
         });
@@ -224,8 +190,6 @@ public class CompetitionAddFragment extends Fragment {
             return;
         }
 
-
-
         if (TextUtils.isEmpty(competitionLocation)) {
             Toast.makeText(getActivity(), "Введите место проведения соревнования", Toast.LENGTH_SHORT).show();
             return;
@@ -253,16 +217,11 @@ public class CompetitionAddFragment extends Fragment {
             return;
         }
 
-
-        // Установка данных соревнования
         competitionSecretary.setName(competitionName);
         competitionSecretary.setYear(competitionDate);
         competitionSecretary.setPlace(competitionLocation);
         competitionSecretary.setHeadJudge(headJudge);
         competitionSecretary.setHeadSecretary(headSecretary);
-
-
-        // Сохранение соревнования в базе данных
         dataBaseHelperSecretary.addCompetition(dbr, competitionSecretary);
 
         NavHostFragment.findNavController(this)

@@ -54,7 +54,6 @@ public class PerformanceAddFragment extends Fragment {
         dataBaseHelperSecretary = new DataBaseHelperSecretary(getContext());
         SQLiteDatabase dbr = dataBaseHelperSecretary.getWritableDatabase();
 
-        // Инициализация элементов управления
         Spinner spinnerPlayer1 = view.findViewById(R.id.spinnerPlayer1);
         Spinner spinnerPlayer2 = view.findViewById(R.id.spinnerPlayer2);
         Spinner spinnerPlayer3 = view.findViewById(R.id.spinnerPlayer3);
@@ -294,7 +293,6 @@ public class PerformanceAddFragment extends Fragment {
 
 
         btnCreateGame.setOnClickListener(v -> {
-            // Получение данных из элементов управления
             int selectedPositionPlayer1 = spinnerPlayer1.getSelectedItemPosition() - 1;
             int selectedPositionPlayer2 = spinnerPlayer2.getSelectedItemPosition() - 1;
             int selectedPositionPlayer3 = spinnerPlayer3.getSelectedItemPosition() - 1;

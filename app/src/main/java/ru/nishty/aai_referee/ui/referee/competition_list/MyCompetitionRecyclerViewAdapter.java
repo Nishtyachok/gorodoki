@@ -14,14 +14,10 @@ import ru.nishty.aai_referee.entity.referee.Competition;
 
 
 public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCompetitionRecyclerViewAdapter.ViewHolder> {
-
     private final List<Competition> mValues;
-
     private final OnStateClickListener onStateClickListener;
-
     public interface OnStateClickListener{
         void onStateClick(Competition competition, int position);
-
     }
 
     public MyCompetitionRecyclerViewAdapter(List<Competition> items, OnStateClickListener onStateClickListener) {
@@ -31,10 +27,7 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(CompetitionItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
-
     }
 
     @Override
@@ -65,7 +58,6 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mIdView;
-
         public final TextView mItem3;
         public final TextView mContentView;
         public Competition mItem;
@@ -76,8 +68,6 @@ public class MyCompetitionRecyclerViewAdapter extends RecyclerView.Adapter<MyCom
             mIdView = binding.itemNumber;
             mContentView = binding.content;
         }
-
-
 
         @Override
         public String toString() {
