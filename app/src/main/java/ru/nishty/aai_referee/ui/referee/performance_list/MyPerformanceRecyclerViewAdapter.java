@@ -56,23 +56,23 @@ public class MyPerformanceRecyclerViewAdapter extends RecyclerView.Adapter<MyPer
 
             for (PlayerRef player : players) {
                 String name = player.getName();
-                int spaceIndex = name.lastIndexOf(' ');
-                if (spaceIndex != -1) {
+                String[] nameParts = name.split("\\s+");
+                if (nameParts.length >= 2) {
                     if (namesBuilder.length() > 0) {
                         namesBuilder.append(" - ");
                     }
-                    String lastName = name.substring(0, spaceIndex);
-                    String initials = name.substring(spaceIndex + 1, spaceIndex + 2) + ".";
+                    String lastName = nameParts[0];
+                    String initials = nameParts[1].substring(0, 1) + ".";
                     namesBuilder.append(lastName).append(" ").append(initials);
-                    categories.add(player.getCategory());
                 } else {
                     if (namesBuilder.length() > 0) {
                         namesBuilder.append(" - ");
                     }
                     namesBuilder.append(name);
-                    categories.add(player.getCategory());
                 }
+                categories.add(player.getCategory());
             }
+
 
             holder.mContentView.setText(namesBuilder.toString());
 

@@ -156,6 +156,7 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE, performance.getId());
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_ID, player.getIid());
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_NAME, player.getName());
+                playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY_CONF, player.getCategoryConf());
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_GRADE, player.getGrade());
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY, player.getCategory());
                 playerValues.put(DataBaseContractReferee.PlayerRef.COLUMN_REGION, player.getRegion());
@@ -253,6 +254,7 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
                         DataBaseContractReferee.PlayerRef.COLUMN_ID,
                         DataBaseContractReferee.PlayerRef.COLUMN_NAME,
                         DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY,
+                        DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY_CONF,
                         DataBaseContractReferee.PlayerRef.COLUMN_GRADE,
                         DataBaseContractReferee.PlayerRef.COLUMN_REGION,
                         DataBaseContractReferee.PlayerRef.COLUMN_PERFORMANCE,
@@ -274,6 +276,7 @@ public class DataBaseHelperReferee extends SQLiteOpenHelper {
             player.setIid(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_ID)));
             player.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_NAME)));
             player.setCategory(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY)));
+            player.setCategoryConf(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_CATEGORY_CONF)));
             player.setGrade(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_GRADE)));
             player.setRegion(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_REGION)));
             player.setComp_id(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractReferee.PlayerRef.COLUMN_COMPETITION)));

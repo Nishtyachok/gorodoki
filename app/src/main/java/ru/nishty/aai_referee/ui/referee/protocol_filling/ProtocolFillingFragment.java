@@ -43,6 +43,8 @@ public class ProtocolFillingFragment extends Fragment {
     private static final String ARG_PERFORMANCE = "performance";
 
     private static Protocol protocol;
+    private int summ1=0;
+    private int summ2=0;
     private static Performance performance;
     private ProtocolFillingPagerAdapter pagerAdapter;
     private int currentPage = 0;
@@ -69,12 +71,26 @@ public class ProtocolFillingFragment extends Fragment {
             performance = (Performance) getArguments().getSerializable("performance");
             currentPage = getArguments().getInt("position");
         }
-        initializeItemList();
     }
 
-    private void initializeItemList() {
-        itemList = Arrays.asList("пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо",
-                "пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо");
+    private void initializeItemList(int conf) {
+        switch (conf) {
+            case 1:
+                itemList = Arrays.asList("пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо",
+                        "пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "письмо");
+                break;
+            case 2:
+                itemList = Arrays.asList("пушка", "вилка", "колодец", "стрела", "артиллерия", "серп", "пулемётное гнездо", "самолёт", "тир", "письмо",
+                        "пушка", "вилка", "колодец", "стрела", "артиллерия", "серп", "пулемётное гнездо", "самолёт", "тир", "письмо");
+                break;
+            case 3:
+                itemList = Arrays.asList("пушка", "вилка", "колодец", "коленчатый вал", "артиллерия", "пулемётное гнездо", "часовые", "серп", "тир", "письмо",
+                        "пушка", "вилка", "колодец", "коленчатый вал", "артиллерия", "пулемётное гнездо", "часовые", "серп", "тир", "письмо");
+                break;
+            case 4:
+                itemList = Arrays.asList("пушка", "вилка", "звезда", "стрела", "колодец", "коленчатый вал", "артиллерия", "ракетка", "пулемётное гнездо", "рак", "часовые", "серп", "тир", "самолёт", "факс",
+                        "факс", "самолёт", "тир", "серп", "часовые", "рак", "пулемётное гнездо", "ракетка", "артиллерия", "коленчатый вал", "колодец", "стрела", "звезда", "вилка", "пушка");
+        }
     }
 
 
@@ -106,6 +122,7 @@ public class ProtocolFillingFragment extends Fragment {
         grade_t.setText(getContext().getString(DataBaseContractSecretary.GradeHelper.getGrade(performance.getPlayers().get(currentPage).getGrade())));
         category_t.setText(performance.getPlayers().get(currentPage).getCategory());
         region_t.setText(performance.getPlayers().get(currentPage).getRegion());
+        initializeItemList(performance.getPlayers().get(currentPage).getCategoryConf());
 
         buttons = Arrays.asList(
                 view.findViewById(R.id.one),
@@ -125,6 +142,7 @@ public class ProtocolFillingFragment extends Fragment {
         textView17 = view.findViewById(R.id.textView17);
         textView18 = view.findViewById(R.id.textView18);
         textView19 = view.findViewById(R.id.textView19);
+
         initializeCombinationsList();
 
         Button showPreviousButton = view.findViewById(R.id.save_protocol5);
@@ -157,7 +175,7 @@ public class ProtocolFillingFragment extends Fragment {
                 playerProtocol.setS1(currentPlayer.getS1());
                 playerProtocol.setS2(currentPlayer.getS2());
                 playersRefs.add(playerProtocol);
-                dataBaseHelperReferee.updatePlayerShots(db,currentPlayer.getPerf_id(),currentPlayer.getComp_id(), currentPlayer.getIid(), currentPlayer.getG1(), currentPlayer.getG2(), currentPlayer.getS1(), currentPlayer.getS2());
+                dataBaseHelperReferee.updatePlayerShots(db, currentPlayer.getPerf_id(), currentPlayer.getComp_id(), currentPlayer.getIid(), currentPlayer.getG1(), currentPlayer.getG2(), currentPlayer.getS1(), currentPlayer.getS2());
 
             }
             protocol.setPlayers(playersRefs);
@@ -205,8 +223,8 @@ public class ProtocolFillingFragment extends Fragment {
     private List<List<String>> combinationsList;
 
     private void initializeCombinationsList() {
-        combinationsList = new ArrayList<>(30);
-        for (int i = 0; i < 30; i++) {
+        combinationsList = new ArrayList<>(itemList.size());
+        for (int i = 0; i < itemList.size(); i++) {
             combinationsList.add(new ArrayList<>());
         }
     }
@@ -217,6 +235,10 @@ public class ProtocolFillingFragment extends Fragment {
             currentSum = calculateSum(currentItemIndex);
 
             if (currentSum == 5) {
+                logButtonActions();
+            }else if(!String.valueOf(textView17.getText()).equals("-")&&currentItemIndex<itemList.size()/2){
+                logButtonActions();
+            }else if(!String.valueOf(textView18.getText()).equals("-")&&currentItemIndex>=itemList.size()/2){
                 logButtonActions();
             } else {
                 Button lastSelectedButton = buttons.get(lastSelectedButtonIndex);
@@ -246,7 +268,10 @@ public class ProtocolFillingFragment extends Fragment {
                 }
                 String textViewText = textView15.getText().toString();
                 if (textViewText.equals("0")) {
-                    addMinimumElementsToSubarrays();
+                    if (performance.getPlayers().get(currentPage).getCategoryConf() == 4)
+                        sumOfGorodki();
+                    else
+                        addMinimumElementsToSubarrays();
                 }
                 resetButtonStates(buttons);
             }
@@ -265,23 +290,49 @@ public class ProtocolFillingFragment extends Fragment {
         return sum;
     }
 
+    private void sumOfGorodki() {
+        int a, b;
+        String s = String.valueOf(textView17.getText());
+        if (s.equals("-")) {
+            a = 0;
+            b = itemList.size() / 2;
+        } else {
+            a = itemList.size() / 2;
+            b = itemList.size();
+        }
+        for (int i = a; i < b; i++) {
+            int currentSum = calculateSum(i);
+            if(s.equals("-"))
+                summ1 += currentSum;
+            else
+                summ2+=currentSum;
+
+            if (currentSum < 5) {
+                updateItemList();
+                updateTextViews();
+                logButtonActions();
+            }
+
+        }
+    }
+
     private void addMinimumElementsToSubarrays() {
         int a, b;
         String s = String.valueOf(textView17.getText());
         if (s.equals("-")) {
             a = 0;
-            b = 15;
+            b = itemList.size() / 2;
         } else {
-            a = 15;
-            b = 30;
+            a = itemList.size() / 2;
+            b = itemList.size();
         }
         for (int i = a; i < b; i++) {
             List<String> subArray = combinationsList.get(i);
             int currentSum = calculateSum(i);
 
             if (currentSum < 5) {
-                while (currentSum < 5 ) {
-                    if (i == 14 || i == 29) {
+                while (currentSum < 5) {
+                    if (i == itemList.size() / 2 - 1 || i == itemList.size() - 1) {
                         while (currentSum < 5) {
                             subArray.add("1");
                             currentSum += 1;
@@ -411,7 +462,7 @@ public class ProtocolFillingFragment extends Fragment {
 
         for (int i = 0; i < combinationsList.size(); i++) {
             List<String> combination = combinationsList.get(i);
-            if (i < 15) {
+            if (i < itemList.size() / 2) {
                 countPart1 += combination.size();
             } else {
                 countPart2 += combination.size();
@@ -420,13 +471,13 @@ public class ProtocolFillingFragment extends Fragment {
 
         boolean allSumsEqualFivePart1 = true;
         boolean allSumsEqualFivePart2 = true;
-        int startIndex = (currentItemIndex < 15) ? 0 : 15;
-        int endIndex = (currentItemIndex < 15) ? 15 : 30;
+        int startIndex = (currentItemIndex < itemList.size() / 2) ? 0 : itemList.size() / 2;
+        int endIndex = (currentItemIndex < itemList.size() / 2) ? itemList.size() / 2 : itemList.size();
 
         for (int i = startIndex; i < endIndex; i++) {
             int sum = calculateSum(i);
             if (sum != 5) {
-                if (i < 15) {
+                if (i < itemList.size() / 2) {
                     allSumsEqualFivePart1 = false;
                 } else {
                     allSumsEqualFivePart2 = false;
@@ -435,70 +486,120 @@ public class ProtocolFillingFragment extends Fragment {
             }
         }
 
-        if (allSumsEqualFivePart1) {
-            TextView textView17 = view.findViewById(R.id.textView17);
-            textView17.setText(String.valueOf(countPart1));
-        } else {
-            TextView textView17 = view.findViewById(R.id.textView17);
-            textView17.setText("-");
-        }
+        if(performance.getPlayers().get(currentPage).getCategoryConf()==4){
 
-        if (!allSumsEqualFivePart1) {
-            TextView textView18 = view.findViewById(R.id.textView18);
-            textView18.setText("-");
-        } else if (allSumsEqualFivePart2) {
-            TextView textView18 = view.findViewById(R.id.textView18);
-            textView18.setText(String.valueOf(countPart2));
+            if (allSumsEqualFivePart1) {
+                TextView textView17 = view.findViewById(R.id.textView17);
+                textView17.setText(String.valueOf(summ1));
+            } else {
+                TextView textView17 = view.findViewById(R.id.textView17);
+                textView17.setText("-");
+            }
+            if (!allSumsEqualFivePart1) {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText("-");
+            } else if (allSumsEqualFivePart2) {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText(String.valueOf(summ2));
 
-        } else {
-            TextView textView18 = view.findViewById(R.id.textView18);
-            textView18.setText("-");
-        }
-
-        if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
-            TextView textView19 = view.findViewById(R.id.textView19);
-            textView19.setText(String.valueOf(countPart1 + countPart2));
-            performance.getPlayers().get(currentPage).setG1(countPart1);
-            performance.getPlayers().get(currentPage).setG2(countPart2);
-            List<List<String>> firstPart = new ArrayList<>();
-            List<List<String>> secondPart = new ArrayList<>();
-
-            for (int i = 0; i < 15; i++) {
-                firstPart.add(combinationsList.get(i));
+            } else {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText("-");
             }
 
-            for (int i = 15; i < combinationsList.size(); i++) {
-                secondPart.add(combinationsList.get(i));
+            if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
+                countPart1=summ1;
+                countPart2=summ2;
+                TextView textView19 = view.findViewById(R.id.textView19);
+                textView19.setText(String.valueOf(countPart1 + countPart2));
+                performance.getPlayers().get(currentPage).setG1(countPart1);
+                performance.getPlayers().get(currentPage).setG2(countPart2);
+                List<List<String>> firstPart = new ArrayList<>();
+                List<List<String>> secondPart = new ArrayList<>();
+
+                for (int i = 0; i < itemList.size() / 2; i++) {
+                    firstPart.add(combinationsList.get(i));
+                }
+
+                for (int i = itemList.size() / 2; i < combinationsList.size(); i++) {
+                    secondPart.add(combinationsList.get(i));
+                }
+
+                performance.getPlayers().get(currentPage).setS1(firstPart.toString());
+                performance.getPlayers().get(currentPage).setS2(secondPart.toString());
+            } else {
+                TextView textView19 = view.findViewById(R.id.textView19);
+                textView19.setText("-");
+            }
+        }  else {
+            if (allSumsEqualFivePart1) {
+                TextView textView17 = view.findViewById(R.id.textView17);
+                textView17.setText(String.valueOf(countPart1));
+            } else {
+                TextView textView17 = view.findViewById(R.id.textView17);
+                textView17.setText("-");
             }
 
-            performance.getPlayers().get(currentPage).setS1(firstPart.toString());
-            performance.getPlayers().get(currentPage).setS2(secondPart.toString());
-        } else {
-            TextView textView19 = view.findViewById(R.id.textView19);
-            textView19.setText("-");
-        }
+            if (!allSumsEqualFivePart1) {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText("-");
+            } else if (allSumsEqualFivePart2) {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText(String.valueOf(countPart2));
 
+            } else {
+                TextView textView18 = view.findViewById(R.id.textView18);
+                textView18.setText("-");
+            }
+
+            if (allSumsEqualFivePart1 && allSumsEqualFivePart2) {
+                TextView textView19 = view.findViewById(R.id.textView19);
+                textView19.setText(String.valueOf(countPart1 + countPart2));
+                performance.getPlayers().get(currentPage).setG1(countPart1);
+                performance.getPlayers().get(currentPage).setG2(countPart2);
+                List<List<String>> firstPart = new ArrayList<>();
+                List<List<String>> secondPart = new ArrayList<>();
+
+                for (int i = 0; i < itemList.size() / 2; i++) {
+                    firstPart.add(combinationsList.get(i));
+                }
+
+                for (int i = itemList.size() / 2; i < combinationsList.size(); i++) {
+                    secondPart.add(combinationsList.get(i));
+                }
+
+                performance.getPlayers().get(currentPage).setS1(firstPart.toString());
+                performance.getPlayers().get(currentPage).setS2(secondPart.toString());
+            } else {
+                TextView textView19 = view.findViewById(R.id.textView19);
+                textView19.setText("-");
+            }
+        }
         int count;
         String countText;
-        if (currentItemIndex < 15) {
+        if (currentItemIndex < itemList.size() / 2) {
             count = countPart1;
         } else {
             count = countPart2;
         }
+        if (count>30)
+            count=30;
         countText = String.valueOf(count);
 
         TextView textView13 = view.findViewById(R.id.textView13);
         textView13.setText(countText);
 
-        int count15 = 30;
-        int count30 = 30;
+        int count15 = itemList.size();
+        int count30 = itemList.size();
 
         int difference;
-        if (currentItemIndex < 15) {
+        if (currentItemIndex < itemList.size() / 2) {
             difference = count15 - countPart1;
         } else {
             difference = count30 - countPart2;
         }
+        if (difference<0)
+            difference=0;
         String count15Text = String.valueOf(difference);
         TextView textView15 = view.findViewById(R.id.textView15);
         textView15.setText(count15Text);

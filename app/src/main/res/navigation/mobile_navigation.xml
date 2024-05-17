@@ -224,9 +224,9 @@
 
     <fragment
         android:id="@+id/resultFragment"
-        android:name="ru.nishty.aai_referee.ui.secretary.result.ResultFragment"
+        android:name="ru.nishty.aai_referee.ui.secretary.result.ResultPagerFragment"
         android:label="Результаты"
-        tools:layout="@layout/fragment_result">
+        tools:layout="@layout/fragment_resilt_pager">
         <argument
             android:name="id"
             app:argType="string" />

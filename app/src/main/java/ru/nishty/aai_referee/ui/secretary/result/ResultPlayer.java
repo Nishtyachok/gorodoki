@@ -7,15 +7,17 @@ import ru.nishty.aai_referee.entity.secretary.Protocol;
 public class ResultPlayer {
     private String comp_id;
     private String Name;
+    private int Tours;
     private int Range;
     private String Region;
     private List<Protocol> protocols;
 
-    public ResultPlayer(String comp_id, List<Protocol> protocols, String name,
+    public ResultPlayer(String comp_id, List<Protocol> protocols, String name,int tours,
                         int range, String region) {
         this.comp_id = comp_id;
         this.protocols = protocols;
         this.Name = name;
+        this.Tours=tours;
         this.Range = range;
         this.Region = region;
     }
@@ -30,6 +32,14 @@ public class ResultPlayer {
 
     public List<Protocol> getProtocols() {
         return protocols;
+    }
+
+    public int getTours() {
+        return Tours;
+    }
+
+    public void setTours(int tours) {
+        Tours = tours;
     }
 
     public void setProtocols(List<Protocol> protocols) {

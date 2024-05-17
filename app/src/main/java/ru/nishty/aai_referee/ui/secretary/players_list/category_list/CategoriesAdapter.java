@@ -1,5 +1,6 @@
 package ru.nishty.aai_referee.ui.secretary.players_list.category_list;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ru.nishty.aai_referee.databinding.CategoryItemBinding;
+import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
 import ru.nishty.aai_referee.entity.secretary.Category;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
@@ -57,10 +59,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         }
 
         public void bind(Category category) {
+            Context context = itemView.getContext();
             tvName.setText(category.getName());
             tvAgeLimit.setText(category.getAgelimit());
+            int categoryConfigResourceId = DataBaseContractSecretary.CategoryHelper.getCategoryConf(category.getConfig());
+            if (categoryConfigResourceId != -1) {
+                tvFigures.setText(context.getString(categoryConfigResourceId));
+            } else {
+                tvFigures.setText("Unknown Discipline");
+            }
             tvTours.setText("Туры: "+ String.valueOf(category.getTours()));
-            tvFigures.setText("Фигур: "+String.valueOf(category.getFigures()));
             tvLimit.setText("Лимит: "+String.valueOf(category.getLimit()));
 
         }

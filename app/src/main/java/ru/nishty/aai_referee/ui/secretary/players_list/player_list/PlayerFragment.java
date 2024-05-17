@@ -186,7 +186,6 @@ public class PlayerFragment extends Fragment {
                 } else if (selectedPositionRegion < 0) {
                     Toast.makeText(getActivity(), "Пожалуйста, выберите регион", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Если все поля выбраны, выполняем действия добавления игрока
                     String name = etPlayerName.getText().toString();
                     int selectedCategory = categoryIds.get(selectedPositionCategory);
                     int selectedRegion = regionIds.get(selectedPositionRegion);
@@ -199,12 +198,14 @@ public class PlayerFragment extends Fragment {
                     player.setRegionId(selectedRegion);
 
                     SQLiteDatabase db = dataBaseHelperSecretary.getWritableDatabase();
+                    player.setCategoryConfig(dataBaseHelperSecretary.getCategoryCongigById(db,selectedCategory));
+
                     long playerId = dataBaseHelperSecretary.addPlayer(db, player, competitionUuid);
 
                     if (playerId != -1) {
                         playersList.add(player);
                         playerAdapter.notifyDataSetChanged();
-                        dialog.dismiss(); // Закрываем диалог только если все успешно
+                        dialog.dismiss();
                     }
                 }
             });

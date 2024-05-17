@@ -5,16 +5,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import ru.nishty.aai_referee.databinding.PlayerItemBinding;
 import ru.nishty.aai_referee.db.secretary.DataBaseContractSecretary;
 import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
 import ru.nishty.aai_referee.entity.secretary.Category;
 import ru.nishty.aai_referee.entity.secretary.Player;
 import ru.nishty.aai_referee.entity.secretary.Region;
-
-import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
 
@@ -82,7 +84,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             if (regionName != null) {
                 tvPlayerRegion.setText(regionName);
             } else {
-                tvPlayerRegion.setText("Unknown Grade");
+                tvPlayerRegion.setText("Unknown Region");
             }
 
             List<Category> categories = dataBaseHelperSecretary.getCategories(dbr, player.getComp_id());
@@ -90,7 +92,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             if (categoryName != null) {
                 tvPlayerCategory.setText(categoryName);
             } else {
-                tvPlayerCategory.setText("Unknown Grade");
+                tvPlayerCategory.setText("Unknown Category");
             }
 
         }

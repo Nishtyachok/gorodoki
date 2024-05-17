@@ -30,7 +30,6 @@ public class RoleSelectionFragment extends Fragment {
             }
         });
         Button secretaryButton = rootView.findViewById(R.id.secretary);
-
         secretaryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

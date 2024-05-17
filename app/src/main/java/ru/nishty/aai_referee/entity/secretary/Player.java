@@ -15,17 +15,21 @@ public class Player implements Serializable {
     private int regionId;
     @SerializedName("c")
     private int categoryId;
+    @SerializedName("k")
+    private int categoryConfig;
+
     @SerializedName("g")
     private int grade;
 
     public Player() {
     }
 
-    public Player(String comp_id, int id, String name, int regionId, int categoryId, int grade) {
+    public Player(String comp_id, int id, String name, int regionId, int categoryId,int categoryConfig, int grade) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
         this.regionId = regionId;
+        this.categoryConfig = categoryConfig;
         this.categoryId = categoryId;
         this.grade = grade;
     }
@@ -36,6 +40,13 @@ public class Player implements Serializable {
 
     public void setComp_id(String comp_id) {
         this.comp_id = comp_id;
+    }
+    public int getCategoryConfig() {
+        return categoryConfig;
+    }
+
+    public void setCategoryConfig(int categoryConfig) {
+        this.categoryConfig = categoryConfig;
     }
 
     public int getId() {

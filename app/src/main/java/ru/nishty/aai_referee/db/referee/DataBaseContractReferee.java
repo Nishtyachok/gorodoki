@@ -28,6 +28,7 @@ public final class DataBaseContractReferee {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_GRADE = "grade";
+        public static final String COLUMN_CATEGORY_CONF = "category_conf";
         public static final String COLUMN_G1 = "g1";
         public static final String COLUMN_G2 = "g2";
         public static final String COLUMN_S1 = "s1";
@@ -75,6 +76,7 @@ public final class DataBaseContractReferee {
                     PlayerRef.COLUMN_G2 + " INTEGER, " +
                     PlayerRef.COLUMN_S1 + " TEXT, " +
                     PlayerRef.COLUMN_S2 + " TEXT, " +
+                    PlayerRef.COLUMN_CATEGORY_CONF + " INTEGER," +
                     PlayerRef.COLUMN_REGION + " TEXT, " +
                     PlayerRef.COLUMN_CATEGORY + " TEXT, " +
                     PlayerRef.COLUMN_GRADE + " INTEGER, " +

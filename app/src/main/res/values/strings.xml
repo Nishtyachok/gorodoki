@@ -44,6 +44,11 @@
     <string name="hintNamePlayer">Player name</string>
     <string name="ostalos">Осталось:</string>
     <string name="droped">Бросил:</string>
+    <string name="class15">Gorodki Сlassic 15</string>
+    <string name="class10">Gorodki Сlassic 10</string>
+    <string name="class10hard">Gorodki Сlassic 10 hard</string>
+    <string name="evrop15">Gorodki European 15</string>
+
     <string name="figurs">Фигура:</string>
     <string name="broski">Броски:</string>
     <string name="completed">завершить</string>

@@ -6,18 +6,18 @@ public class Category {
     private String name;
     private String agelimit;
     private int tours;
-    private int figures;
+    private int config;
     private int limit;
 
     public Category() {
     }
-    public Category(String comp_id, int id, String name,String agelimit, int tours, int figures, int limit) {
+    public Category(String comp_id, int id, String name,String agelimit, int tours, int config, int limit) {
         this.comp_id = comp_id;
         this.id = id;
         this.name = name;
         this.agelimit = agelimit;
         this.tours = tours;
-        this.figures = figures;
+        this.config = config;
         this.limit = limit;
     }
 
@@ -61,12 +61,12 @@ public class Category {
         this.tours = tours;
     }
 
-    public int getFigures() {
-        return figures;
+    public int getConfig() {
+        return config;
     }
 
-    public void setFigures(int figures) {
-        this.figures = figures;
+    public void setConfig(int config) {
+        this.config = config;
     }
 
     public int getLimit() {

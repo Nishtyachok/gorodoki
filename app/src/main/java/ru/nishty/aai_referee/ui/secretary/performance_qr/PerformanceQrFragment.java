@@ -79,6 +79,7 @@ public class PerformanceQrFragment extends Fragment {
             PlayerQrData playerQrData = new PlayerQrData();
             playerQrData.setId(player.getId());
             playerQrData.setName(player.getName());
+            playerQrData.setCategoryConfig(dataBaseHelperSecretary.getCategoryCongigById(dbr, player.getCategoryId()));
             playerQrData.setRegionId(dataBaseHelperSecretary.getRegionNameById(dbr, player.getRegionId()));
             playerQrData.setCategoryId(dataBaseHelperSecretary.getCategoryNameById(dbr, player.getCategoryId()));
             playerQrData.setGrade(player.getGrade());
@@ -190,6 +191,8 @@ class PlayerQrData {
     private String regionId;
     @SerializedName("c")
     private String categoryId;
+    @SerializedName("k")
+    private int categoryConfig;
     @SerializedName("g")
     private int grade;
 
@@ -207,6 +210,14 @@ class PlayerQrData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCategoryConfig() {
+        return categoryConfig;
+    }
+
+    public void setCategoryConfig(int categoryConfig) {
+        this.categoryConfig = categoryConfig;
     }
 
     public String getRegionId() {

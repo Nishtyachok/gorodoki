@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
-import java.util.UUID;
 
 import ru.nishty.aai_referee.R;
 import ru.nishty.aai_referee.db.secretary.DataBaseHelperSecretary;
 import ru.nishty.aai_referee.entity.secretary.PerformanceSecretary;
+import ru.nishty.aai_referee.entity.secretary.Player;
 import ru.nishty.aai_referee.entity.secretary.Protocol;
 
 /**
@@ -33,10 +33,10 @@ public class PerformanceFragment extends Fragment {
     public PerformanceFragment() {
     }
 
-    public static PerformanceFragment newInstance(UUID id) {
+    public static PerformanceFragment newInstance(String id) {
         PerformanceFragment fragment = new PerformanceFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, id.toString());
+        args.putString(ARG_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +76,22 @@ public class PerformanceFragment extends Fragment {
                 NavHostFragment.findNavController(this)
                         .navigate(R.id.action_fragmentPerformance2_to_protocolQrFragment2, args);
             } else {
+                Player specialPlayer = null;
+
+// Проходим по списку игроков и ищем игрока с getCategoryConfig() равным 1, 2 или 4
+                for (Player player : performance.getPlayers()) {
+                    int categoryConfig = player.getCategoryConfig();
+                    if (categoryConfig == 1 || categoryConfig == 4) {
+                        specialPlayer = player;
+                        break; // Как только нашли подходящего игрока, выходим из цикла
+                    }
+                }
+
+// Если нашли подходящего игрока, перемещаем его в начало списка
+                if (specialPlayer != null) {
+                    performance.getPlayers().remove(specialPlayer);
+                    performance.getPlayers().add(0, specialPlayer);
+                }
                 Bundle args = new Bundle();
                 args.putSerializable("performance", performance);
                 args.putSerializable("protocol", protocol);

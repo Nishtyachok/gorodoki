@@ -92,7 +92,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_COMPETITION, competitionSecretary.getUuid());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT, category.getAgelimit());
-            categoryValues.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
+            categoryValues.put(DataBaseContractSecretary.Category.COLUMN_CONFIG, category.getConfig());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
             categoryValues.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
             db.insert(DataBaseContractSecretary.Category.TABLE_NAME, null, categoryValues);
@@ -110,6 +110,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             playerValues.put(DataBaseContractSecretary.Player.COLUMN_COMPETITION, competitionSecretary.getUuid());
             playerValues.put(DataBaseContractSecretary.Player.COLUMN_REGION_ID, player.getRegionId());
             playerValues.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID, player.getCategoryId());
+            playerValues.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF, player.getCategoryConfig());
             playerValues.put(DataBaseContractSecretary.Player.COLUMN_GRADE, player.getGrade());
             playerValues.put(DataBaseContractSecretary.Player.COLUMN_NAME, player.getName());
             db.insert(DataBaseContractSecretary.Player.TABLE_NAME, null, playerValues);
@@ -140,7 +141,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             values.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
             values.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
             values.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT, category.getAgelimit());
-            values.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
+            values.put(DataBaseContractSecretary.Category.COLUMN_CONFIG, category.getConfig());
             values.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
             newRowId = db.insert(DataBaseContractSecretary.Category.TABLE_NAME, null, values);
 
@@ -156,7 +157,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         return newRowId;
     }
 
-
     public List<Category> getCategories(SQLiteDatabase db, String competitionUuid) {
         List<Category> categories = new ArrayList<>();
         String[] projection = {
@@ -164,7 +164,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 DataBaseContractSecretary.Category.COLUMN_NAME,
                 DataBaseContractSecretary.Category.COLUMN_LIMIT,
                 DataBaseContractSecretary.Category.COLUMN_AGELIMIT,
-                DataBaseContractSecretary.Category.COLUMN_FIGURES,
+                DataBaseContractSecretary.Category.COLUMN_CONFIG,
                 DataBaseContractSecretary.Category.COLUMN_TOURS
         };
 
@@ -187,7 +187,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             category.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_NAME)));
             category.setLimit(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_LIMIT)));
             category.setAgelimit(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_AGELIMIT)));
-            category.setFigures(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_FIGURES)));
+            category.setConfig(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_CONFIG)));
             category.setTours(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_TOURS)));
             categories.add(category);
         }
@@ -202,7 +202,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         values.put(DataBaseContractSecretary.Category.COLUMN_NAME, category.getName());
         values.put(DataBaseContractSecretary.Category.COLUMN_LIMIT, category.getLimit());
         values.put(DataBaseContractSecretary.Category.COLUMN_AGELIMIT, category.getAgelimit());
-        values.put(DataBaseContractSecretary.Category.COLUMN_FIGURES, category.getFigures());
+        values.put(DataBaseContractSecretary.Category.COLUMN_CONFIG, category.getConfig());
         values.put(DataBaseContractSecretary.Category.COLUMN_TOURS, category.getTours());
 
         int count = db.update(
@@ -396,6 +396,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             values.put(DataBaseContractSecretary.Player.COLUMN_NAME, player.getName());
             values.put(DataBaseContractSecretary.Player.COLUMN_REGION_ID, player.getRegionId());
             values.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID, player.getCategoryId());
+            values.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF, player.getCategoryConfig());
             values.put(DataBaseContractSecretary.Player.COLUMN_GRADE, player.getGrade());
             newRowId = db.insert(DataBaseContractSecretary.Player.TABLE_NAME, null, values);
 
@@ -419,6 +420,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 DataBaseContractSecretary.Player.COLUMN_NAME,
                 DataBaseContractSecretary.Player.COLUMN_REGION_ID,
                 DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID,
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF,
                 DataBaseContractSecretary.Player.COLUMN_GRADE
         };
         String selection = DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ?";
@@ -441,6 +443,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             player.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_NAME)));
             player.setRegionId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_REGION_ID)));
             player.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)));
+            player.setCategoryConfig(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF)));
             player.setGrade(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)));
             players.add(player);
         }
@@ -448,11 +451,51 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         return players;
     }
 
+    public List<Player> getPlayersCat(SQLiteDatabase db, String competitionUuid,int categoryId) {
+        List<Player> players = new ArrayList<>();
+        String[] projection = {
+                DataBaseContractSecretary.Player.COLUMN_COMPETITION,
+                DataBaseContractSecretary.Player._ID,
+                DataBaseContractSecretary.Player.COLUMN_NAME,
+                DataBaseContractSecretary.Player.COLUMN_REGION_ID,
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID,
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF,
+                DataBaseContractSecretary.Player.COLUMN_GRADE
+        };
+        String selection = DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ? AND " +
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID+ " = ?";
+        String[] selectionArgs = {competitionUuid, String.valueOf(categoryId)};
+
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Player.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            Player player = new Player();
+            player.setComp_id(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_COMPETITION)));
+            player.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player._ID)));
+            player.setName(cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_NAME)));
+            player.setRegionId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_REGION_ID)));
+            player.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)));
+            player.setCategoryConfig(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF)));
+            player.setGrade(cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)));
+            players.add(player);
+        }
+        cursor.close();
+        return players;
+    }
     public void setPlayer(SQLiteDatabase db, Player player) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Player.COLUMN_NAME, player.getName());
         values.put(DataBaseContractSecretary.Player.COLUMN_REGION_ID, player.getRegionId());
         values.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID, player.getCategoryId());
+        values.put(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF, player.getCategoryConfig());
         values.put(DataBaseContractSecretary.Player.COLUMN_GRADE, player.getGrade());
 
 
@@ -547,6 +590,40 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return categoryName;
     }
+    public int getCategoryCongigById(SQLiteDatabase db, int categoryId) {
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Category.TABLE_NAME,
+                new String[]{DataBaseContractSecretary.Category.COLUMN_CONFIG},
+                DataBaseContractSecretary.Category._ID + " = ?",
+                new String[]{String.valueOf(categoryId)},
+                null,
+                null,
+                null
+        );
+        int categoryConfig = 0;
+        if (cursor.moveToFirst()) {
+            categoryConfig = cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_CONFIG));
+        }
+        cursor.close();
+        return categoryConfig;
+    }
+    public int getCategoryTourById(SQLiteDatabase db, int categoryId) {
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Category.TABLE_NAME,
+                new String[]{DataBaseContractSecretary.Category.COLUMN_TOURS},
+                DataBaseContractSecretary.Category._ID + " = ?",
+                new String[]{String.valueOf(categoryId)},
+                null,
+                null,
+                null
+        );
+        int categoryConfig = 0;
+        if (cursor.moveToFirst()) {
+            categoryConfig = cursor.getInt(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_TOURS));
+        }
+        cursor.close();
+        return categoryConfig;
+    }
 
     public String getRegionNameById(SQLiteDatabase db, int regionId) {
         Cursor cursor = db.query(
@@ -606,6 +683,9 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             );
             player.setCategoryId(cursor.getInt(
                     cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)
+            ));
+            player.setCategoryConfig(cursor.getInt(
+                    cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF)
             ));
             player.setGrade(cursor.getInt(
                     cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)
@@ -866,6 +946,9 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         ));
         player.setCategoryId(cursor.getInt(
                 cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID)
+        ));
+        player.setCategoryConfig(cursor.getInt(
+                cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_CATEGORY_CONF)
         ));
         player.setGrade(cursor.getInt(
                 cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Player.COLUMN_GRADE)

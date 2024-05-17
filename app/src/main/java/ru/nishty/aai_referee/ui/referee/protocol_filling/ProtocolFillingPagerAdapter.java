@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import ru.nishty.aai_referee.entity.referee.Performance;
-import ru.nishty.aai_referee.entity.referee.PlayerRef;
 import ru.nishty.aai_referee.entity.referee.Protocol;
 
 public class ProtocolFillingPagerAdapter extends FragmentStateAdapter {
@@ -21,7 +20,6 @@ public class ProtocolFillingPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        PlayerRef currentPlayer = performance.getPlayers().get(position);
         return ProtocolFillingFragment.newInstance(protocol, performance, position);
     }
 

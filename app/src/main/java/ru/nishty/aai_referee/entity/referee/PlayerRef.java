@@ -16,20 +16,23 @@ public class PlayerRef implements Serializable {
     private String s2;
     @SerializedName("c")
     private String category;
+    @SerializedName("k")
+    private Integer categoryConf;
     @SerializedName("g")
     private Integer grade;
     @SerializedName("nid")
     private Integer id;
     @SerializedName("iid")
     private int iid;
-
     @SerializedName("n")
     private String name;
     @SerializedName("r")
     private String region;
+
     public PlayerRef() {
     }
-    public PlayerRef(String comp_id,Integer perf_id, String name, Integer id,Integer iid, int grade, String region, String category) {
+
+    public PlayerRef(String comp_id, Integer perf_id, String name, Integer id, Integer iid, int grade, String region, String category, int categoryConf) {
         this.comp_id = comp_id;
         this.perf_id = perf_id;
         this.name = name;
@@ -38,6 +41,7 @@ public class PlayerRef implements Serializable {
         this.grade = grade;
         this.region = region;
         this.category = category;
+        this.categoryConf = categoryConf;
     }
 
     public String getComp_id() {
@@ -62,6 +66,14 @@ public class PlayerRef implements Serializable {
 
     public void setPerf_id(Integer perf_id) {
         this.perf_id = perf_id;
+    }
+
+    public Integer getCategoryConf() {
+        return categoryConf;
+    }
+
+    public void setCategoryConf(Integer categoryConf) {
+        this.categoryConf = categoryConf;
     }
 
     public int getG1() {

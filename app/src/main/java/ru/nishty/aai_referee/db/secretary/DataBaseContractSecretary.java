@@ -4,7 +4,6 @@ import android.provider.BaseColumns;
 import ru.nishty.aai_referee.R;
 
 public final class DataBaseContractSecretary {
-
     public static class Competition implements BaseColumns {
         public static final String TABLE_NAME = "competition";
         public static final String COLUMN_NAME = "name";
@@ -19,7 +18,7 @@ public final class DataBaseContractSecretary {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_AGELIMIT = "agelimit";
         public static final String COLUMN_TOURS = "tours";
-        public static final String COLUMN_FIGURES = "figures";
+        public static final String COLUMN_CONFIG = "config";
         public static final String COLUMN_LIMIT = "_limit";
         public static final String COLUMN_COMPETITION = "competition";
 
@@ -64,12 +63,29 @@ public final class DataBaseContractSecretary {
             }
         }
     }
+    public static class CategoryHelper {
+        public static int getCategoryConf(int CategoryConf){
+            switch (CategoryConf){
+                case 1:
+                    return R.string.class15;
+                case 2:
+                    return R.string.class10;
+                case 3:
+                    return R.string.class10hard;
+                case 4:
+                    return R.string.evrop15;
+                default:
+                    return -1;
+            }
+        }
+    }
     public static class Player implements BaseColumns {
         public static final String TABLE_NAME = "player";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_REGION_ID = "region";
         public static final String COLUMN_CATEGORY_ID = "category";
         public static final String COLUMN_GRADE = "grade";
+        public static final String COLUMN_CATEGORY_CONF = "category_conf";
         public static final String COLUMN_COMPETITION = "competition";
     }
 
@@ -135,6 +151,7 @@ public final class DataBaseContractSecretary {
                     Player.COLUMN_REGION_ID + " INTEGER, " +
                     Player.COLUMN_CATEGORY_ID + " INTEGER, " +
                     Player.COLUMN_GRADE + " INTEGER, " +
+                    Player.COLUMN_CATEGORY_CONF + " INTEGER," +
                     Player.COLUMN_COMPETITION + " TEXT, " +
                     "FOREIGN KEY (" + Player.COLUMN_COMPETITION + ") REFERENCES " +
                     Competition.TABLE_NAME + "(" + Competition._ID + ") ON DELETE CASCADE ON UPDATE CASCADE "+
@@ -162,7 +179,7 @@ public final class DataBaseContractSecretary {
                     Category.COLUMN_NAME + " TEXT, " +
                     Category.COLUMN_AGELIMIT + " TEXT, " +
                     Category.COLUMN_TOURS + " INTEGER, " +
-                    Category.COLUMN_FIGURES + " INTEGER, " +
+                    Category.COLUMN_CONFIG + " INTEGER, " +
                     Category.COLUMN_LIMIT + " INTEGER, " +
                     Category.COLUMN_COMPETITION + " TEXT)";
     public static final String SQL_CREATE_ENTRIES_PERFORMANCEPLAYER =

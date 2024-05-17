@@ -8,6 +8,7 @@
     <string name="secretary_fragment">Секретарь городки</string>
     <string name="qr_code">qr код</string>
     <string name="cancelled">Отменено</string>
+
     <string name="gradeU1">1юн</string>
     <string name="gradeU2">2юн</string>
     <string name="gradeU3">3юн</string>
@@ -17,6 +18,12 @@
     <string name="gradeKMS">КМС</string>
     <string name="gradeMS">МС</string>
     <string name="gradeZMS">МСМК</string>
+
+    <string name="class15">Городки классические 15</string>
+    <string name="class10">Городки классические 10</string>
+    <string name="class10hard">Городки классические 10 сложные</string>
+    <string name="evrop15">Городки европейские 15</string>
+
     <string name="save">Сохранить</string>
     <string name="hint_grade">Выберите разряд</string>
     <string name="hint_category">Выберите категорию</string>
