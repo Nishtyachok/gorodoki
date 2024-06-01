@@ -12,8 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ru.nishty.aai_referee.entity.referee.PlayerRef;
 import ru.nishty.aai_referee.entity.secretary.Category;
@@ -196,6 +200,70 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         return categories;
     }
 
+    public String getCompetitionNameById(SQLiteDatabase db, String competitionId) {
+        String competitionName = null;
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Competition.TABLE_NAME,
+                new String[]{DataBaseContractSecretary.Competition.COLUMN_NAME}, // Столбцы, которые хотим получить
+                DataBaseContractSecretary.Competition._ID + " = ?",
+                new String[]{String.valueOf(competitionId)}, // Значения для условия WHERE
+                null, // Группировка строк
+                null, // Условие HAVING
+                null  // Сортировка строк
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                competitionName = cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Competition.COLUMN_NAME));
+            }
+            cursor.close();
+        }
+
+        return competitionName;
+    }
+
+    public String getAgeLimitByCompAndCategoryId(SQLiteDatabase db, String compId, int categoryId) {
+        String ageLimit = null;
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Category.TABLE_NAME, // Имя таблицы
+                new String[]{DataBaseContractSecretary.Category.COLUMN_AGELIMIT}, // Столбцы, которые хотим получить
+                DataBaseContractSecretary.Category.COLUMN_COMPETITION + " = ? AND " + DataBaseContractSecretary.Category._ID + " = ?", // Условие WHERE
+                new String[]{String.valueOf(compId), String.valueOf(categoryId)}, // Значения для условия WHERE
+                null, // Группировка строк
+                null, // Условие HAVING
+                null  // Сортировка строк
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                ageLimit = cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Category.COLUMN_AGELIMIT));
+            }
+            cursor.close();
+        }
+
+        return ageLimit;
+    }
+    public String getCompetitionPlaceById(SQLiteDatabase db, String compId) {
+        String placeComp = null;
+        Cursor cursor = db.query(
+                DataBaseContractSecretary.Competition.TABLE_NAME, // Имя таблицы
+                new String[]{DataBaseContractSecretary.Competition.COLUMN_PLACE}, // Столбцы, которые хотим получить
+                DataBaseContractSecretary.Competition._ID + " = ?", // Условие WHERE
+                new String[]{compId}, // Значения для условия WHERE
+                null, // Группировка строк
+                null, // Условие HAVING
+                null  // Сортировка строк
+        );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                placeComp = cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Competition.COLUMN_PLACE));
+            }
+            cursor.close();
+        }
+
+        return placeComp;
+    }
     public void setCategory(SQLiteDatabase db, Category category) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Category.COLUMN_COMPETITION, String.valueOf(category.getComp_id()));
@@ -218,6 +286,63 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             Log.e(DATABASE_NAME, "Ошибка при обновлении категории с ID: " + category.getId());
         }
     }
+
+    public String getFormattedDateByCompId(SQLiteDatabase db, String compId) {
+        String formattedDate = null;
+        String query = "SELECT " + DataBaseContractSecretary.Competition.COLUMN_YEAR + " FROM " + DataBaseContractSecretary.Competition.TABLE_NAME +
+                " WHERE " + DataBaseContractSecretary.Competition._ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{compId});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String dateStr = cursor.getString(cursor.getColumnIndexOrThrow(DataBaseContractSecretary.Competition.COLUMN_YEAR));
+                formattedDate = formatDateString(dateStr);
+            }
+            cursor.close();
+        }
+
+        return formattedDate;
+    }
+
+    // Функция для форматирования строки даты
+    private String formatDateString(String dateStr) {
+        String formattedDate;
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat outputFormatSingle = new SimpleDateFormat("d MMMM yyyy 'г'", new Locale("ru"));
+        SimpleDateFormat outputFormatRangeStart = new SimpleDateFormat("d", new Locale("ru"));
+        SimpleDateFormat outputFormatRangeMiddle = new SimpleDateFormat("d", new Locale("ru"));
+        SimpleDateFormat outputFormatRangeEndSameMonth = new SimpleDateFormat("d MMMM yyyy 'г'", new Locale("ru"));
+        SimpleDateFormat outputFormatRangeEndDifferentMonth = new SimpleDateFormat("d MMMM yyyy 'г'", new Locale("ru"));
+
+        if (dateStr.contains(" - ")) {
+            String[] dates = dateStr.split(" - ");
+            try {
+                Date startDate = inputFormat.parse(dates[0]);
+                Date endDate = inputFormat.parse(dates[1]);
+
+                // Если месяц у начальной и конечной даты одинаков, используем сокращённый формат
+                if (startDate.getMonth() == endDate.getMonth()) {
+                    formattedDate = outputFormatRangeStart.format(startDate) + " - " + outputFormatRangeEndSameMonth.format(endDate);
+                } else {
+                    formattedDate = outputFormatRangeStart.format(startDate) + " " + new SimpleDateFormat("MMMM", new Locale("ru")).format(startDate) + " - " + outputFormatRangeEndDifferentMonth.format(endDate);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                formattedDate = dateStr; // Вернуть оригинальную строку в случае ошибки
+            }
+        } else {
+            try {
+                Date singleDate = inputFormat.parse(dateStr);
+                formattedDate = outputFormatSingle.format(singleDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                formattedDate = dateStr; // Вернуть оригинальную строку в случае ошибки
+            }
+        }
+
+        return formattedDate;
+    }
+
     public long addRegion(SQLiteDatabase db, Region region, String competitionUuid) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Region.TABLE_NAME,
@@ -380,7 +505,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
     }
 
-    public long addPlayer(SQLiteDatabase db, Player player, String  competitionUuid) {
+    public long addPlayer(SQLiteDatabase db, Player player, String competitionUuid) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Player.TABLE_NAME,
                 new String[]{DataBaseContractSecretary.Player._ID},
@@ -451,7 +576,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         return players;
     }
 
-    public List<Player> getPlayersCat(SQLiteDatabase db, String competitionUuid,int categoryId) {
+    public List<Player> getPlayersCat(SQLiteDatabase db, String competitionUuid, int categoryId) {
         List<Player> players = new ArrayList<>();
         String[] projection = {
                 DataBaseContractSecretary.Player.COLUMN_COMPETITION,
@@ -463,7 +588,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                 DataBaseContractSecretary.Player.COLUMN_GRADE
         };
         String selection = DataBaseContractSecretary.Player.COLUMN_COMPETITION + " = ? AND " +
-                DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID+ " = ?";
+                DataBaseContractSecretary.Player.COLUMN_CATEGORY_ID + " = ?";
         String[] selectionArgs = {competitionUuid, String.valueOf(categoryId)};
 
         Cursor cursor = db.query(
@@ -490,6 +615,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return players;
     }
+
     public void setPlayer(SQLiteDatabase db, Player player) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Player.COLUMN_NAME, player.getName());
@@ -547,7 +673,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     }
 
     public void addPerformance(SQLiteDatabase db, PerformanceSecretary performance, List<Player> players) {
-        
+
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Performance.COLUMN_COMPETITION, performance.getComp_id());
         values.put(DataBaseContractSecretary.Performance.COLUMN_TIME, performance.getTime());
@@ -558,7 +684,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
 
         long performanceId = db.insert(DataBaseContractSecretary.Performance.TABLE_NAME, null, values);
 
-        
+
         for (Player player : players) {
             ContentValues playerPerformanceValues = new ContentValues();
             playerPerformanceValues.put(DataBaseContractSecretary.PerformancePlayer.COLUMN_COMPETITION, performance.getComp_id().toString());
@@ -590,6 +716,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return categoryName;
     }
+
     public int getCategoryCongigById(SQLiteDatabase db, int categoryId) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Category.TABLE_NAME,
@@ -607,6 +734,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return categoryConfig;
     }
+
     public int getCategoryTourById(SQLiteDatabase db, int categoryId) {
         Cursor cursor = db.query(
                 DataBaseContractSecretary.Category.TABLE_NAME,
@@ -644,9 +772,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
     }
 
 
-
-
-
     public void setPerformance(SQLiteDatabase db, PerformanceSecretary performance, List<Player> players) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Performance.COLUMN_TIME, performance.getTime());
@@ -656,7 +781,6 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         values.put(DataBaseContractSecretary.Performance.COLUMN_JUDGE_ID, performance.getJudgeId());
 
 
-        
         db.delete(DataBaseContractSecretary.PerformancePlayer.TABLE_NAME,
                 DataBaseContractSecretary.PerformancePlayer.COLUMN_PERFORMANCE_ID + " = ?",
                 new String[]{});
@@ -831,6 +955,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
 
     }
+
     public Protocol getProtocolPlayer(SQLiteDatabase db, String comp_id, int perf_id, int current_page) {
         Protocol protocol = new Protocol();
         Cursor cursor = null;
@@ -840,7 +965,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
                     null,
                     DataBaseContractSecretary.Protocol.COLUMN_COMPETITION + " = ? AND "
                             + DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID + " = ?",
-                    new String[]{ comp_id, String.valueOf(perf_id) },
+                    new String[]{comp_id, String.valueOf(perf_id)},
                     null,
                     null,
                     DataBaseContractSecretary.Protocol._ID,
@@ -887,6 +1012,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
         return protocol;
     }
+
     public List<Protocol> getProtocolsById(SQLiteDatabase db, String comp_id, List<Integer> protocol_ids) {
         List<Protocol> protocols = new ArrayList<>();
         String selection = DataBaseContractSecretary.Protocol.COLUMN_COMPETITION + " = ? AND " +
@@ -1008,7 +1134,8 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         cursor.close();
         return judgeName;
     }
-    public List<Integer> getProtocolsByPlayer(SQLiteDatabase db,String comp_id, int playerId) {
+
+    public List<Integer> getProtocolsByPlayer(SQLiteDatabase db, String comp_id, int playerId) {
         List<Integer> protocolIds = new ArrayList<>();
         String[] columns = {DataBaseContractSecretary.Protocol._ID};
         String selection = "player_id = ? AND competition = ?";
@@ -1032,6 +1159,51 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
         }
 
         return protocolIds;
+    }
+    public List<String> getJudgesForPerformance(SQLiteDatabase db, String comp_id, int playerId) {
+        List<String> judgeIds = new ArrayList<>();
+        String[] protocolColumns = {DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID};
+        String protocolSelection = "player_id = ? AND competition = ?";
+        String[] protocolSelectionArgs = {String.valueOf(playerId), comp_id};
+        Cursor protocolCursor = null;
+
+        try {
+            // Сначала получаем все perf_id из таблицы protocol
+            protocolCursor = db.query("protocol", protocolColumns, protocolSelection, protocolSelectionArgs, null, null, null);
+            if (protocolCursor != null && protocolCursor.moveToFirst()) {
+                do {
+                    int perfId = protocolCursor.getInt(protocolCursor.getColumnIndexOrThrow(DataBaseContractSecretary.Protocol.COLUMN_PERFORMANCE_ID));
+
+                    // Затем используем perf_id, чтобы найти соответствующий judgeId в таблице performance
+                    String[] performanceColumns = {DataBaseContractSecretary.Performance.COLUMN_JUDGE_ID};
+                    String performanceSelection = DataBaseContractSecretary.Performance._ID + " = ?";
+                    String[] performanceSelectionArgs = {String.valueOf(perfId)};
+                    Cursor performanceCursor = null;
+
+                    try {
+                        performanceCursor = db.query("performance", performanceColumns, performanceSelection, performanceSelectionArgs, null, null, null);
+                        if (performanceCursor != null && performanceCursor.moveToFirst()) {
+                            int judgeId = performanceCursor.getInt(performanceCursor.getColumnIndexOrThrow(DataBaseContractSecretary.Performance.COLUMN_JUDGE_ID));
+                            judgeIds.add(getJudgeNames(db,judgeId));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (performanceCursor != null) {
+                            performanceCursor.close();
+                        }
+                    }
+                } while (protocolCursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (protocolCursor != null) {
+                protocolCursor.close();
+            }
+        }
+
+        return judgeIds;
     }
 
     public void addProtocol(SQLiteDatabase db, Protocol protocol, Context context) {
@@ -1083,6 +1255,7 @@ public class DataBaseHelperSecretary extends SQLiteOpenHelper {
             }
         }
     }
+
     public void setProtocol(SQLiteDatabase db, Protocol protocol) {
         ContentValues values = new ContentValues();
         values.put(DataBaseContractSecretary.Protocol.COLUMN_COMPETITION, String.valueOf(protocol.getComp_id()));
